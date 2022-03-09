@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import LoginPageView from "@/views/LoginPageView.vue";
 import HawkerExploreView from "@/views/HawkerExploreView.vue";
 import NEADashboardView from "@/views/NEADashboardView.vue";
+import HawkerProfileView from "@/views/HawkerProfileView.vue";
 
 const routes = [
   {
@@ -10,7 +11,7 @@ const routes = [
     component: LoginPageView,
   },
   {
-    path: "/hawker/profile/:id",
+    path: "/hawker/explore/:id",
     name: "HawkerExploreView",
     component: HawkerExploreView,
   },
@@ -18,6 +19,11 @@ const routes = [
     path: "/NEA/dashboard/:id",
     name: "NEADashboardView",
     component: NEADashboardView,
+  },
+  {
+    path: '/hawker/profile/:id',
+    name: 'HawkerProfile',
+    component: HawkerProfileView,
   },
 ];
 
