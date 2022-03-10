@@ -3,6 +3,7 @@ import LoginPageView from "@/views/LoginPageView.vue";
 import HawkerExploreView from "@/views/HawkerExploreView.vue";
 import NEADashboardView from "@/views/NEADashboardView.vue";
 import HawkerProfileView from "@/views/HawkerProfileView.vue";
+import TenderFormView from "@/views/TenderFormView.vue";
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: '/hawker/profile/:id',
     name: 'HawkerProfile',
     component: HawkerProfileView,
+  },
+  {
+    path: '/hawker/dashboard/tenderForm/:id/:tenderID',
+    name: 'TenderFormView',
+    component: TenderFormView,
   },
 ];
 
