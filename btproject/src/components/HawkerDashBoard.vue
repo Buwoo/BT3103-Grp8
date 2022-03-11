@@ -22,7 +22,7 @@
             </thead>
 
             <tbody >
-                <tr v-for = "(a) in applications" :key = "a.id">
+                <tr v-for = "(a,index) in applications" :key = "a.id">
                     <td id = "tenderID">
                         <button type="button" class="btn btn-link" data-bs-toggle="modal" :data-bs-target="'#modal_'+a.id">
                              {{a.id}}
