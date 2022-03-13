@@ -49,47 +49,65 @@
 
 <script>
 import firebaseApp from "../firebase.js";
-import { getFirestore } from "firebase/firestore";
-import { doc, getDoc } from "firebase/firestore";
+import { getFirestore, getDoc, doc } from "firebase/firestore";
+import firebase from "@/uifire.js";
+import "firebase/compat/auth";
 import router from "../router/index.js";
 const db = getFirestore(firebaseApp);
 
 export default {
   name: "LoginPage",
-  methods: {
-    async checkLoginCred() {
-      const { singpassId, password } = this;
-      console.log(singpassId);
-      console.log(password);
-      let docRef = await getDoc(doc(db, "Authentication", singpassId));
-      var userExists = docRef.exists();
-      if (userExists) {
-        var userData = docRef.data();
-        if (password === userData.password) {
-          if (userData.role === "adminUser") {
-            router.push({
-              name: "NEADashboardView",
-              params: { id: singpassId },
-            });
-          } else {
-            router.push({
-              name: "HawkerExploreView",
-              params: { id: singpassId },
-            });
-          }
-        } else {
-          alert("Incorrect password");
-        }
-      } else {
-        alert("Incorrect Username");
-      }
-    },
-  },
   data() {
     return {
       singpassId: "",
       password: "",
+      userType: "",
     };
+  },
+  methods: {
+    async checkUserType() {
+      const { singpassId } = this;
+      let docRef = await getDoc(doc(db, "Authentication", singpassId));
+      var userExists = docRef.exists();
+      if (userExists) {
+        var userData = docRef.data();
+        this.userType = userData.role;
+      }
+      return this.userType;
+    },
+
+    login: function () {
+      //Help the user login
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(
+          this.singpassId + "@fakemail.com",
+          this.password
+        )
+        .then(() => {
+          this.checkUserType().then((data) => {
+            if (data == "adminUser") {
+              router.push({
+                name: "NEADashboardView",
+              });
+            } else {
+              router.push({
+                name: "HawkerExploreView",
+              });
+            }
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          if (err.code == "auth/user-not-found") {
+            alert("Invalid Username");
+          } else if (err.code == "auth/wrong-password") {
+            alert("Invalid Password");
+          } else {
+            alert("Unknown Error");
+          }
+        });
+    },
   },
 };
 </script>
