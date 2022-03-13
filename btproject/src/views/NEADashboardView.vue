@@ -8,16 +8,21 @@
       nesciunt rerum minus! Veritatis dolorum vero maiores aliquid. Sint,
       delectus consequatur.
     </h3>
+    <div v-if="neaagent">I am NEA Agent</div>
   </div>
 </template>
 
 <script>
+import firebase from "@/uifire.js";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import router from "../router/index.js";
+
 export default {
   name: "NEADashboardView",
   data() {
     return {
       user: false,
+      neaagent: false,
     };
   },
 
@@ -25,6 +30,19 @@ export default {
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
       if (user) {
+        //Testing here to check custom claims
+        firebase
+          .auth()
+          .currentUser.getIdTokenResult()
+          .then((tokenResult) => {
+            console.log(tokenResult.claims);
+            if (tokenResult.claims.NEAAgent) {
+              this.neaagent = true;
+            } else {
+              //To build an error 404 page
+              router.push("/404");
+            }
+          });
         this.user = user;
       }
     });

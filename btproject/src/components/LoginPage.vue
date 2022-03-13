@@ -39,7 +39,7 @@
             ><i class="bi bi-lock-fill"></i> Password</label
           >
         </div>
-        <button v-on:click="checkLoginCred()" class="btn btn-warning w-100">
+        <button v-on:click="login()" class="btn btn-warning w-100">
           Submit
         </button>
       </form>
