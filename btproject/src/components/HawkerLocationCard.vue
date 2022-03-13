@@ -9,13 +9,13 @@
     <!-- Text Content -->
     <div class = "col-md-8 text-secondary text-start ps-2">
         <div>
-            <h5 id="location_card_name" class="text-dark"> {{locationName}} </h5>
+            <h5 id="location_card_name" class="text-dark"> {{name}} </h5>
             <p id="location_card_region">Region: {{region}}</p>
             <p id="location_card_address"> Address: {{address}}</p>
-            <p id="location_card_hours"> Operating Hours: {{operatingHours}}</p>
-            <p id="location_card_rental"> Monthly Rental: {{monthlyRental}}</p>
-            <p id="location_card_price"> Price Range: {{priceRange}}</p>
-            <p id="location_card_avail"> Available Stalls: {{availableStalls}}</p>
+            <p id="location_card_hours"> Operating Hours: {{openingHrs}}</p>
+            <p id="location_card_rental"> Monthly Rental: ${{avgMthlyCost}}</p>
+            <p id="location_card_price"> Price Range: ${{avgFoodPrice-2}} - ${{avgFoodPrice+2}}</p>
+            <p id="location_card_avail"> Available Stalls: {{availableNrStalls}}</p>
             <p id="location_card_same"> Stores Sellling Food Items: {{similarStalls}}</p>
         </div>
     </div>
@@ -26,22 +26,44 @@
 
 <script>
 export default {
+    props: {
+        address: String, //"2, Adam Road, Singapore 289876"
+        availableNrStalls: Number, //10
+        avgFoodPrice: Number, //5
+        avgMthlyCost: Number, // 2412
+        latitude: Number, //1.3241342225
+        longtitude: Number, //103.8141650104
+        name: String, //"Adam Road Food Centre"
+        openingHrs: String, //"0600-1800"
+        postalCode: String, //"289876"
+        region: String, //"Central"
+        streetName: String, //"Adam Road"
+        totalNrStalls: Number, //241
+        //typeOfFoodStallsNr: [] //[]
+    },
     data() { 
         return {
-            // Mock data
-            locationName: "Yishun Ave 11 Blk 417",
-            region: "North",
-            address: "417 Yishun Ave 11, S(760417)", 
-            operatingHours: "6am - 10pm", 
-            monthlyRental: "$2200",
-            priceRange: "$2 - $7", 
-            availableStalls: 1,
-            similarStalls: 2,
-            imageurl: require("@/assets/hawkerimg.jpg")
+            //imageurl: require("@/assets/hawkerimg.jpg"),
+            imageurl: null,
+            similarStalls: 0
         } 
     }
 
 }
+
+/* 
+// Mock data
+locationName: "Yishun Ave 11 Blk 417",
+region: "North",
+address: "417 Yishun Ave 11, S(760417)", 
+operatingHours: "6am - 10pm", 
+monthlyRental: "$2200",
+priceRange: "$2 - $7", 
+availableStalls: 1,
+similarStalls: 2,
+imageurl: require("@/assets/hawkerimg.jpg")
+*/
+
 </script>
 
 <style scoped>
