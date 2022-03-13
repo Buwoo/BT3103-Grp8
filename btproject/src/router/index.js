@@ -4,7 +4,7 @@ import HawkerExploreView from "@/views/HawkerExploreView.vue";
 import NEADashboardView from "@/views/NEADashboardView.vue";
 import HawkerProfileView from "@/views/HawkerProfileView.vue";
 import TenderFormView from "@/views/TenderFormView.vue";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const routes = [
   {
@@ -48,20 +48,21 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(process.env.BASE_URL),
   routes,
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (getAuth().currentUser) {
-      next();
-    } else {
+  const authUser = getAuth();
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+
+  onAuthStateChanged(authUser, (user) => {
+    if (!user && requiresAuth) {
       next("/");
+    } else {
+      next();
     }
-  } else {
-    next();
-  }
+  });
 });
 
 export default router;
