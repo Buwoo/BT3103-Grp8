@@ -1,23 +1,29 @@
 <template>
-    <div class = "container-fluid h-100 w-100 px-3 d-flex flex-column">
+    <div class = "container-fluid h-100 w-100 px-3 d-flex flex-column flex-grow-1">
         <!-- Location Search Bar -->
         <div class="row align-items-center text-center">
             <!-- Region Selector -->
             <div class="col-md"> 
-                <select id="search_select_region" name="RegionSelect" class="form-select">
-                    <option value="*" selected>Region</option>
-                    <option value="north">North</option>
-                    <option value="south">South</option>
-                    <option value="east">East</option>
-                    <option value="west">West</option>
-                    <option value="central">Central</option>
+                <label for="search_select_region" class="select-label">Region</label>
+                <select id="search_select_region" name="RegionSelect" v-model="selectRegion"
+                    :class="[selectRegion=='' ? 'select-placeholder' : '','form-select']" >
+                    <option value="" class="option-placeholder" disabled></option>
+                    <option value="*">Any</option>
+                    <option value="North">North</option>
+                    <option value="North-East">East</option>
+                    <option value="East">East</option>
+                    <option value="West">West</option>
+                    <option value="Central">Central</option>
                 </select>
             </div>
 
             <!-- Price Point Selector -->
             <div class="col-md">
-                <select id="search_select_price" name="PriceSelect" class="form-select">
-                    <option value="*" selected>Price</option>
+                <label for="search_select_region" class="select-label">Price</label>
+                <select id="search_select_price" name="PriceSelect" v-model="selectPrice"
+                    :class="[selectPrice=='' ? 'select-placeholder' : '','form-select']" >
+                    <option value="" class="option-placeholder" disabled></option>
+                    <option value="*">Any</option>
                     <option value="0-2">0-2$</option>
                     <option value="2-4">2-4$</option>
                     <option value="4-6">4-6$</option>
@@ -30,20 +36,26 @@
         
             <!-- Budget Selector -->
             <div class="col-md">
-                <select id="search_select_budget" name="BudgetSelect" class="form-select">
-                    <option value="*" selected>Budget</option>
-                    <option value="">Less than $1000</option>
-                    <option value="">1000-2000$</option>
-                    <option value="">2000-3000$</option>
-                    <option value="">3000-4000$</option>
-                    <option value="">$4000 and above</option>
+                <label for="search_select_region" class="select-label">Budget</label>
+                <select id="search_select_budget" name="BudgetSelect" 
+                    :class="[selectBudget=='' ? 'select-placeholder' : '','form-select']" v-model="selectBudget">
+                    <option value="" class="option-placeholder" disabled></option>
+                    <option value="*">Any</option>
+                    <option value="1000">Less than $1000</option>
+                    <option value="1000-2000">1000-2000$</option>
+                    <option value="2000-3000">2000-3000$</option>
+                    <option value="3000-4000">3000-4000$</option>
+                    <option value="4000">$4000 and above</option>
                 </select>
             </div>
 
             <!-- Opening Hours Selector -->
             <div class="col-md">
-                <select id="search_select_budget" name="BudgetSelect" class="form-select">
-                    <option value="*" selected>Opening Hours</option>
+                <label for="search_select_region" class="select-label">Opening Hours</label>
+                <select id="search_select_hours" name="HoursSelect" 
+                    :class="[selectOpeningHours=='' ? 'select-placeholder' : '','form-select']" v-model="selectOpeningHours">
+                    <option value="" class="option-placeholder" disabled></option>
+                    <option value="*">Any</option>
                     <option value="day">Day</option>
                     <option value="night">Night</option>
                 </select>
@@ -51,14 +63,17 @@
 
             <!-- Food Type Selector -->
             <div class="col-md">
-                <select id="search_select_budget" name="BudgetSelect" class="form-select">
-                    <option value="*" selected>Budget</option>
-                    <option value="">Snacks and Pastries</option>
-                    <option value="">Drinks and Desserts</option>
-                    <option value="">Chinese Cooked Food</option>
-                    <option value="">Malay Cooked Food</option>
-                    <option value="">Indian Cooked Food</option>
-                    <option value="">Others</option>
+                <label for="search_select_region" class="select-label">Food Type</label>
+                <select id="search_select_food" name="FoodSelect" 
+                    :class="[selectFoodType=='' ? 'select-placeholder' : '','form-select']" v-model="selectFoodType">
+                    <option value="" class="option-placeholder" disabled></option>
+                    <option value="*">Any</option>
+                    <option value="snacks">Snacks and Pastries</option>
+                    <option value="drinks">Drinks and Desserts</option>
+                    <option value="chinese">Chinese Cooked Food</option>
+                    <option value="malay">Malay Cooked Food</option>
+                    <option value="indian">Indian Cooked Food</option>
+                    <option value="others">Others</option>
                 </select>
             </div>  
 
@@ -66,7 +81,7 @@
             <div class="col-md">
                 <div class="form-check form-switch" id="search_availstall">
                     <span class="d-table-cell align-middle">
-                        <input class="form-check-input" type="checkbox" id="search_select_availstall">
+                        <input class="form-check-input" type="checkbox" id="search_select_availstall" v-model="selectAvailStall">
                     </span>
                     <label class="form-check-label d-table-cell" for="flexSwitchCheckDefault">Only display available stores</label>
 
@@ -76,7 +91,7 @@
             <!-- Search Button -->
             <!-- TODO: Further stlying -->
             <div class="col-md">
-                <button type="button" class="btn btn-primary w-75"> 
+                <button type="button" class="btn btn-primary w-75" @click="searchLocations()"> 
                    <i class="bi bi-search pe-3"></i> Search 
                 </button>
             </div>
@@ -87,28 +102,22 @@
         <div class="row flex-grow-1 pb-3">
             <div class="col-md-4 d-flex flex-column">
                 <!-- List Container -->
-                <div class = "position-relative flex-grow-1"> 
+                <div class = "position-relative flex-grow-1 resizeWidth"> 
                     <div id="locationList" class="position-absolute">
-                        <HawkerLocationCard v-for="x in Array(10)" :key="x"></HawkerLocationCard>
+                        <HawkerLocationCard v-for="x in visibleLocations" :key="x.name" v-bind="x"></HawkerLocationCard>
                     </div>
                 </div>
                 <!-- Page Navigation --> 
                 <ul class="pagination justify-content-center">
                     <li class="page-item me-2">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
+                        <button class="page-link" aria-label="Previous" @click="prevPage">
+                            <span aria-hidden="true">&laquo;  Prev</span>
+                        </button>
                     </li>
-                    <li class="page-item me-2"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item me-2"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item me-2"><a class="page-link" href="#">4</a></li>
-                    <li class="page-item me-2"><a class="page-link" href="#">5</a></li>
-                    <li class="page-item me-2"><a class="page-link" href="#">6</a></li>
-                    <li class="page-item me-2"><a class="page-link" href="#">7</a></li>
                     <li class="page-item ">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
+                        <button class="page-link" aria-label="Next" @click="nextPage">
+                            <span aria-hidden="true">Next  &raquo;</span>
+                        </button>
                     </li>
                 </ul>
             
@@ -128,45 +137,197 @@
 
 
 <script>
+// Import components 
+import HawkerLocationCard from '@/components/HawkerLocationCard.vue'
+
 // Import Leaftlet for use 
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-import HawkerLocationCard from '@/components/HawkerLocationCard.vue'
+import firebaseApp from "../firebase.js";
+import { getFirestore } from "firebase/firestore";
+import { collection, getDocs, query, limit, startAfter, endBefore, limitToLast, where} from "firebase/firestore";
+
+const db = getFirestore(firebaseApp);
+const pagesize = 10;
 
 export default {
     name: 'HawkerExplore',
     components : {
         HawkerLocationCard
     },
-    methods: {
+    methods: { 
         setupLeafletMap: function () {
-            // // The first parameter are the coordinates of the center of the map
-            // // The second parameter is the zoom level
+            // The first parameter are the coordinates of the center of the map
+            // The second parameter is the zoom level
             const mapDiv = L.map("mapContainer").setView([1.3521, 103.8198], 11);
             // Config Tile layer
             L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
             }).addTo(mapDiv);
+            // to instance
+            this.mapView = mapDiv;
+        }, 
+        /* Firebase Query */
+        fetchData: async function(action) {
+            console.log("Fetching from firebase |"+action);
+            // Create a reference to collection
+            const locationsRef = collection(db, "HawkerMetadata");
+            // Create a query against the collection.
+            let q = null;
+            if (action == "init") {
+                q = query(locationsRef, limit(pagesize), ...this.filterClauses); //query first page
+            } else if (action == "nextPage") {
+                q = query(locationsRef, startAfter(this.lastVisible), limit(pagesize), ...this.filterClauses); //query          
+            } else if (action == "prevPage") {
+                q = query(locationsRef, endBefore(this.firstVisible), limitToLast(pagesize), ...this.filterClauses);
+            } else {
+                console.log("Ooops, something went wrong");
+                return 
+            }
+            // Execute query
+            const querySnapshot = await getDocs(q);
+            console.log("query executed");
+            return querySnapshot
+        },
+        /* Main controller(s) for page actions*/
+        initPage: function() {
+            this.snapshotStore = []; //flush snapshot store
+            this.fetchData("init").then((snapshot) => {
+                this.updateDisplay(snapshot);
+                this.snapshotStore.push(snapshot);
+                this.currentSnapshot = 0;
+            });
+        }, 
+        nextPage: function() {
+            if (this.currentSnapshot == this.snapshotStore.length-1) {
+                this.fetchData('nextPage').then((snapshot) => {
+                    this.snapshotStore.push(snapshot);
+                    this.currentSnapshot++;
+                    this.updateDisplay(snapshot);
+                })
+            } else { // Retrieve from cache
+                this.currentSnapshot++;
+                this.updateDisplay(this.snapshotStore[this.currentSnapshot]);
+            }
+        },
+        prevPage: function() {
+            if (this.currentSnapshot > 0){
+                this.currentSnapshot--;
+                this.updateDisplay(this.snapshotStore[this.currentSnapshot]);
+            } else {
+                // Do nothing 
+            }
+        },
+        /* Updates display */
+        updateDisplay: function(snapshot) {
+            // Save first and last visible document
+            this.firstVisible = snapshot.docs[0];
+            this.lastVisible = snapshot.docs[snapshot.docs.length-1];
+            //console.log("first", this.firstVisible);
+            //console.log("last", this.lastVisible);
+            
+            // Clear current visible locations array
+            this.visibleLocations = []
 
+            // (Populate visible locations with query results
+            snapshot.forEach((doc) => {
+                this.visibleLocations.push(doc.data());    
+            })
+
+            // Reset scroll to top
+            document.getElementById("locationList").scrollTop = 0; //NOTE: may break as it uses actual DOM
+        },
+        noDataRemaning: function() {
+            //do something 
+        },
+        populateMap: function() {
+            console.log("Hello im populating the map");
+            const markers = [];
+            console.log(this.locations.length);
+            for (const loc in this.locations) {
+                console.log("loc");
+                console.log(loc);
+                markers.push(L.marker([loc.latitude, loc.longtitude]));
+            }
+            console.log(markers)
+            const fGroup = L.featureGroup(markers);
+            fGroup.addTo(this.mapView); 
+        },
+        searchLocations: function() {
+            console.log(this.selectRegion, this.selectPrice, this.selectBudget,
+            this.selectOpeningHours, this.selectFoodType, this.selectAvailStall);
+
+            this.filterClauses = []; //flush filter clauses
+
+            let region = this.selectRegion; 
+            this.filterClauses.push(where("region", "==", region));
+
+            this.initPage();
+        }
+    }, 
+    data() {
+        return {
+            // Select v-model variables
+            selectRegion: "",
+            selectPrice: "",
+            selectBudget: "",
+            selectOpeningHours: "",
+            selectFoodType: "",
+            selectAvailStall: false,    
+            // Other Instance variables
+            filterClauses: [], 
+            visibleLocations: [],
+            snapshotStore: [], // cached data
+            currentSnapshot: 0, // for use with caching
+            firstVisible: null, // for pagination
+            lastVisible: null, // for pagination
+            markers: [], 
+            mapView: null,
+                
         }
     },
+    created() {
+    },
     mounted() {
-        this.setupLeafletMap();
+        this.initPage();
+        //this.setupLeafletMap();
+        //this.populateMap();
     },
 
 }
 </script>
 
 <style scoped>
-select option[value="*"] {
+.select-label {
+    color: rgb(44, 62, 80);
+    opacity: 0.65;
+    font-size: 0.875rem;
+    float: left;
+    margin-bottom: 0.3rem;
+}
+
+
+.select-placeholder {
+    color: var(--bs-gray) !important;
+}
+
+.option-placeholder {
     color: var(--bs-gray);
 }
 
+option[value=""][disabled] {
+        display: none;
+}
+
+select:invalid {
+    color: #666 !important;
+}
+/* 
 select:focus {
     box-shadow: none;
     border: 1px solid #ced4da !important;
-}
+} */
 
 .h-10 {
     height: 10%;
@@ -203,5 +364,6 @@ select:focus {
   border-radius: 20px;
   border: transparent;
 }
+
 
 </style>

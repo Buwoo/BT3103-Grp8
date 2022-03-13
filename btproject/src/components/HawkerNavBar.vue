@@ -20,7 +20,7 @@
     </nav>
 
     <!-- Nav Bar  -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+        <nav class="navbar navbar-expand-lg navbar-light bg-primary mb-3">
             <div class="container-fluid" style="padding: 0px">
                 <div class="test justify-content-start">
                     <button type="button" class="btn btn-primary" @click='toggle = !toggle'>
@@ -71,15 +71,13 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 .navbar {
-  position: fixed;
+  position: sticky;
   width: 100%;
   top: 0;
   border: none;
   border-radius: 0;
-  margin-bottom: 40px;
   padding: 5px 10px;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
