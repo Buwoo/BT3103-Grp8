@@ -4,6 +4,7 @@ import HawkerExploreView from "@/views/HawkerExploreView.vue";
 import NEADashboardView from "@/views/NEADashboardView.vue";
 import HawkerProfileView from "@/views/HawkerProfileView.vue";
 import TenderFormView from "@/views/TenderFormView.vue";
+import ErrorPageView from "@/views/ErrorPageView.vue";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const routes = [
@@ -44,6 +45,11 @@ const routes = [
     meta: {
       requiresAuth: true,
     },
+  },
+  {
+    path: "/:catchAll(.*)",
+    name: "ErrorPageView",
+    component: ErrorPageView,
   },
 ];
 
