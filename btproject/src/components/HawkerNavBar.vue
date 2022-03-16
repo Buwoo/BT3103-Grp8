@@ -65,10 +65,12 @@
       </ul>
     </nav>
 
-    <div class="overlay" v-bind:class="toggle ? '' : 'active'" @click="toggle = !toggle"></div>
+    <div
+      class="overlay"
+      v-bind:class="toggle ? '' : 'active'"
+      @click="toggle = !toggle"
+    ></div>
   </div>
-
-  
 </template>
 
 <script>
