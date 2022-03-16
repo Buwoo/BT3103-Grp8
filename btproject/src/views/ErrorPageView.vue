@@ -1,5 +1,4 @@
 <template>
-  <HawkerNavBar />
   <div class="container">
     <div class="row justify-content-center">
       <div class="text-center">
@@ -13,15 +12,10 @@
       </div>
     </div>
   </div>
-  <h1></h1>
-  <br />
-
-  <br />
 </template>
 
 <script>
 import router from "../router/index.js";
-import HawkerNavBar from "../components/HawkerNavBar.vue";
 
 export default {
   name: "ErrorPageView",
@@ -30,14 +24,11 @@ export default {
       router.back();
     },
   },
-  components: {
-    HawkerNavBar,
-  },
 };
 </script>
 
 <style scoped>
 .container {
-  margin-top: 30px;
+  margin-top: 50px;
 }
 </style>
