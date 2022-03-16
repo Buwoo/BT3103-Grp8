@@ -1,77 +1,105 @@
 <template>
   <div class="wrapper">
+    <!-- Nav Bar  -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+      <div class="container-fluid" style="padding: 0px">
+        <div class="subcontainer justify-content-start">
+          <button
+            type="button"
+            class="btn btn-primary"
+            @click="toggle = !toggle"
+          >
+            <i class="bi bi-list"></i>
+          </button>
+
+          <h3>Welcome {{ name }}</h3>
+        </div>
+
+        <div class="justify-content-end">
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <button
+                class="btn btn-primary"
+                href="#"
+                id="navbarDarkDropdownMenuLink"
+                type="button"
+                data-bs-toggle="dropdown"
+              >
+                <i class="bi bi-person-circle" style="color: #fff"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                  <a class="dropdown-item" href="/hawker/profile">
+                    <i class="bi bi-person-fill"></i>
+                    Profile
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" @click="signOutFunction">
+                    <i class="bi bi-power"></i>
+                    Logout
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
     <!-- Sidebar  -->
-    <nav id="sidebar" v-bind:class = "(toggle)?'hide':'show'">
-        <ul class="list-unstyled components">
-          <li>
-                <a href="#"> 
-                  <i class="bi bi-file-earmark-text-fill"></i> 
-                  Dashboard
-                </a>
-          </li>
-          <li>
-                <a href="#"> 
-                    <i class="bi bi-globe"></i> 
-                    Explore
-                </a>
-          </li>
+    <nav id="sidebar" v-bind:class="toggle ? 'hide' : 'show'">
+      <ul class="list-unstyled components">
+        <li>
+          <a href="/hawker/dashboard">
+            <i class="bi bi-file-earmark-text-fill"></i>
+            Dashboard
+          </a>
+        </li>
+        <li>
+          <a href="/hawker/explore">
+            <i class="bi bi-globe"></i>
+            Explore
+          </a>
+        </li>
       </ul>
     </nav>
 
-    <!-- Nav Bar  -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-primary mb-3">
-            <div class="container-fluid" style="padding: 0px">
-                <div class="test justify-content-start">
-                    <button type="button" class="btn btn-primary" @click='toggle = !toggle'>
-                        <i class="bi bi-list"></i>
-                    </button>
+    <div class="overlay" v-bind:class="toggle ? '' : 'active'" @click="toggle = !toggle"></div>
+  </div>
 
-                    <h3> Welcome Hawker {{name}}</h3>              
-                </div> 
-
-                <div class="justify-content-end"> 
-                    <ul class="navbar-nav">
-                        <li class="nav-item dropdown">
-                        <button class="btn btn-primary" href="#" id="navbarDarkDropdownMenuLink" type="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-person-circle" style="color: #fff;"></i>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#">
-                                <i class="bi bi-person-fill"></i>
-                                Profile
-                            </a></li>
-                            <li><a class="dropdown-item" href="#">
-                                <i class="bi bi-power"></i>
-                                Logout
-                            </a></li>
-                        </ul>
-                        </li>
-                     </ul>
-                </div>
-
-            </div>
-        </nav>
-    </div>
-
-<div class="overlay" v-bind:class = "(toggle)?'':'active'"></div>
+  
 </template>
 
 <script>
+import firebase from "@/uifire.js";
+import "firebase/auth";
+import router from "../router/index.js";
+
 export default {
-  data(){
+  data() {
     return {
-        toggle: true
-    }
+      toggle: true,
+    };
   },
-  props:{
-      name: String
-  }
-}
+  props: {
+    name: String,
+  },
+  methods: {
+    signOutFunction() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          router.push("/");
+          console.log("Logged out");
+        });
+    },
+  },
+};
 </script>
 
 <style scoped>
-
 .navbar {
   position: sticky;
   width: 100%;
@@ -82,31 +110,27 @@ export default {
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-#nav-header{
-    text-align: left;
+#nav-header {
+  text-align: left;
 }
 
-a{
-    font-family: 'Roboto', sans-serif;
+a {
+  font-family: "Roboto", sans-serif;
 }
 
-.test{
-    display: inline-flex;
+.subcontainer {
+  display: inline-flex;
 }
 
-h3{
-    color: #fff;
-    padding-top: 10px;
-    padding-left: 10px;
-    font-family: 'Roboto', sans-serif;
+h3 {
+  color: #fff;
+  font-family: "Roboto", sans-serif;
+  padding: 10px 10px;
+  margin: 0px;
 }
 
-i{
-    font-size: 1.5em;
-}
-
-.dropdown-menu{
-    postion: fixed;
+i {
+  font-size: 1.5em;
 }
 
 #sidebar {
@@ -136,26 +160,26 @@ i{
 }
 
 .overlay {
-    display: none;
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 998;
-    opacity: 0;
-    transition: all 0.5s ease-in-out;
+  display: none;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 998;
+  opacity: 0;
+  transition: all 0.5s ease-in-out;
 }
 
 .overlay.active {
-    display: block;
-    opacity: 1;
+  display: block;
+  opacity: 1;
 }
 
-.hide{
-    margin-left: 0!important;
+.hide {
+  margin-left: 0 !important;
 }
 
-.show{
-    margin-left: 250px!important;
+.show {
+  margin-left: 250px !important;
 }
 </style>
