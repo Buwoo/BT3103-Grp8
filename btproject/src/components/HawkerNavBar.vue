@@ -185,7 +185,7 @@ i {
   margin-left: 250px !important;
 }
 
-.dropdown{
-    border: 0px;
+.dropdown {
+  border: 0px;
 }
 </style>
