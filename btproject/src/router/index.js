@@ -5,6 +5,7 @@ import NEADashboardView from "@/views/NEADashboardView.vue";
 import HawkerProfileView from "@/views/HawkerProfileView.vue";
 import TenderFormView from "@/views/TenderFormView.vue";
 import ErrorPageView from "@/views/ErrorPageView.vue";
+import HawkerDashBoardView from "@/views/HawkerDashBoardView.vue";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const routes = [
@@ -51,6 +52,16 @@ const routes = [
     name: "ErrorPageView",
     component: ErrorPageView,
   },
+
+  {
+    path: "/hawker/dashboard/hawkerDashBoard/:id",
+    name: "HawkerDashBoard",
+    component: HawkerDashBoardView,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+
 ];
 
 const router = createRouter({
