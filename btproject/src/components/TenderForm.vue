@@ -5,11 +5,18 @@
         <div class = "Tender_Details"></div>
         <h2 id = "tender_header">Tender Details</h2>
         <form id = "HawkerAddr">
-            <input v-model = "a" type = "text">
+            <input id = "hawkerInput" v-model = "hawkerCentre" type = "text">
             <label>Hawker Address</label>
+            <div id = "options">
+                <ul>
+                    <li @click = "selectHawker(hawker)" v-for = "(hawker, index) in filteredUser" :key = "`hawker-${index}`"> 
+                    {{ hawker.name }} 
+                    </li>
+                </ul>
+            </div>
         </form>
         <form id = "Food">
-            <input v-model = "b" type = "text">
+            <input id = "foodInput" v-model = "b" type = "text">
             <label>Food Item</label>
         </form>
         <form id = "Open">
@@ -26,11 +33,11 @@
     <div>
         <div class = "Personal_Details"></div>
         <h2 id = "personal_header">Personal Details</h2>
-        <div id = "name"></div>
-        <div id = "nric"></div>
-        <div id = "contact"></div>
-        <div id = "email"></div>
-        <div id = "persAddress"></div>
+        <div id = "name" v-text = "userName"></div>
+        <div id = "nric" v-text = "nric"></div>
+        <div id = "contact" v-text = "contactNum"></div>
+        <div id = "email" v-text = "email"></div>
+        <div id = "persAddress" v-text = "address"></div>
         <div id = "nameLabel">Name</div>
         <div id = "nricLabel">NRIC</div>
         <div id = "contactLabel">Contact Number</div>
@@ -48,19 +55,41 @@
 import firebaseApp from '../firebase.js';
 import { getFirestore } from "firebase/firestore"
 import { getDoc, doc, setDoc } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const db = getFirestore(firebaseApp);
 export default {
     props: {
-        ic: String
+        tenderID: String,
     },
 
     data() {
         return{
-            a:"",
+            hawkerCentre:"",
             b:"",
             c:"",
             d:"",
+            userName:"",
+            nric: "",
+            contactNum:"",
+            email:"",
+            address:"",
+            hawkers:[{"id": 1,"name": "Adam Road Food Centre"}, 
+                     {"id": 2,"name": "Aljunied Ave 2 Blk 117 (Blk 117 Aljunied Market and Food Centre)"} ,
+                     {"id": 3,"name": "Amoy Street Food Centre (Telok Ayer Food Centre)"}],
+        }
+    },
+
+    computed: {
+        filteredUser() {
+          const query = this.hawkerCentre.toLowerCase()
+          if(this.hawkerCentre === "") {
+              return this.hawkers;
+          }
+          return this.hawkers.filter((hawker) => {
+              return Object.values(hawker).some((word) => String(word).toLowerCase().includes(query)
+              );
+          })
         }
     },
 
@@ -72,7 +101,7 @@ export default {
             document.getElementById("openInput").style.borderColor = "black"
             document.getElementById("closeInput").style.borderColor = "black"
             await setDoc(doc(db, "TenderInfo", "1111111"),{
-                address: this.a,
+                address: this.hawkerCentre,
                 date: new Date(),
                 foodItem: this.b,
                 openingHours: {
@@ -84,56 +113,112 @@ export default {
             })
 
         },
+        returnNormalBorder() {
+            document.getElementById("hawkerInput").style.borderColor = "black"
+            document.getElementById("foodInput").style.borderColor = "black"
+            document.getElementById("openInput").style.borderColor = "black"
+            document.getElementById("closeInput").style.borderColor = "black"            
+        },
         async submitTender() {
-            if (this.a=="" || this.b=="" || this.c=="" || this.d=="") {
+            this.returnNormalBorder()
+            if (this.hawkerCentre=="" || this.b=="" || this.c=="" || this.d=="") {
                 document.getElementById("error").innerHTML = "Fill up all fields"
                 alert("Error: Fill up all fields")
-            } else if (parseInt(this.c) >= parseInt(this.d)){
-                document.getElementById("error").innerHTML = "Invalid Opening Hours"
-                document.getElementById("openInput").style.borderColor = "red"
-                document.getElementById("closeInput").style.borderColor = "red" 
-                alert("Error: Invalid Opening Hours")             
-            } else {
-                let text = "Confirm Submission?"
-                if (confirm(text) == true) {
-                    document.getElementById("error").innerHTML = ""
-                    document.getElementById("HawkerAddr").style.borderColor = "black"
-                    document.getElementById("openInput").style.borderColor = "black"
-                    document.getElementById("closeInput").style.borderColor = "black"
-                    await setDoc(doc(db, "TenderInfo", "1111111"),{
-                        address: this.a,
-                        date: new Date(),
-                        foodItem: this.b,
-                        openingHours: {
-                            end: this.d,
-                            start: this.c
-                        },
-                        userID: this.ic
-                
-                    })
+                if (this.hawkerCentre == "") {
+                    document.getElementById("hawkerInput").style.borderColor = "red"
                 }
-            }        
-        },
-
+                if (this.b == "") {
+                    document.getElementById("foodInput").style.borderColor = "red"
+                }
+                if (this.c == "") {
+                    document.getElementById("openInput").style.borderColor = "red"
+                }
+                if (this.d == "") {
+                    document.getElementById("closeInput").style.borderColor = "red"
+                }
+            } else {
+                let docRef = await getDoc(doc(db, "HawkerMetadata", this.hawkerCentre))
+                if (!docRef.exists()){
+                    document.getElementById("error").innerHTML = "Invalid Hawker Centre"
+                    document.getElementById("hawkerInput").style.borderColor = "red"
+                    alert("Invalid Hawker Centre")
+                
+                }else if (parseInt(this.c) >= parseInt(this.d)){
+                    document.getElementById("error").innerHTML = "Invalid Opening Hours"
+                    document.getElementById("openInput").style.borderColor = "red"
+                    document.getElementById("closeInput").style.borderColor = "red" 
+                    alert("Error: Invalid Opening Hours")             
+                } else {
+                    let text = "Confirm Submission?"
+                    if (confirm(text) == true) {
+                        document.getElementById("error").innerHTML = ""
+                        await setDoc(doc(db, "TenderInfo", this.tenderID),{
+                            address: this.hawkerCentre,
+                            date: new Date(),
+                            foodItem: this.b,
+                            openingHours: {
+                                end: this.d,
+                                start: this.c
+                            },
+                            status: "submitted",
+                            userID: this.ic
+                
+                        })
+                    }
+                }
+            }
+             
+        
     },
-    mounted() {
-        async function displayPersonal(ic) {
-            var docRef = await getDoc(doc(db, "Authentication", ic));
 
-            var data = docRef.data()
-
-            document.getElementById("nric").innerHTML = "SXXXX" + ic
-            document.getElementById("name").innerHTML = data.fullName
-            
-            document.getElementById("contact").innerHTML = data.mobileNr
-            document.getElementById("email").innerHTML = data.email
-            document.getElementById("persAddress").innerHTML = data.address  
+        selectHawker(hawker) {
+            this.hawkerCentre = hawker.name
         }
 
-        displayPersonal(this.ic)
 
     },
+
     
+    created() {
+        let response = getDoc(doc(db, "TenderInfo", this.tenderID));
+        response.then((rsp) => {
+          let profile = rsp.data();
+          this.hawkerCentre = profile.address;
+          this.b = profile.foodItem;
+          this.c = profile.openingHours.start;
+          this.d = profile.openingHours.end;
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+
+        const auth = getAuth();
+        var ref = this;
+        console.log(ref.user)
+        onAuthStateChanged(auth, (user) => {
+        if (user) {
+            var ic = user.email.slice(0,4).toUpperCase()
+            let response = getDoc(doc(db, "Authentication", ic));
+            response.then((rsp) => {
+                let profile = rsp.data();
+                this.userName = profile.fullName;
+                this.nric = "SXXXX" + ic
+                this.contactNum = profile.mobileNr
+                this.email = profile.email
+                this.address = profile.address
+
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        }
+        })
+    },
+    
+
+
+         
+
 
 
 
@@ -148,14 +233,15 @@ export default {
      h1{
          position:absolute;
          text-align:left;
-         left:5vw;
+         left:3.5vw;
          top: 10vh;
+         font-size: 5vh;
      }
     .Tender_Details{
         position: absolute;
         width: 90vw;
-        height: 25vh;
-        top: 15vh;
+        height: 24vh;
+        top: 25vh;
         left: 5vw;
         border: 1px solid black;
 
@@ -167,13 +253,14 @@ export default {
         padding-left: 2vw;
         height:7vh;
         width:89.9vw;
+        font-size:4vh;
 
     }
 
     #tender_header{
         position: absolute;
         background-color: #1976D2;
-        top: 15.2vh;
+        top: 25.2vh;
         left: 5.05vw;
         color:white;
     }
@@ -181,8 +268,8 @@ export default {
     #HawkerAddr>input, #Food>input, #Open>input, #Close>input{
         position:absolute;
         display: inline-block;
-        top: 27vh;
-        height: 8vh;
+        top: 36vh;
+        height: 7vh;
         font-size: 3vh;
     }
 
@@ -190,6 +277,26 @@ export default {
         left: 7vw;
         width: 25vw;      
     }
+
+
+    #options {
+        position:absolute;
+        text-align:left;
+        top: 44vh;
+        left: 7vw
+    }
+
+    #options>ul {
+        width: 25vw;
+        list-style:none;
+        max-height:100px;
+        overflow:scroll;
+    }
+
+    li {
+        border-bottom:1px solid lightgrey
+    }
+    
 
     #Food>input{
         left: 34vw;
@@ -209,7 +316,7 @@ export default {
 
     #HawkerAddr>label, #Food>label, #Open>label, #Close>label{
         position:absolute;
-        top: 24.8vh;
+        top: 33.8vh;
         background-color: white;
         font-size: 1.5vw;
 
@@ -229,18 +336,19 @@ export default {
 
     #error{
         position:absolute;
-        top: 35vh;
+        top: 43.5vh;
         font-size:4vh;
         color:red;
         text-align:center;
-        width:100vw;
+        left:34vw;
+        width:36vw;
     }
 
     .Personal_Details{
         position: absolute;
         width: 90vw;
-        height: 35vh;
-        top: 43vh;
+        height: 33vh;
+        top: 54vh;
         left: 5vw;
         border: 1px solid black;
 
@@ -249,14 +357,14 @@ export default {
     #personal_header{
         position: absolute;
         background-color: #1976D2;
-        top: 43.2vh;
+        top: 54.2vh;
         left: 5.05vw;
         color:white
     }
     #name, #nric, #contact{
         position:absolute;
-        top: 55vh;
-        height: 8vh;
+        top: 66vh;
+        height: 7vh;
         font-size: 3vh;
         text-align: left;
         border: 1px solid black;
@@ -278,7 +386,7 @@ export default {
 
     #nameLabel, #nricLabel, #contactLabel{
     position:absolute;
-    top: 52.9vh;
+    top: 63.9vh;
     background-color: white;
     font-size: 1.5vw;
     }
@@ -297,8 +405,8 @@ export default {
     
     #email, #persAddress{
         position:absolute;
-        top: 67vh;
-        height: 8vh;
+        top: 77vh;
+        height: 7vh;
         font-size: 3vh;
         text-align: left;
         border: 1px solid black;
@@ -316,7 +424,7 @@ export default {
 
     #emailLabel, #persAddressLabel{
         position:absolute;
-        top: 64.8vh;
+        top: 74.8vh;
         background-color: white;
         font-size: 1.5vw;
     }
@@ -329,7 +437,7 @@ export default {
 
     #save, #submit {
         position:absolute;
-        top:84vh;
+        top:90vh;
         height:6vh;
         width: 6vw;
     }
