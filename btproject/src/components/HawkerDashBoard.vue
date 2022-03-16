@@ -3,9 +3,22 @@
     <!-- Heading with the Create Button -->
 
     <div class = "heading">
-        <h3 id = "dashboardHeading">Tender Dashboard</h3>
-        <button type="button" class="btn btn-primary btn-lg">+ Create</button>
+        <div class = "container-fluid">
+            <div class = "row">
+                <div class = "col-md-8">
+                    <h3 id = "dashboardHeading">Tender Dashboard</h3>
+                </div>
+                <div class = "col-md-4">
+                    <button type="button" class="btn btn-primary btn-lg " id = "createButton" @click = "createForm">+ Create</button>
+                </div>
+            </div>
+
+            <div class = "row">
+
+            </div>
+        </div>
     </div>
+
 
     <!-- Tender Table-->
 
@@ -28,55 +41,76 @@
                              {{a.id}}
                         </button>
 
-                        <div class = "modal-lg">
+                        <div class = "modal-lg" modal-xl id = "tenderIdModal" >
                             <!-- Modal -->
-                            <div class="modal fade" :id="'modal_'+a.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" :id="'modal_'+a.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" > 
                                 <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Tender {{a.id}}</h5>
-                                        <h5 class = "status" id = "statusLabel">Status</h5>
-                                        <button type="button" class="btn-close" id= "close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <div class = "container-fluid">
+                                            <div class = "row">
+                                               
+                                                <button type="button" class="btn-close" id= "close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                
+                                            </div>
+                                            <div class = "row">
+                                                <div class = "col-md-4">
+                                                    <h5 class="modal-title fs-3" id="exampleModalLabel">Tender {{a.id}}</h5>
+                                                </div>
+
+                                                <div class = "col-md">
+                                                    <h5 class = "status" id = "statusLabel">Status:</h5>
+                                                    
+                                                </div>
+
+                                                <div class = "col-md">
+                                                     <h5 :class = "getColour(a.data().status)" class = "fw-bold text-start" id = "filler">{{a.data().status}}</h5>
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
                                     </div>
                                     <div class="modal-body">
 
                                          <!-- First Card: Tender Details -->
 
                                         <div class="card" >
-                                            <div class="card-header">
-                                                    Tender Details
+                                            <div class="card-header text-md-start">
+                                                Tender Details
                                             </div>
-                                            <div class="card-body">
-                                                <div class="row g-0">
-                                                   <!--  <div class="box col-xs-6 col-md-10 justify-content-start"> -->
-                                                    <!--   <h3 class="card-title"><b>{{name}}</b></h3>-->
-                                                    <div class="container">
-                                                        <div class="details col-xs-6 col-md"> 
-                                                            <p class="card-text"><small class="text-muted">Hawker Address</small></p>
-                                                            <p class="card-text">{{a.data().address}}</p> 
-                                                        </div> 
+                                            <div class = "container-fluid">
+                                                <div class="card-body">
+                                                        <div class="row">
+                                                            <div class = "details col-xs-6 col-md-6 ">
+                                                                <p class="card-text"><small class="text-muted">Hawker Address</small></p>
+                                                                 <p class="card-text">{{a.data().address}}</p>   
+                                                            </div>
 
-                                                        <div class="details col-xs-6 col-md"> 
-                                                            <p class="card-text"><small class="text-muted">Food Item</small></p>
-                                                             <p class="card-text">{{a.data().foodItem}}</p> 
-                                                        </div> 
-
-                                                        <div class="details col-xs-6 col-md"> 
-                                                            <p class="card-text"><small class="text-muted">Date</small></p>
-                                                            <p class="card-text">{{a.data().date.toDate().toDateString()}}</p>
+                                                            <div class = "details col-xs-6 col-md">
+                                                                    <p class="card-text"><small class="text-muted">Food Item</small></p>
+                                                                    <p class="card-text">{{a.data().foodItem}}</p> 
+                                                            </div>
+                                                            
+                                                            <div class = "details col-xs-6 col-md">
+                                                                    <p class="card-text"><small class="text-muted">Date</small></p>
+                                                                    <p class="card-text">{{a.data().date.toDate().toDateString()}}</p>
+                                                            </div>
                                                         </div>
 
-                                                        <div class="details col-xs-6 col-md"> 
-                                                            <p class="card-text"><small class="text-muted">Opening Time</small></p>
-                                                            <p class="card-text">{{a.data().openingHours.start}}</p>
-                                                        </div> 
+                                                        <div class="row">
+                                                            <div class = "details col-xs-6 col-md-6">
+                                                                <p class="card-text"><small class="text-muted">Opening Time</small></p>
+                                                                <p class="card-text">{{a.data().openingHours.start}}</p>  
+                                                            </div>
 
-                                                        <div class="details col-xs-6 col-md"> 
-                                                            <p class="card-text"><small class="text-muted">Closing Time</small></p>
-                                                            <p class="card-text">{{a.data().openingHours.end}}</p> 
-                                                        </div> 
-                                                    </div> 
-                                                   <!-- </div>-->
+                                                            <div class = "details col-xs-6 col-md">
+                                                                <p class="card-text"><small class="text-muted">Closing Time</small></p>
+                                                                <p class="card-text">{{a.data().openingHours.end}}</p> 
+                                                               
+                                                            </div>
+                                                        </div>
                                                 </div>
                                             </div>
                                         </div> 
@@ -84,38 +118,44 @@
                                         <!-- Second Card: Personal Details of the Hawker -->
 
                                         <div class="card" >
-                                            <div class="card-header">
+                                            <div class=" card-header text-md-start">
                                                     Personal Details
                                             </div>
-                                            <div class="card-body">
-                                                <div class="row g-0">
-                
-                                                    <div class="container">
-                                                        <div class="details col-xs-6 col-md"> 
-                                                            <p class="card-text"><small class="text-muted">Name</small></p>
-                                                            <p class="card-text">{{hawkerInfo.name}}</p> 
-                                                        </div> 
 
-                                                        <div class="details col-xs-6 col-md"> 
-                                                            <p class="card-text"><small class="text-muted">NRIC</small></p>
-                                                             <p class="card-text">XXXXX{{hawkerInfo.nric}}</p> 
-                                                        </div> 
+                                            <div class = "container-fluid">
+                                            
+                                                <div class="card-body">
+                                                    <div class="row">
+                    
+                                                        <div class="container">
+                                                            <div class="details col-xs-4 col-md-4"> 
+                                                                <p class="card-text"><small class="text-muted">Name</small></p>
+                                                                <p class="card-text">{{name}}</p> 
+                                                            </div> 
 
-                                                        <div class="details col-xs-6 col-md"> 
-                                                            <p class="card-text"><small class="text-muted">Email</small></p>
-                                                            <p class="card-text">{{hawkerInfo.email}}</p>
-                                                        </div>
+                                                            <div class="details col-xs-4 col-md-4"> 
+                                                                <p class="card-text"><small class="text-muted">NRIC</small></p>
+                                                                <p class="card-text">XXXXX{{id}}</p> 
+                                                            </div> 
 
-                                                        <div class="details col-xs-6 col-md"> 
-                                                            <p class="card-text"><small class="text-muted">Home Address</small></p>
-                                                            <p class="card-text">{{hawkerInfo.homeAddress}}</p>
-                                                        </div> 
+                                                            <div class="details col-xs-4 col-md-4"> 
+                                                                <p class="card-text"><small class="text-muted">Email</small></p>
+                                                                <p class="card-text">{{email}}</p>
+                                                            </div>
+                                                     </div>
 
-                                                        <div class="details col-xs-6 col-md"> 
-                                                            <p class="card-text"><small class="text-muted">Contact Number</small></p>
-                                                            <p class="card-text">{{hawkerInfo.contactNumber}}</p> 
+                                                     <div class="row">
+                                                            <div class="details col-xs-4 col-md-4"> 
+                                                                <p class="card-text"><small class="text-muted">Home Address</small></p>
+                                                                <p class="card-text">{{address}}</p>
+                                                            </div> 
+
+                                                            <div class="details col-xs-4 col-md-6"> 
+                                                                <p class="card-text"><small class="text-muted">Contact Number</small></p>
+                                                                <p class="card-text">{{mobile}}</p> 
+                                                            </div> 
                                                         </div> 
-                                                    </div> 
+                                                    </div>  
                                                    
                                                 </div>
                                             </div>
@@ -136,13 +176,15 @@
                         {{a.data().address}}   
                     </td>
 
-                    <td id = "status">
+                    <td id = "status" :class = "getColour(a.data().status)">
                         {{a.data().status}}
                     </td>
 
                     <td id = "actions">   
-                        <button id = "editButton" @click = "editForm" > <i class="bi bi-pencil-fill"></i></button>
-                        <button id = "deleteButton"  @click = "checkStatus(a) ? deleteForm(index,a) : null"><i class="bi bi-trash3"></i></button>
+                        <button id = "editButton" @click = "checkStatus(a) ? editForm(a.id) : null" :class = "[checkStatus(a) ? 'btn-success' : 'btn-secondary']" > 
+                            <i class="bi bi-pencil-fill"></i></button>
+                        <button id = "deleteButton"  @click = "checkStatus(a) ? deleteForm(index,a) : null"
+                        :class = "[checkStatus(a) ? 'btn-danger' : 'btn-secondary']"><i class="bi bi-trash3"></i></button>
 
                     </td>    
 
@@ -156,26 +198,25 @@
 </template>
 
 <script>
-    import app from '../firebase.js';
+    import firebaseApp from '../firebase.js';
     import {getFirestore} from "firebase/firestore"
     import {collection, query, where, getDocs, deleteDoc, doc  } from "firebase/firestore";
-    const db = getFirestore(app);
+    import router from "../router/index.js";
+    const db = getFirestore(firebaseApp);
 
     export default {
+
+        props: {
+            name: String, 
+            email: String,
+            address: String, 
+            mobile: Number, 
+            id: String,
+        },
 
         data() {
             return {
                 applications:[],
-                personalData:[],
-                hawkerInfo : {
-                    name:"Yeo Ah Moy",
-                    nric:"345Y",
-                    email:"ah_moyy@gmail.com",
-                    homeAddress:"91 Sembawang",
-                    contactNumber:"912345"
-                },
-                hawkerID: null,
-
                  
             }
 
@@ -183,7 +224,8 @@
 
         methods : {
 
-             deleteForm: async function(index,a) {
+
+            deleteForm: async function(index,a) {
                 var c = confirm("Do you want to delete this Tender Form?")
                 if (c == true) {
                     await deleteDoc(doc(db, "TenderInfo", a.id));
@@ -192,13 +234,34 @@
             },
 
             checkStatus: function(a) {
-                return a.data().status.trim() == "unsubmitted".trim()
+                return a.data().status.trim() == "Unsubmitted".trim()
 
             },
 
-            editForm: function() {
-                alert("You are editing this form")
+            editForm: function(tenderId) {
+                router.push({
+                    path: '/hawker/dashboard/tenderForm/:tenderID',
+                    params: {tenderId}
+                }
+                )
 
+            },
+            createForm: function() {
+                router.push({path: '/hawker/dashboard/tenderForm/:tenderID'})
+            },
+
+            getColour: function(status) {
+                switch(status) {
+                    case "Approved":
+                        return "text-success";
+                    case "Pending":
+                        return "text-warning";
+                    case "Rejected":
+                        return "text-danger";
+                    case "Unsubmitted":
+                        return "text-secondary";
+
+                }
             }
 
 
@@ -208,13 +271,12 @@
         mounted() {
             let self = this;
             async function loadDetails(hawkerID) {
-                const q = query(collection(db, "TenderInfo"), where("userIC", "==", hawkerID)); 
+                const q = query(collection(db, "TenderInfo"), where("userID", "==", hawkerID)); 
                 const querySnapshot = await getDocs(q);
                 querySnapshot.forEach( (doc) => {
                     self.applications.push(doc)
-                    self.hawkerID = doc.data().hawkerID
+                    //self.hawkerID = doc.data().hawkerID
                     
-    
                 })
 
             }
@@ -248,35 +310,58 @@
 
 
 
-    #dashboardHeading {
-        padding-top: 30px;
-        padding-left: 5vw;
-        padding-right: 20cm;
-        padding-bottom: 10px;
-        display:inline-flex;
+    #dashboardHeading{
+        margin-right: 300px;
+        display: inline-block;
     }
 
+   /* #createButton{
+        margin-left:300px;
+        
+    }*/
+
+    
     table {
-        margin-left: 1cm;
-        text-align: left;
-        width:30cm;
+        margin: auto;
+        width: 70%;
 
         
     }
 
+    .modal-dialog {
+          max-width: 900px; /* New width for default modal */
+    }
+
+    .card{
+        max-width: 850px;
+    }
 
     #exampleModalLabel {
-        float: left;
-
+        margin-left: 5%;
+        margin-top: 1%;
+        float:left;
 
     }
+    
 
     #statusLabel {
         float: right;
-        padding-left: 4cm;
-        padding-top: 0.1cm;
+        padding-left: 30px;
 
     }
+
+    #filler{
+        display:inline-block;
+        margin-top: 3%;
+
+    }
+
+    #exampleModalLabel, #statusLabel {
+        padding-top: 10px;
+        font-weight:bold;
+
+
+    }    
 
 
     .card-header {
@@ -284,9 +369,9 @@
         color:white;
     }
 
-    .container{
+    /*.container{
         display: inline-flex;
-    }
+    }*/
 
     .card{
         margin: 0px 30px 30px 30px;
