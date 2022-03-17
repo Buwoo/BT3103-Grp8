@@ -54,7 +54,7 @@ const routes = [
   },
 
   {
-    path: "/hawker/dashboard/hawkerDashBoard/:id",
+    path: "/hawker/dashboard/hawkerDashBoard",
     name: "HawkerDashBoard",
     component: HawkerDashBoardView,
     meta: {
