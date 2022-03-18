@@ -16,7 +16,7 @@
             <p id="location_card_rental"> Monthly Rental: ${{avgMthlyCost}}</p>
             <p id="location_card_price"> Price Range: ${{avgFoodPrice-2}} - ${{avgFoodPrice+2}}</p>
             <p id="location_card_avail"> Available Stalls: {{availableNrStalls}}</p>
-            <p id="location_card_same"> Stores Sellling Food Items: {{similarStalls}}</p>
+            <p id="location_card_same"> Stores Sellling Food Items: {{foodType == "" || foodType == "*" ? "-" : typeOfFoodStallsNr[foodType]}}</p>
         </div>
     </div>
 </div>
@@ -39,7 +39,9 @@ export default {
         region: String, //"Central"
         streetName: String, //"Adam Road"
         totalNrStalls: Number, //241
-        //typeOfFoodStallsNr: [] //[]
+        typeOfFoodStallsNr: Object, 
+        foodType: String
+        
     },
     data() { 
         return {
