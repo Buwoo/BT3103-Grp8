@@ -7,7 +7,7 @@
           <button
             type="button"
             class="btn btn-primary"
-            @click="toggle = !toggle"
+            @click="remindSave()"
           >
             <i class="bi bi-list"></i>
           </button>
@@ -19,6 +19,7 @@
           <ul class="navbar-nav">
             <li class="nav-item dropdown">
               <button
+                @click = "remindSaveProfile()"
                 class="btn btn-primary"
                 href="#"
                 id="navbarDarkDropdownMenuLink"
@@ -82,6 +83,7 @@ export default {
   data() {
     return {
       toggle: true,
+      checker: "TenderFormView"
     };
   },
   props: {
@@ -96,6 +98,21 @@ export default {
           router.push("/");
           console.log("Logged out");
         });
+    },
+    remindSave() {
+      if (this.$store.getters.getFormStatus || this.$route.name != this.checker) {
+        this.toggle = !this.toggle     
+      } else {
+        alert("Please save your Tender Application")
+      }
+    },
+    remindSaveProfile() {
+      if (this.$store.getters.getFormStatus || this.$route.name != this.checker) {
+        document.getElementById("navbarDarkDropdownMenuLink").href = "#"    
+      } else {
+        document.getElementById("navbarDarkDropdownMenuLink").href = "" 
+        alert("Please save your Tender Application")
+      }
     },
   },
 };

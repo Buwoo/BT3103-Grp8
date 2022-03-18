@@ -9,6 +9,7 @@ const getters = {
   getFormStatus() {
     return state.formSaved
   }
+  
 };
 
 const actions = {};
@@ -24,12 +25,7 @@ const mutations = {
     state.formSaved = false;
   },
 
-  checkFormStatus(state, routeName) {
-    console.log(routeName)
-    if (routeName != "TenderFormView") {
-      state.formSaved = true
-    }
-  }
+  
 
 };
   // @jon something like this

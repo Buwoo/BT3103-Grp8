@@ -18,6 +18,13 @@
         <form id = "Food">
             <input id = "foodInput" v-model = "b" type = "text" @change = "this.$store.commit('setFormUnsaved')">
             <label>Food Item</label>
+            <div id = "foodOptions">
+                <ul>
+                    <li @click = "selectFood(food)" v-for = "(food, index) in filteredFood" :key = "`food-${index}`"> 
+                    {{ food.NAME }} 
+                    </li>
+                </ul>
+            </div>
         </form>
         <form id = "Open">
             <input id = "openInput" v-model = "c" type = "text" @change = "this.$store.commit('setFormUnsaved')">
@@ -59,6 +66,7 @@ import { getDoc, doc, setDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import router from "../router/index.js";
 import json from "@/assets/hawker_name.json"
+import foodJson from "@/assets/food.json"
 
 const db = getFirestore(firebaseApp);
 export default {
@@ -77,7 +85,8 @@ export default {
             contactNum:"",
             email:"",
             address:"",
-            hawkers: json
+            hawkers: json,
+            foodGrp: foodJson
         }
     },
 
@@ -91,7 +100,17 @@ export default {
               return Object.values(hawker).some((word) => String(word).toLowerCase().includes(query)
               );
           })
-        }
+        },
+        filteredFood() {
+          const query = this.b.toLowerCase()
+          if(this.hawkerCentre === "") {
+              return this.foodGrp;
+          }
+          return this.foodGrp.filter((food) => {
+              return Object.values(food).some((word) => String(word).toLowerCase().includes(query)
+              );
+          })
+        }        
     },
 
 
@@ -166,7 +185,7 @@ export default {
                                 end: this.d,
                                 start: this.c
                             },
-                            status: "unsubmitted",
+                            status: "Unsubmitted",
                             userID: this.nric.slice(5)
                 
                         })
@@ -247,7 +266,7 @@ export default {
                                     end: this.d,
                                     start: this.c
                                 },
-                                status: "submitted",
+                                status: "Submitted",
                                 userID: this.nric.slice(5)
                 
                             })
@@ -257,9 +276,7 @@ export default {
                                 availableNrStalls: updateSlots
                             })
 
-                            router.push({
-                                name: "HawkerDashBoard",
-                            });
+                            router.push({name: "HawkerDashBoard"});
                             
                         }
                         
@@ -273,6 +290,10 @@ export default {
 
         selectHawker(hawker) {
             this.hawkerCentre = hawker.NAME
+        },
+
+        selectFood(food) {
+            this.b = food.NAME
         }
 
 
@@ -287,7 +308,7 @@ export default {
                 const auth = getAuth();
                 var id = auth.currentUser.email.slice(0,4).toUpperCase()
                 if (profile.userID == id) {
-                    if (profile.status != "unsubmitted"){
+                    if (profile.status != "Unsubmitted"){
                         alert("This form is already submitted")
                         router.push({
                             name: "HawkerDashBoard",
@@ -300,10 +321,12 @@ export default {
                         this.d = profile.openingHours.end;                        
                     }
                 } else {
-                    router.push("/404")          
+                    alert("Invalid Tender ID")
+                    router.push({name: "HawkerDashBoard"});         
                 }
             } else {
-                router.push("/404")
+                alert("Invalid Tender ID")
+                router.push({name: "HawkerDashBoard"}); 
             }
         })
         .catch((error) => {
@@ -427,6 +450,21 @@ export default {
         width: 25vw;
     }
 
+    #foodOptions {
+        position:absolute;
+        text-align:left;
+        top: 44vh;
+        left: 32.5vw
+    }
+
+    #foodOptions>ul {
+        width: 26.5vw;
+        list-style:none;
+        max-height:100px;
+        overflow:scroll;
+        overflow-x:hidden;
+    }
+
     #Open>input{
         left: 61vw;
         width: 15vw;
@@ -460,7 +498,7 @@ export default {
 
     #error{
         position:absolute;
-        top: 43.5vh;
+        top: 25.2vh;
         font-size:4vh;
         color:red;
         text-align:center;
@@ -568,7 +606,7 @@ export default {
 
     #delete {
         left:73vw;
-        background-color:red;
+        background-color:#DC3545;
     }
 
     #save{
@@ -577,7 +615,7 @@ export default {
 
     #submit{
         left:89vw;
-        background-color:green;
+        background-color:#198754;
     }
 
 </style>

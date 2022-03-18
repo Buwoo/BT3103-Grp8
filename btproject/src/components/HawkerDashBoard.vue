@@ -230,15 +230,17 @@
             },
 
             editForm: function(tenderId) {
+                console.log(tenderId)
                 router.push({
-                    path: '/hawker/dashboard/tenderForm/:tenderID',
-                    params: {tenderId}
+                    name: "TenderFormView",
+                    params: {tenderID:tenderId}
                 }
                 )
 
             },
             createForm: function() {
-                router.push({path: '/hawker/dashboard/tenderForm/:tenderID'})
+                console.log("error")
+                router.push({name: '"TenderFormView"'})
             },
 
             getColour: function(status) {

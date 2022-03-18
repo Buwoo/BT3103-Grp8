@@ -1,0 +1,16 @@
+[
+    { "ID": 0, "NAME": "Chinese Cooked Food" },
+    {
+      "ID": 1,
+      "NAME": "Drinks and Desserts"
+    },
+    { "ID": 2, "NAME": "Indian Cooked Food"
+    },
+    { "ID": 3, "NAME": "Malay Cooked Food" },
+    {
+      "ID": 4,
+      "NAME": "Others"
+    },
+    { "ID": 5, "NAME": "Snacks and Pastries" }
+
+]
