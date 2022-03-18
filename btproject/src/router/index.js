@@ -6,22 +6,18 @@ import HawkerProfileView from "@/views/HawkerProfileView.vue";
 import TenderFormView from "@/views/TenderFormView.vue";
 import ErrorPageView from "@/views/ErrorPageView.vue";
 import HawkerDashBoardView from "@/views/HawkerDashBoardView.vue";
+import NEAProfileView from "@/views/NEAProfileView";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const routes = [
+  // Login Route
   {
     path: "/",
     name: "Login",
     component: LoginPageView,
   },
-  {
-    path: "/hawker/explore",
-    name: "HawkerExploreView",
-    component: HawkerExploreView,
-    meta: {
-      requiresAuth: true,
-    },
-  },
+
+  // NEA Agent Routes
   {
     path: "/NEA/dashboard",
     name: "NEADashboardView",
@@ -31,9 +27,19 @@ const routes = [
     },
   },
   {
-    path: "/hawker/profile",
-    name: "HawkerProfile",
-    component: HawkerProfileView,
+    path: "/NEA/profile",
+    name: "NEAProfile",
+    component: NEAProfileView,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+
+  // Hawker Routes
+  {
+    path: "/hawker/dashboard/hawkerDashBoard",
+    name: "HawkerDashBoard",
+    component: HawkerDashBoardView,
     meta: {
       requiresAuth: true,
     },
@@ -48,20 +54,28 @@ const routes = [
     },
   },
   {
-    path: "/:catchAll(.*)",
-    name: "ErrorPageView",
-    component: ErrorPageView,
+    path: "/hawker/explore",
+    name: "HawkerExploreView",
+    component: HawkerExploreView,
+    meta: {
+      requiresAuth: true,
+    },
   },
-
   {
-    path: "/hawker/dashboard/hawkerDashBoard",
-    name: "HawkerDashBoard",
-    component: HawkerDashBoardView,
+    path: "/hawker/profile",
+    name: "HawkerProfile",
+    component: HawkerProfileView,
     meta: {
       requiresAuth: true,
     },
   },
 
+  // Unknown Routes
+  {
+    path: "/:catchAll(.*)",
+    name: "ErrorPageView",
+    component: ErrorPageView,
+  },
 ];
 
 const router = createRouter({

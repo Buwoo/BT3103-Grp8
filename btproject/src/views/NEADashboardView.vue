@@ -1,5 +1,6 @@
 <template>
   <div v-if="user">
+    <NEANavBar />
     <h3>This is the NEA Dashboard</h3>
     <h2>Your username is {{ user.email.split("@")[0] }}</h2>
     <h3>
@@ -16,6 +17,7 @@
 import firebase from "@/uifire.js";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import router from "../router/index.js";
+import NEANavBar from "@/components/NEANavBar.vue";
 
 export default {
   name: "NEADashboardView",
@@ -24,6 +26,10 @@ export default {
       user: false,
       neaagent: false,
     };
+  },
+
+  components: {
+    NEANavBar,
   },
 
   mounted() {

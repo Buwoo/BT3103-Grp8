@@ -53,6 +53,7 @@ import { getFirestore, getDoc, doc } from "firebase/firestore";
 import firebase from "@/uifire.js";
 import "firebase/compat/auth";
 import router from "../router/index.js";
+
 const db = getFirestore(firebaseApp);
 
 export default {
@@ -85,17 +86,21 @@ export default {
           this.password
         )
         .then(() => {
-          this.checkUserType().then((data) => {
-            if (data == "adminUser") {
-              router.push({
-                name: "NEADashboardView",
-              });
-            } else {
-              router.push({
-                name: "HawkerExploreView",
-              });
-            }
-          });
+          firebase
+            .auth()
+            .currentUser.getIdTokenResult()
+            .then((tokenResult) => {
+              console.log(tokenResult.claims);
+              if (tokenResult.claims.NEAAgent) {
+                router.push({
+                  name: "NEADashboardView",
+                });
+              } else {
+                router.push({
+                  name: "HawkerExploreView",
+                });
+              }
+            });
         })
         .catch((err) => {
           console.log(err);
