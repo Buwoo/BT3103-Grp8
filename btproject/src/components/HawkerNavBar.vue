@@ -4,11 +4,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-primary">
       <div class="container-fluid" style="padding: 0px">
         <div class="subcontainer justify-content-start">
-          <button
-            type="button"
-            class="btn btn-primary"
-            @click="remindSave()"
-          >
+          <button type="button" class="btn btn-primary" @click="remindSave()">
             <i class="bi bi-list"></i>
           </button>
 
@@ -19,7 +15,7 @@
           <ul class="navbar-nav">
             <li class="nav-item dropdown">
               <button
-                @click = "remindSaveProfile()"
+                @click="remindSaveProfile()"
                 class="btn btn-primary"
                 href="#"
                 id="navbarDarkDropdownMenuLink"
@@ -36,10 +32,12 @@
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item" @click="signOutFunction">
-                    <i class="bi bi-power"></i>
-                    Logout
-                  </a>
+                  <span role="button">
+                    <a class="dropdown-item" @click="signOutFunction">
+                      <i class="bi bi-power"></i>
+                      Logout
+                    </a>
+                  </span>
                 </li>
               </ul>
             </li>
@@ -83,7 +81,7 @@ export default {
   data() {
     return {
       toggle: true,
-      checker: "TenderFormView"
+      checker: "TenderFormView",
     };
   },
   props: {
@@ -100,18 +98,24 @@ export default {
         });
     },
     remindSave() {
-      if (this.$store.getters.getFormStatus || this.$route.name != this.checker) {
-        this.toggle = !this.toggle     
+      if (
+        this.$store.getters.getFormStatus ||
+        this.$route.name != this.checker
+      ) {
+        this.toggle = !this.toggle;
       } else {
-        alert("Please save your Tender Application")
+        alert("Please save your Tender Application");
       }
     },
     remindSaveProfile() {
-      if (this.$store.getters.getFormStatus || this.$route.name != this.checker) {
-        document.getElementById("navbarDarkDropdownMenuLink").href = "#"    
+      if (
+        this.$store.getters.getFormStatus ||
+        this.$route.name != this.checker
+      ) {
+        document.getElementById("navbarDarkDropdownMenuLink").href = "#";
       } else {
-        document.getElementById("navbarDarkDropdownMenuLink").href = "" 
-        alert("Please save your Tender Application")
+        document.getElementById("navbarDarkDropdownMenuLink").href = "";
+        alert("Please save your Tender Application");
       }
     },
   },
