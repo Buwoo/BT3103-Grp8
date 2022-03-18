@@ -35,10 +35,12 @@
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item" @click="signOutFunction">
-                    <i class="bi bi-power"></i>
-                    Logout
-                  </a>
+                  <span role="button">
+                    <a class="dropdown-item" @click="signOutFunction">
+                      <i class="bi bi-power"></i>
+                      Logout
+                    </a>
+                  </span>
                 </li>
               </ul>
             </li>
