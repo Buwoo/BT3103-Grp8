@@ -1,5 +1,5 @@
 <template>
-<HawkerNavBar :name = "name"/>
+<HawkerNavBar/>
 <TenderForm
 :tenderID = "tenderID"/>
 </template>
@@ -19,7 +19,6 @@ export default {
   },
   data(){
     return {
-      name: "",
       tenderID: this.$route.params.tenderID,
     }
   },
