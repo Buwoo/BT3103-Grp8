@@ -1,12 +1,12 @@
 <template>
   <div class="wrapper">
     <!-- Nav Bar  -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-light bg-success">
       <div class="container-fluid" style="padding: 0px">
         <div class="subcontainer justify-content-start">
           <button
             type="button"
-            class="btn btn-primary"
+            class="btn btn-success"
             @click="toggle = !toggle"
           >
             <i class="bi bi-list"></i>
@@ -19,7 +19,7 @@
           <ul class="navbar-nav">
             <li class="nav-item dropdown">
               <button
-                class="btn btn-primary"
+                class="btn btn-success"
                 href="#"
                 id="navbarDarkDropdownMenuLink"
                 type="button"
@@ -29,7 +29,7 @@
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
                 <li>
-                  <a class="dropdown-item" href="/hawker/profile">
+                  <a class="dropdown-item" href="/NEA/profile">
                     <i class="bi bi-person-fill"></i>
                     Profile
                   </a>
@@ -51,15 +51,9 @@
     <nav id="sidebar" v-bind:class="toggle ? 'hide' : 'show'">
       <ul class="list-unstyled components">
         <li>
-          <a href="/hawker/dashboard/hawkerDashBoard">
+          <a href="/NEA/dashboard">
             <i class="bi bi-file-earmark-text-fill"></i>
             Dashboard
-          </a>
-        </li>
-        <li>
-          <a href="/hawker/explore">
-            <i class="bi bi-globe"></i>
-            Explore
           </a>
         </li>
       </ul>
