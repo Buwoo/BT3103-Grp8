@@ -51,7 +51,7 @@
     <nav id="sidebar" v-bind:class="toggle ? 'hide' : 'show'">
       <ul class="list-unstyled components">
         <li>
-          <a href="/hawker/dashboard">
+          <a href="/hawker/dashboard/hawkerDashBoard">
             <i class="bi bi-file-earmark-text-fill"></i>
             Dashboard
           </a>
