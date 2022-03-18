@@ -91,7 +91,7 @@
             <!-- Search Button -->
             <!-- TODO: Further stlying -->
             <div class="col-md">
-                <button type="button" class="btn btn-primary w-75" @click="searchLocations()"> 
+                <button id = "search_button" type="button" class="btn btn-primary w-75" @click="searchLocations()"> 
                    <i class="bi bi-search pe-3"></i> Search 
                 </button>
             </div>
@@ -129,7 +129,11 @@
             <div class="col-md-8 mh-100 px-0"> 
                 <div id="display-geo" class="h-100 w-100 px-2 py-2">
                     <!-- Map -->
-                    <div id="mapContainer" class="border h-100 w-100"> </div>
+                    <div id="mapContainer" class="border h-100 w-100"> 
+                        <button id="tutorialButton" class="btn btn-warning pe-3 bi bi-question-circle" @click="startShepherd">
+                            FIRST TIME OR NEED HELP?
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -146,6 +150,11 @@ import HawkerLocationCard from '@/components/HawkerLocationCard.vue'
 // Import Leaftlet for use 
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+
+// Import Shepherd for walkthrough
+import Shepherd from "shepherd.js";
+import "shepherd.js/dist/css/shepherd.css";
+
 
 import firebaseApp from "../firebase.js";
 import { getFirestore } from "firebase/firestore";
@@ -403,7 +412,125 @@ export default {
                 Others 34
                 Snacks and Pastries 10 
             */
-        }
+        },
+
+        // Shepherd Section Walkthrough
+        startShepherd: function () {
+        const tour = new Shepherd.Tour({
+            useModalOverlay: true,
+            defaultStepOptions: {
+            classes: "bg-warning shepherd-text",
+            scrollTo: true,
+            },
+        });
+        tour.addStep({
+            id: "region-step",
+            arrow: false,
+            text: "Which region will you like to open your hawker stall at?",
+            attachTo: {
+            element: "#search_select_region",
+            on: "bottom",
+            },
+            buttons: [
+            {
+                text: "Next",
+                action: tour.next,
+            },
+            ],
+        });
+        tour.addStep({
+            id: "price-step",
+            arrow: false,
+            text: "What price will you like to sell your food at?",
+            attachTo: {
+            element: "#search_select_price",
+            on: "bottom",
+            },
+            buttons: [
+            {
+                text: "Next",
+                action: tour.next,
+            },
+            ],
+        });
+        tour.addStep({
+            id: "budget-step",
+            arrow: false,
+            text: "What is your monthly budget for rental and cleaning fees?",
+            attachTo: {
+            element: "#search_select_budget",
+            on: "bottom",
+            },
+            buttons: [
+            {
+                text: "Next",
+                action: tour.next,
+            },
+            ],
+        });
+        tour.addStep({
+            id: "hours-step",
+            arrow: false,
+            text: "What are your potential opening hours?",
+            attachTo: {
+            element: "#search_select_hours",
+            on: "bottom",
+            },
+            buttons: [
+            {
+                text: "Next",
+                action: tour.next,
+            },
+            ],
+        });
+        tour.addStep({
+            id: "foodtype-step",
+            arrow: false,
+            text: "What kind of food do you intend to sell?",
+            attachTo: {
+            element: "#search_select_food",
+            on: "bottom",
+            },
+            buttons: [
+            {
+                text: "Next",
+                action: tour.next,
+            },
+            ],
+        });
+        tour.addStep({
+            id: "availability-step",
+            arrow: false,
+            text: "Toggle to see hawker centres with available stalls for tender.",
+            attachTo: {
+            element: "#search_select_availstall",
+            on: "bottom",
+            },
+            buttons: [
+            {
+                text: "Next",
+                action: tour.next,
+            },
+            ],
+        });
+        tour.addStep({
+            id: "search-step",
+            arrow: false,
+            text: "Click the search button once all fields are selected!",
+            attachTo: {
+            element: "#search_button",
+            on: "bottom",
+            },
+            buttons: [
+            {
+                text: "Finish",
+                action: tour.complete,
+            },
+            ],
+        });
+        tour.start();
+        },
+
     }, 
     data() {
         return {
@@ -506,5 +633,13 @@ select:focus {
   border: transparent;
 }
 
-
+/* Shepherd CSS */
+#tutorialButton {
+  position: absolute;
+  top: 10%;
+  right: 2%;
+  padding: 1%;
+  z-index: 1500;
+  border-radius: 16px;
+}
 </style>
