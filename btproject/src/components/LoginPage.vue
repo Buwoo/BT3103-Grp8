@@ -12,7 +12,7 @@
     <div id="logincontainer" class="rounded">
       <h2>Login</h2>
       <br />
-      <form @submit.prevent="login">
+      <form @submit.prevent="login" @click.prevent>
         <div class="form-floating mb-3">
           <input
             v-model="singpassId"
