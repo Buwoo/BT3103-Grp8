@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-body">
       <div class="row g-0">
-        <div class=" col-xs-6 col-md-2 justify-content-center">
+        <div class="col-xs-6 col-md-2 justify-content-center">
           <img
             :src="imageurl"
             class="img-fluid rounded-start"
@@ -59,7 +59,7 @@ export default {
 
   methods: {
     solveImage() {
-      return require(`@/assets/${this.ic}.jpg`);
+      return require(`@/assets/User_Photos/${this.ic}.jpg`);
     },
     solveAddressDisplay() {
       return this.address != undefined;
