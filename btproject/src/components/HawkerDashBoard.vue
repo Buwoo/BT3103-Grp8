@@ -51,7 +51,9 @@
 																<div class="col-md-4 d-flex">
 																	<h5 class="align-bottom float-end" id="statusLabel">
 																		Status:
-																		<span :class="getColour(a.data().status)" class="fw-bold"> {{ a.data().status }} </span>
+																		<span :class="getColour(a.data().status)" class="fw-bold">
+																			{{ a.data().status.charAt(0).toUpperCase() + a.data().status.slice(1) }}
+																		</span>
 																	</h5>
 																</div>
 															</div>
@@ -194,7 +196,7 @@
 			},
 
 			checkStatus: function (a) {
-				return a.data().status.trim() == "Unsubmitted".trim();
+				return a.data().status.trim() == "unsubmitted".trim();
 			},
 
 			editForm: function (tenderId) {
@@ -204,20 +206,40 @@
 					params: { tenderID: tenderId },
 				});
 			},
+<<<<<<< Updated upstream
 			createForm: function () {
 				console.log("error");
 				router.push({ name: '"TenderFormView"' });
+=======
+			createForm: async function () {
+				const docRef = await addDoc(collection(db, "TenderInfo"), {
+					address: "",
+					date: "",
+					foodItem: "",
+					openingHours: {
+						end: "",
+						start: "",
+					},
+					status: "unsubmitted",
+					userID: this.id,
+				});
+				let tenderId = docRef.id;
+				router.push({
+					name: "TenderFormView",
+					params: { tenderID: tenderId },
+				});
+>>>>>>> Stashed changes
 			},
 
 			getColour: function (status) {
 				switch (status) {
-					case "Approved":
+					case "approved":
 						return "text-success";
-					case "Pending":
+					case "pending":
 						return "text-warning";
-					case "Rejected":
+					case "rejected":
 						return "text-danger";
-					case "Unsubmitted":
+					case "unsubmitted":
 						return "text-secondary";
 				}
 			},
