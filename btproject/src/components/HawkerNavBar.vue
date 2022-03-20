@@ -15,25 +15,25 @@
           <ul class="navbar-nav">
             <li class="nav-item dropdown">
               <button
-                @click="remindSaveProfile()"
-                class="btn btn-primary"
+                class='btn btn-primary'
                 href="#"
                 id="navbarDarkDropdownMenuLink"
                 type="button"
                 data-bs-toggle="dropdown"
+                @click = "remindSaveProfile()"
               >
                 <i class="bi bi-person-circle" style="color: #fff"></i>
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
                 <li>
-                  <a class="dropdown-item" href="/hawker/profile">
+                  <a :class="this.profileClass" href="/hawker/profile">
                     <i class="bi bi-person-fill"></i>
                     Profile
                   </a>
                 </li>
                 <li>
                   <span role="button">
-                    <a class="dropdown-item" @click="signOutFunction">
+                    <a :class="this.profileClass" @click="signOutFunction">
                       <i class="bi bi-power"></i>
                       Logout
                     </a>
@@ -82,6 +82,7 @@ export default {
     return {
       toggle: true,
       checker: "TenderFormView",
+      profileClass: 'dropdown-item'
     };
   },
   props: {
@@ -112,10 +113,10 @@ export default {
         this.$store.getters.getFormStatus ||
         this.$route.name != this.checker
       ) {
-        document.getElementById("navbarDarkDropdownMenuLink").href = "#";
+        this.profileClass='dropdown-item'
       } else {
-        document.getElementById("navbarDarkDropdownMenuLink").href = "";
-        alert("Please save your Tender Application");
+        alert("Please save your Tender Application")
+        this.profileClass= 'dropdown-item disabled'
       }
     },
   },

@@ -166,7 +166,7 @@
 	import firebaseApp from "../firebase.js";
 	import firebase from "@/uifire.js";
 	import { getFirestore } from "firebase/firestore";
-	import { collection, query, where, getDocs, deleteDoc, doc, getDoc } from "firebase/firestore";
+	import { collection, query, where, getDocs, deleteDoc, doc, getDoc, addDoc } from "firebase/firestore";
 	import { getAuth, onAuthStateChanged } from "firebase/auth";
 	import router from "../router/index.js";
 
@@ -204,9 +204,23 @@
 					params: { tenderID: tenderId },
 				});
 			},
-			createForm: function () {
-				console.log("error");
-				router.push({ name: '"TenderFormView"' });
+			createForm: async function () {
+				const docRef = await addDoc(collection(db, "TenderInfo"), {
+					address: "",
+					date: "",
+					foodItem: "",
+					openingHours: {
+						end:"",
+						start:"",
+					},
+					status:"unsubmitted",
+					userID: this.id
+				});
+				let tenderId = docRef.id
+				router.push({ 
+					name: "TenderFormView",
+					params: { tenderID: tenderId },
+				});
 			},
 
 			getColour: function (status) {
