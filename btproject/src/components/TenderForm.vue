@@ -185,7 +185,7 @@ export default {
                                 end: this.d,
                                 start: this.c
                             },
-                            status: "Unsubmitted",
+                            status: "unsubmitted",
                             userID: this.nric.slice(5)
                 
                         })
@@ -266,7 +266,7 @@ export default {
                                     end: this.d,
                                     start: this.c
                                 },
-                                status: "Submitted",
+                                status: "pending",
                                 userID: this.nric.slice(5)
                 
                             })
@@ -308,7 +308,7 @@ export default {
                 const auth = getAuth();
                 var id = auth.currentUser.email.slice(0,4).toUpperCase()
                 if (profile.userID == id) {
-                    if (profile.status != "Unsubmitted"){
+                    if (profile.status != "unsubmitted"){
                         alert("This form is already submitted")
                         router.push({
                             name: "HawkerDashBoard",
@@ -370,7 +370,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
      h1{
          position:absolute;
          text-align:left;
@@ -382,7 +382,7 @@ export default {
         position: absolute;
         width: 90vw;
         height: 24vh;
-        top: 25vh;
+        top: 19vh;
         left: 5vw;
         border: 1px solid black;
 
@@ -401,7 +401,7 @@ export default {
     #tender_header{
         position: absolute;
         background-color: #1976D2;
-        top: 25.2vh;
+        top: 19.2vh;
         left: 5.05vw;
         color:white;
     }
@@ -409,7 +409,7 @@ export default {
     #HawkerAddr>input, #Food>input, #Open>input, #Close>input{
         position:absolute;
         display: inline-block;
-        top: 36vh;
+        top: 30vh;
         height: 7vh;
         font-size: 3vh;
     }
@@ -423,7 +423,7 @@ export default {
     #options {
         position:absolute;
         text-align:left;
-        top: 44vh;
+        top: 38vh;
         left: 5.5vw
     }
 
@@ -453,7 +453,7 @@ export default {
     #foodOptions {
         position:absolute;
         text-align:left;
-        top: 44vh;
+        top: 38vh;
         left: 32.5vw
     }
 
@@ -478,7 +478,7 @@ export default {
 
     #HawkerAddr>label, #Food>label, #Open>label, #Close>label{
         position:absolute;
-        top: 33.8vh;
+        top: 27.8vh;
         background-color: white;
         font-size: 1.5vw;
 
@@ -498,7 +498,7 @@ export default {
 
     #error{
         position:absolute;
-        top: 25.2vh;
+        top: 19.2vh;
         font-size:4vh;
         color:red;
         text-align:center;
@@ -510,7 +510,7 @@ export default {
         position: absolute;
         width: 90vw;
         height: 33vh;
-        top: 54vh;
+        top: 48vh;
         left: 5vw;
         border: 1px solid black;
 
@@ -519,13 +519,13 @@ export default {
     #personal_header{
         position: absolute;
         background-color: #1976D2;
-        top: 54.2vh;
+        top: 48.2vh;
         left: 5.05vw;
         color:white
     }
     #name, #nric, #contact{
         position:absolute;
-        top: 66vh;
+        top: 60vh;
         height: 7vh;
         font-size: 3vh;
         text-align: left;
@@ -548,7 +548,7 @@ export default {
 
     #nameLabel, #nricLabel, #contactLabel{
     position:absolute;
-    top: 63.9vh;
+    top: 57.9vh;
     background-color: white;
     font-size: 1.5vw;
     }
@@ -567,7 +567,7 @@ export default {
     
     #email, #persAddress{
         position:absolute;
-        top: 77vh;
+        top: 71vh;
         height: 7vh;
         font-size: 3vh;
         text-align: left;
@@ -586,7 +586,7 @@ export default {
 
     #emailLabel, #persAddressLabel{
         position:absolute;
-        top: 74.8vh;
+        top: 68.8vh;
         background-color: white;
         font-size: 1.5vw;
     }
@@ -599,7 +599,7 @@ export default {
 
     #save, #submit, #delete {
         position:absolute;
-        top:90vh;
+        top:84vh;
         height:6vh;
         width: 6vw;
     }

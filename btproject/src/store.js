@@ -8,7 +8,7 @@ const state = {
 const getters = {
   getFormStatus() {
     return state.formSaved
-  }
+  },
   
 };
 
@@ -20,6 +20,7 @@ const mutations = {
   },
   setFormSaved(state) {
     state.formSaved = true;
+
   },
   setFormUnsaved(state) {
     state.formSaved = false;
