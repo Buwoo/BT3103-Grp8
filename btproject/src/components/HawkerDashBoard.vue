@@ -46,12 +46,14 @@
 															</div>
 															<div class="row fw-bold">
 																<div class="col-md-8">
-																	<h5 class="modal-title fs-3" id="exampleModalLabel">Tender {{ a.id }}</h5>
+																	<h5 class="modal-title fs-3" id="exampleModalLabel">Tender: {{ a.id }}</h5>
 																</div>
 																<div class="col-md-4 d-flex">
 																	<h5 class="align-bottom float-end" id="statusLabel">
 																		Status:
-																		<span :class="getColour(a.data().status)" class="fw-bold"> {{ a.data().status }} </span>
+																		<span :class="getColour(a.data().status)" class="fw-bold">
+																			{{ a.data().status.charAt(0).toUpperCase() + a.data().status.slice(1) }}
+																		</span>
 																	</h5>
 																</div>
 															</div>
@@ -210,14 +212,14 @@
 					date: "",
 					foodItem: "",
 					openingHours: {
-						end:"",
-						start:"",
+						end: "",
+						start: "",
 					},
-					status:"unsubmitted",
-					userID: this.id
+					status: "unsubmitted",
+					userID: this.id,
 				});
-				let tenderId = docRef.id
-				router.push({ 
+				let tenderId = docRef.id;
+				router.push({
 					name: "TenderFormView",
 					params: { tenderID: tenderId },
 				});
@@ -225,13 +227,13 @@
 
 			getColour: function (status) {
 				switch (status) {
-					case "Approved":
+					case "approved":
 						return "text-success";
-					case "Pending":
+					case "pending":
 						return "text-warning";
-					case "Rejected":
+					case "rejected":
 						return "text-danger";
-					case "Unsubmitted":
+					case "unsubmitted":
 						return "text-secondary";
 				}
 			},
