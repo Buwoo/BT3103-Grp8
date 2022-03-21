@@ -5,11 +5,11 @@
 				<div class="row mx-auto" id="headings">
 					<div class="d-flex justify-content-start">
 						<div class="col-md-8">
-							<h3 class="mt-5" id="dashboardHeading">Tender Dashboard</h3>
+							<h3 class="mt-4" id="dashboardHeading"> <b> Tender Dashboard </b> </h3>
 						</div>
 					</div>
 				</div>
-				<div class="row mx-auto mt-3" id="wholeTable" style="width: 70%">
+				<div class="row mx-auto mt-3" id="wholeTable">
 					<table class="table">
 						<thead>
 							<tr>
@@ -50,7 +50,7 @@
 													<div class="modal-body text-start">
 														<!-- First Card: Tender Details -->
 														<div class="card">
-															<div class="card-header">
+															<div class="card-header bg-success">
 																<div class="fs-4 ms-4">Tender Details</div>
 															</div>
 															<div class="container-fluid">
@@ -97,7 +97,7 @@
 
 														<!-- Second Card: Personal Details of the Hawker -->
 														<div class="card">
-															<div class="card-header">
+															<div class="card-header bg-success">
 																<div class="fs-4 ms-4">Personal Details</div>
 															</div>
 															<div class="container-fluid">
@@ -147,11 +147,11 @@
 								</td>
 
 								<td id="actions">
-									<div class="d-flex justify-content-evenly">
-										<button id="editButton" class="btn-success" @click="acceptForm(index, a)">
+									<div class="d-flex justify-content-center">
+										<button id="acceptButton" type="button" class="btn btn-success" @click="acceptForm(index, a)">
 											<i class="bi bi-check-lg"></i>
 										</button>
-										<button id="deleteButton" class="btn-danger" @click="rejectForm(index, a)">
+										<button id="rejectButton" type="button" class="btn btn-danger" @click="rejectForm(index, a)">
 											<i class="bi bi-x-lg"></i>
 										</button>
 									</div>
@@ -256,16 +256,26 @@
 	@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css");
 
 	#dashboardHeading {
-		margin-right: 200px;
+		padding-left: 40px;
+		padding-top: 10px;
 		display: inline-block;
+		width: 100%;
+		text-align: left;
+	}
+
+	#wholeTable {
+		margin-top: 20px;
+		margin-bottom: 50px;
+		padding-left: 40px;
+		padding-right: 40px;
+	}
+
+	table {
+		box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4);
 	}
 
 	.modal-dialog {
 		max-width: 900px;
-	}
-
-	.card {
-		max-width: 850px;
 	}
 
 	.card-header {
@@ -276,5 +286,19 @@
 	.card {
 		margin: 0px 30px 30px 30px;
 		box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4);
+		max-width: 850px;
+		border: none;
+	}
+
+	.details {
+		padding-top: 10px;
+	}
+
+	.card-text{
+		margin-bottom: 0px;
+	}
+
+	#rejectButton {
+		margin-left: 10px;
 	}
 </style>
