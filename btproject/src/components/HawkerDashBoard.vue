@@ -4,16 +4,16 @@
 		<div class="container-fluid">
 			<div class="row mx-auto" id="headings">
 				<div class="d-flex">
-					<div class="col-md-8">
-						<h3 class="pe-4" id="dashboardHeading">Tender Dashboard</h3>
+					<div class="col-md-9">
+						<h3 class="mt-4" id="dashboardHeading"> <b> Tender Dashboard </b> </h3>
 					</div>
-					<div class="col-md-4" id="createButton">
-						<button type="button" class="btn btn-primary btn-lg mt-4" @click="createForm">+ Create</button>
+					<div class="col-md-3 justify-content-end" id="createButton">
+						<button type="button" class="btn btn-primary btn-md mt-4" @click="createForm">+ Create</button>
 					</div>
 				</div>
 			</div>
 
-			<div class="row mx-auto mt-4" style="width: 70%" id="wholeTable">
+			<div class="row mx-auto mt-4" id="wholeTable">
 				<!-- Tender Table-->
 				<div class="table-responsive">
 					<table class="table">
@@ -63,7 +63,7 @@
 													<div class="modal-body text-start">
 														<!-- First Card: Tender Details -->
 														<div class="card">
-															<div class="card-header">
+															<div class="card-header bg-primary">
 																<div class="fs-4 ms-4">Tender Details</div>
 															</div>
 															<div class="container-fluid">
@@ -98,7 +98,7 @@
 
 														<!-- Second Card: Personal Details of the Hawker -->
 														<div class="card">
-															<div class="card-header">
+															<div class="card-header bg-primary">
 																<div class="fs-4 ms-4">Personal Details</div>
 															</div>
 															<div class="container-fluid">
@@ -146,11 +146,11 @@
 									{{ a.data().status }}
 								</td>
 								<td id="actions">
-									<div class="d-flex justify-content-lg-between">
-										<button id="editButton" @click="checkStatus(a) ? editForm(a.id) : null" :class="[checkStatus(a) ? 'btn-success' : 'btn-secondary']">
+									<div class="d-flex justify-content-center">
+										<button type="button" id="editButton" @click="checkStatus(a) ? editForm(a.id) : null" :class="[checkStatus(a) ? 'btn btn-success' : 'btn btn-secondary']">
 											<i class="bi bi-pencil-fill"></i>
 										</button>
-										<button id="deleteButton" @click="checkStatus(a) ? deleteForm(index, a) : null" :class="[checkStatus(a) ? 'btn-danger' : 'btn-secondary']">
+										<button id="deleteButton" type="button" @click="checkStatus(a) ? deleteForm(index, a) : null" :class="[checkStatus(a) ? 'btn btn-danger' : 'btn btn-secondary']">
 											<i class="bi bi-trash3"></i>
 										</button>
 									</div>
@@ -292,14 +292,27 @@
 	@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css");
 
 	#dashboardHeading {
-		margin-right: 150px;
+		/*margin-right: 150px;*/
+		padding-left: 30px;
 		display: inline-block;
-		padding-top: 40px;
+		width: 100%;
+		text-align: left;
 	}
 
 	#createButton {
 		/*margin-top:30px;*/
-		padding-right: 7%;
+		padding-right: 30px;
+		text-align: right;
+	}
+
+	#wholeTable {
+		margin-top: 20px;
+		padding-left: 30px;
+		padding-right: 30px;
+	}
+
+	table {
+		box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4);
 	}
 
 	.modal-dialog {
@@ -331,10 +344,24 @@
 	.card {
 		margin: 0px 30px 30px 30px;
 		box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4);
+		border: none;
 	}
 
 	#editButton,
 	#deleteButton {
 		display: inline-block;
 	}
+
+	#deleteButton {
+		margin-left: 10px;
+	}
+
+	.details {
+		padding-top: 10px;
+	}
+
+	.card-text{
+		margin-bottom: 0px;
+	}
+
 </style>
