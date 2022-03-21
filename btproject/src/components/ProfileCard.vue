@@ -84,6 +84,7 @@ h3 {
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4);
   margin: 40px;
   margin-top: 10px;
+  max-width: 100%;
 }
 
 .container {
