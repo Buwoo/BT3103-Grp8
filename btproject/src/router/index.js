@@ -37,7 +37,7 @@ const routes = [
 
   // Hawker Routes
   {
-    path: "/hawker/dashboard/hawkerDashBoard",
+    path: "/hawker/dashboard",
     name: "HawkerDashBoard",
     component: HawkerDashBoardView,
     meta: {
@@ -45,8 +45,7 @@ const routes = [
     },
   },
   {
-    // path: '/hawker/dashboard/tenderForm/:id/:tenderID', //@Jon I changed this part to remove the :id
-    path: "/hawker/dashboard/tenderForm/:tenderID",
+    path: "/hawker/dashboard/:tenderID",
     name: "TenderFormView",
     component: TenderFormView,
     meta: {
