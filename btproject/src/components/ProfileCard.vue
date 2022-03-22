@@ -3,11 +3,7 @@
     <div class="card-body">
       <div class="row g-0">
         <div class="col-xs-6 col-md-2 justify-content-center">
-          <img
-            :src="imageurl"
-            class="img-fluid rounded-start"
-            alt="profile picture"
-          />
+          <img :src="imageurl" class="img-fluid rounded-start" alt="profile picture" />
         </div>
 
         <div class="box col-xs-6 col-md-10 justify-content-start">
@@ -74,9 +70,13 @@ export default {
 </script>
 
 <style scoped>
-p,
 h3 {
   font-family: "Roboto", sans-serif;
+}
+
+p {
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
 }
 
 .card {
