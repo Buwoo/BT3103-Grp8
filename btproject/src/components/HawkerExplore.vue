@@ -6,7 +6,7 @@
             <div class="col-md"> 
                 <label for="search_select_region" class="select-label">Region</label>
                 <select id="search_select_region" name="RegionSelect" v-model.lazy="selectRegion"
-                    :class="[selectRegion=='' ? 'select-placeholder' : '','form-select']" >
+                    :class="[selectRegion=='' ? 'select-placeholder' : '','form-select']" role= "button">
                     <option value="" class="option-placeholder" disabled></option>
                     <option value="*">Any</option>
                     <option value="North">North</option>
@@ -21,7 +21,7 @@
             <div class="col-md">
                 <label for="search_select_region" class="select-label">Price</label>
                 <select id="search_select_price" name="PriceSelect" v-model.lazy="selectPrice"
-                    :class="[selectPrice=='' ? 'select-placeholder' : '','form-select']" >
+                    :class="[selectPrice=='' ? 'select-placeholder' : '','form-select']" role= "button">
                     <option value="" class="option-placeholder" disabled></option>
                     <option value="*">Any</option>
                     <option value="0-2">Under 2$</option>
@@ -38,7 +38,7 @@
             <div class="col-md">
                 <label for="search_select_region" class="select-label">Budget</label>
                 <select id="search_select_budget" name="BudgetSelect" 
-                    :class="[selectBudget=='' ? 'select-placeholder' : '','form-select']" v-model.lazy="selectBudget">
+                    :class="[selectBudget=='' ? 'select-placeholder' : '','form-select']" v-model.lazy="selectBudget" role= "button">
                     <option value="" class="option-placeholder" disabled></option>
                     <option value="*">Any</option>
                     <option value="0-1000">Under $1000</option>
@@ -53,7 +53,7 @@
             <div class="col-md">
                 <label for="search_select_region" class="select-label">Opening Hours</label>
                 <select id="search_select_hours" name="HoursSelect" 
-                    :class="[selectOpeningHours=='' ? 'select-placeholder' : '','form-select']" v-model.lazy="selectOpeningHours">
+                    :class="[selectOpeningHours=='' ? 'select-placeholder' : '','form-select']" v-model.lazy="selectOpeningHours" role= "button">  
                     <option value="" class="option-placeholder" disabled></option>
                     <option value="*">Any</option>
                     <option value="day">Day</option>
@@ -65,7 +65,7 @@
             <div class="col-md">
                 <label for="search_select_region" class="select-label">Food Type</label>
                 <select id="search_select_food" name="FoodSelect" 
-                    :class="[selectFoodType=='' ? 'select-placeholder' : '','form-select']" v-model.lazy="selectFoodType">
+                    :class="[selectFoodType=='' ? 'select-placeholder' : '','form-select']" v-model.lazy="selectFoodType" role= "button">
                     <option value="" class="option-placeholder" disabled></option>
                     <option value="*">Any</option>
                     <option value="Snacks and Pastries">Snacks and Pastries</option>
@@ -81,7 +81,7 @@
             <div class="col-md">
                 <div class="form-check form-switch" id="search_availstall">
                     <span class="d-table-cell align-middle">
-                        <input class="form-check-input" type="checkbox" id="search_select_availstall" v-model.lazy="selectAvailStall">
+                        <input class="form-check-input" type="checkbox" id="search_select_availstall" v-model.lazy="selectAvailStall" role= "button">
                     </span>
                     <label class="form-check-label d-table-cell" for="flexSwitchCheckDefault">Only display available stores</label>
 
@@ -107,7 +107,7 @@
                         <HawkerLocationCard v-for="x in visibleLocations" :key="x.name" v-bind="x" 
                             :foodType="selectFoodType" 
                             :ref="'location_card_' + x.id"
-                            @click="listOnCardClick(x.latitude, x.longtitude)"></HawkerLocationCard>
+                            @click="listOnCardClick(x.latitude, x.longtitude)" role= "button"></HawkerLocationCard>
                     </div>
                 </div>
                 <!-- Page Navigation --> 
