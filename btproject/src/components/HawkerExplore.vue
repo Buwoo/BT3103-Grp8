@@ -1,7 +1,7 @@
 <template>
     <div class = "container-fluid h-100 w-100 px-3 d-flex flex-column flex-grow-1">
         <!-- Location Search Bar -->
-        <div class="row align-items-center text-center">
+        <div class="row align-items-center text-center mt-2">
             <!-- Region Selector -->
             <div class="col-md"> 
                 <label for="search_select_region" class="select-label">Region</label>
@@ -20,6 +20,7 @@
             <!-- Price Point Selector -->
             <div class="col-md">
                 <label for="search_select_region" class="select-label">Price</label>
+
                 <select id="search_select_price" name="PriceSelect" v-model.lazy="selectPrice"
                     :class="[selectPrice=='' ? 'select-placeholder' : '','form-select']" role= "button">
                     <option value="" class="option-placeholder" disabled></option>
@@ -39,25 +40,27 @@
                 <label for="search_select_region" class="select-label">Budget</label>
                 <select id="search_select_budget" name="BudgetSelect" 
                     :class="[selectBudget=='' ? 'select-placeholder' : '','form-select']" v-model.lazy="selectBudget" role= "button">
+
                     <option value="" class="option-placeholder" disabled></option>
                     <option value="*">Any</option>
-                    <option value="0-1000">Under $1000</option>
-                    <option value="1000-2000">1000-2000$</option>
-                    <option value="2000-3000">2000-3000$</option>
-                    <option value="3000-4000">3000-4000$</option>
-                    <option value="4000-">$4000 and above</option>
+                    <option value="1k_less">Under $1000</option>
+                    <option value="1k-2k">1000-2000$</option>
+                    <option value="2k_3k">2000-3000$</option>
+                    <option value="3k_4k">3000-4000$</option>
+                    <option value="4k_above">$4000 and above</option>
                 </select>
             </div>
 
             <!-- Opening Hours Selector -->
             <div class="col-md">
                 <label for="search_select_region" class="select-label">Opening Hours</label>
+
                 <select id="search_select_hours" name="HoursSelect" 
                     :class="[selectOpeningHours=='' ? 'select-placeholder' : '','form-select']" v-model.lazy="selectOpeningHours" role= "button">  
                     <option value="" class="option-placeholder" disabled></option>
                     <option value="*">Any</option>
-                    <option value="day">Day</option>
-                    <option value="night">Night</option>
+                    <option value="Day">Day</option>
+                    <option value="Night">Night</option>
                 </select>
             </div>
 
@@ -99,41 +102,45 @@
             
         </div>
 
-        <div class="row flex-grow-1 pb-3">
+        <div class="row flex-grow-1 pb-3 mt-2">
             <div class="col-md-4 d-flex flex-column">
                 <!-- List Container -->
-                <div class = "position-relative flex-grow-1 resizeWidth"> 
+                <div class = "position-relative flex-grow-1 resizeWidth">
                     <div id="locationList" class="position-absolute">
                         <HawkerLocationCard v-for="x in visibleLocations" :key="x.name" v-bind="x" 
-                            :foodType="selectFoodType" 
+                            :foodType="displaySimilarType" 
                             :ref="'location_card_' + x.id"
-                            @click="listOnCardClick(x.latitude, x.longtitude)" role= "button"></HawkerLocationCard>
+                            @click="listOnCardClick(x.latitude, x.longtitude, x.id)"></HawkerLocationCard>
+                    </div>
+                    <div id="noDataList" class="h-100 w-100" v-show="noDataFound"> 
+                        <p class ="h-100 d-flex align-items-center justify-content-center"> {{noDataMsg}} </p>
+
                     </div>
                 </div>
+
                 <!-- Page Navigation --> 
-                <ul class="pagination justify-content-center">
-                    <li class="page-item me-2">
-                        <button class="page-link" aria-label="Previous" @click="prevPage">
-                            <span aria-hidden="true">&laquo;  Prev</span>
-                        </button>
+                <ul id= "locationPageNav" class="pagination justify-content-center">
+                    <li class="page-item me-2" :class="prevBtnDisabled ? 'disabled' : '' ">
+                        <p class="page-link mb-0" aria-label="Previous" @click="prevPage">
+                            &laquo;  Prev
+                        </p>
                     </li>
-                    <li class="page-item ">
-                        <button class="page-link" aria-label="Next" @click="nextPage">
-                            <span aria-hidden="true">Next  &raquo;</span>
-                        </button>
-                    </li>
+                    <li class="page-item" :class="nextBtnDisabled ? 'disabled' : '' ">
+                        <p class="page-link mb-0" aria-label="Next" @click="nextPage">
+                            Next  &raquo;
+                        </p>
+                    </li>   
                 </ul>
             
             </div>
 
             <div class="col-md-8 mh-100 px-0"> 
-                <div id="display-geo" class="h-100 w-100 px-2 py-2">
+                <div id="display-geo" class="h-100 w-100 px-2 py-2 position-relative">
                     <!-- Map -->
-                    <div id="mapContainer" class="border h-100 w-100"> 
-                        <button id="tutorialButton" class="btn btn-warning pe-3 bi bi-question-circle" @click="startShepherd">
-                            FIRST TIME OR NEED HELP?
-                        </button>
-                    </div>
+                    <button id="tutorialButton" class="btn btn-warning pe-3 bi bi-question-circle" @click="startShepherd">
+                        FIRST TIME OR NEED HELP?
+                    </button>
+                    <div id="mapContainer" class="border h-100 w-100"> </div>
                 </div>
             </div>
 
@@ -241,45 +248,50 @@ export default {
         initPage: function() {
             this.snapshotStore = []; //flush snapshot store
             this.fetchData("init").then((snapshot) => {
-                if(snapshot.length == 0) { // no data found
-                    console.log("no more data liao bro");
+                this.currentSnapshot = 0;
+                this.prevBtnDisabled = true; // to speed up display
+                if(snapshot.docs.length == 0) { // no data found
+                    console.log("Init: No data");
+                    this.updateDisplay(null, "No Locations found. Please try again.", true, true);
                 } else {
-                    this.updateDisplay(snapshot);
                     this.snapshotStore.push(snapshot);
-                    this.currentSnapshot = 0;
+                    this.updateDisplay(snapshot, "", true, false);
                 }
             });
         }, 
         nextPage: function() {
+            console.log("clicked next");
             if (this.currentSnapshot == this.snapshotStore.length-1) {
                 this.fetchData('nextPage').then((snapshot) => {
-                    this.snapshotStore.push(snapshot);
                     this.currentSnapshot++;
-                    this.updateDisplay(snapshot);
+                    if(snapshot.docs.length == 0) { // no data found
+                        console.log("Next: No more data");
+                        this.snapshotStore.push(null);
+                        this.updateDisplay(null, "No more locations found", false, true);
+                    } else {
+                        this.snapshotStore.push(snapshot);
+                        this.updateDisplay(snapshot);
+                    }
                 })
             } else { // Retrieve from cache
                 this.currentSnapshot++;
-                this.updateDisplay(this.snapshotStore[this.currentSnapshot]);
+                this.updateDisplay(this.snapshotStore[this.currentSnapshot], "No more locations found");
             }
         },
         prevPage: function() {
-            if (this.currentSnapshot > 0){
-                this.currentSnapshot--;
-                this.updateDisplay(this.snapshotStore[this.currentSnapshot]);
-            } else {
-                // Do nothing 
+            console.log("clicked");
+            this.currentSnapshot--;
+            if (this.currentSnapshot == 0) {
+                this.updateDisplay(this.snapshotStore[this.currentSnapshot], "", true, false);
+            }else {
+                 this.updateDisplay(this.snapshotStore[this.currentSnapshot]);
             }
         },
         /* Updates display 
         This will update both the list and map
         */
-        updateDisplay: function(snapshot) {
-            // Save first and last visible document
-            this.firstVisible = snapshot.docs[0];
-            this.lastVisible = snapshot.docs[snapshot.docs.length-1];
-            //console.log("first", this.firstVisible);
-            //console.log("last", this.lastVisible);
-            
+        updateDisplay: function(snapshot, msg = "", prevDisable=false, nextDisable=false) {
+            // Clear existing display
             this.visibleLocations = [] // Clear current visible locations array
             if(this.currentLayer != null) {
                 this.mapView.removeLayer(this.currentLayer); // Clear current layer from map
@@ -288,6 +300,30 @@ export default {
             // Reset scroll to top
             document.getElementById("locationList").scrollTop = 0; //NOTE: may break as it uses actual DOM
 
+            // Set state of previous/next buttons
+            this.prevBtnDisabled = prevDisable;
+            this.nextBtnDisabled = nextDisable;
+
+            // If no data, show the no data prompt 
+            if (snapshot == null) {
+                this.noDataFound = true;
+                this.noDataMsg = msg;
+                this.nextBtnDisabled = true;
+                return
+            } 
+
+            if(snapshot.docs.length < pagesize) {
+               this.nextBtnDisabled = true;
+            } 
+
+            this.noDataFound = false;
+
+            // Save first and last visible document
+            this.firstVisible = snapshot.docs[0];
+            this.lastVisible = snapshot.docs[snapshot.docs.length-1];
+            //console.log("first", this.firstVisible);
+            //console.log("last", this.lastVisible);
+            
             let markers = []; // List of marker objects 
             
             snapshot.forEach((doc) => {
@@ -301,22 +337,41 @@ export default {
             this.currentLayer = fGroup;
             fGroup.addTo(this.mapView);
         },
-        noDataRemaning: function() {
-            //do something 
+        clearCurrentSelection: function() {
+            if (this.currentSelectedLocation != null) {
+                this.currentSelectedLocation.$el.classList.remove("bg-select-light");
+                this.currentSelectedLocation = null;
+            }
         },
-        listOnCardClick: function(lat, lng){
+        listOnCardClick: function(lat, lng, locationId){
+            this.clearCurrentSelection();
+
+            let target = "location_card_" + locationId;
+            const componentRef = Array.isArray(this.$refs[target]) ? this.$refs[target][0] : this.$refs[target];
+            console.log(componentRef);
+            if (componentRef) {
+                componentRef.$el.classList.add('bg-select-light');
+                this.currentSelectedLocation = componentRef;
+                console.log(this.currentSelectedLocation);
+            }
             console.log(lat, lng);
-            //this.mapView.flyTo([lat, lng], 17);
-            this.mapView.panTo([lat, lng]);
-            this.mapView.setZoom(17);
+            this.mapView.setView([lat, lng], 17);
         },
         mapOnMarkerClick: function(e) {
+            this.clearCurrentSelection(); 
+
             let targetMarker = e.sourceTarget;
             let locationId =  targetMarker.options.locationId;
             let target = "location_card_" + locationId;
             const componentRef = Array.isArray(this.$refs[target]) ? this.$refs[target][0] : this.$refs[target]
             if (componentRef) {
-                componentRef.$el.scrollIntoView("{behavior: 'smooth'}");
+                componentRef.$el.scrollIntoView({behavior: 'smooth', block: 'center', inline: 'nearest'});
+                componentRef.$el.classList.add('bg-select-light');
+                this.currentSelectedLocation = componentRef;
+
+                this.mapView.setView(targetMarker.getLatLng(), 17, {animate: true});
+            } else {
+                console.log("woops, something went wrong");
             }
         },
         searchLocations: function() {
@@ -324,8 +379,6 @@ export default {
             this.selectOpeningHours, this.selectFoodType, this.selectAvailStall);
 
             this.filterClauses = []; //flush existing filter clauses
-
-            //this.filterClauses.push(where("region", "in", ["North", "North-East"]));
 
             // Region
             let region = this.selectRegion; 
@@ -338,34 +391,17 @@ export default {
             //lowerBound <= avgFoodPrice <= upperBound
             //TODO: Can make this a little more optimized 
             let price = this.selectPrice;
-            if (price != "*" & price != ""){
-                let p = price.split("-");
-                let priceLowerBound = Number(p[0]);
-                let priceUpperBound = Number(p[1]);
-                if (priceLowerBound > 0) {
-                    this.filterClauses.push(where("avgFoodPrice", ">", priceLowerBound-1));
-                }
-                if (!isNaN(priceUpperBound)) {
-                    this.filterClauses.push(where("avgFoodPrice", "<", priceUpperBound+1));
-                }
+            if (price != "*" & price != "") {
+                console.log("foodPriceRange."+ price);
+                this.filterClauses.push(where("foodPriceRange."+ price, "==", true));
             }
             
             // Budget 
             // lowerBound <= avgMthlyCost <= upperBound
             // TODO: Can make this a little more optimized
             let budget = this.selectBudget;
-            console.log(this.selectBudget);
             if (budget != "*" & budget != ""){
-                let b = budget.split("-");
-                let budgetLowerBound = Number(b[0]);
-                let budgetUpperBound = Number(b[1]);
-                console.log(budgetLowerBound);
-                if (budgetLowerBound > 0) {
-                    this.filterClauses.push(where("avgMthlyCost", ">", budgetLowerBound-1));
-                }
-                if (!isNaN(budgetUpperBound)) {
-                    this.filterClauses.push(where("avgMthlyCost", "<", budgetUpperBound+1));
-                }
+                this.filterClauses.push(where("mthlyCostRange."+ budget, "==", true));
             }
 
             // Opening Hours
@@ -373,23 +409,23 @@ export default {
             // Day --> Can be all except "1700-2300"
             // Night --> Can be all except "0600-1800"
             let opHours = this.selectOpeningHours;
-            if (opHours != "*" & opHours != ""){
-                if(opHours == "day") {
-                    this.filterClauses.push(where("openingHrs", "!=", "1700-2300"));
-                } else if (opHours == "night") {
-                    this.filterClauses.push(where("openingHrs", "!=", "0600-1800"));
-                } 
+            if (opHours != "*" & opHours != "") {
+                this.filterClauses.push(where("openingHrsRange." + opHours, "==", true));
             } 
 
             // Available store
             let availStallsOnly = this.selectAvailStall;
             if (availStallsOnly) {
-                this.filterClauses.push(where("availableNrStalls", ">", 0));
+                this.filterClauses.push(where("availableStallsBool", "==", true));
             }
 
             console.log(this.filterClauses);
 
+            this.displaySimilarType = this.selectFoodType;
+
+
             this.initPage();
+
 
             /*  HawkerMetadata collection
                 address "2, Adam Road, Singapore 289876"
@@ -419,114 +455,82 @@ export default {
         const tour = new Shepherd.Tour({
             useModalOverlay: true,
             defaultStepOptions: {
-            classes: "bg-warning shepherd-text",
-            scrollTo: true,
+                classes: "bg-warning shepherd-text box-pos",
+                scrollTo: true,
+                modalOverlayOpeningPadding: 5,
+                modalOverlayOpeningRadius: 5,
+                popperOptions: {modifiers: [{ name: "offset", options: { offset: [0, 8] } }]},
+                arrow: true,
             },
         });
         tour.addStep({
             id: "region-step",
-            arrow: false,
             text: "Which region will you like to open your hawker stall at?",
             attachTo: {
-            element: "#search_select_region",
-            on: "bottom",
+                element: "#search_select_region",
+                on: "bottom",
             },
-            buttons: [
-            {
-                text: "Next",
-                action: tour.next,
-            },
-            ],
+            buttons: [{text: "Next", action: tour.next,},],
         });
         tour.addStep({
             id: "price-step",
-            arrow: false,
             text: "What price will you like to sell your food at?",
             attachTo: {
-            element: "#search_select_price",
-            on: "bottom",
+                element: "#search_select_price",
+                on: "bottom",
             },
-            buttons: [
-            {
-                text: "Next",
-                action: tour.next,
-            },
-            ],
+            buttons: [{text: "Next", action: tour.next,},],
+            classes: "box-pos-2"
         });
         tour.addStep({
             id: "budget-step",
-            arrow: false,
             text: "What is your monthly budget for rental and cleaning fees?",
             attachTo: {
-            element: "#search_select_budget",
-            on: "bottom",
+                element: "#search_select_budget",
+                on: "bottom",
             },
-            buttons: [
-            {
-                text: "Next",
-                action: tour.next,
-            },
-            ],
+            buttons: [{text: "Next", action: tour.next,},],
+            classes: "box-pos-2"
         });
         tour.addStep({
             id: "hours-step",
-            arrow: false,
             text: "What are your potential opening hours?",
             attachTo: {
-            element: "#search_select_hours",
-            on: "bottom",
+                element: "#search_select_hours",
+                on: "bottom",
             },
-            buttons: [
-            {
-                text: "Next",
-                action: tour.next,
-            },
-            ],
+            buttons: [{text: "Next", action: tour.next,},],
+            classes: "box-pos-2"
         });
         tour.addStep({
             id: "foodtype-step",
-            arrow: false,
             text: "What kind of food do you intend to sell?",
             attachTo: {
             element: "#search_select_food",
             on: "bottom",
             },
-            buttons: [
-            {
-                text: "Next",
-                action: tour.next,
-            },
-            ],
+            buttons: [{text: "Next", action: tour.next,},],
+            classes: "box-pos-2"
         });
         tour.addStep({
             id: "availability-step",
-            arrow: false,
             text: "Toggle to see hawker centres with available stalls for tender.",
             attachTo: {
             element: "#search_select_availstall",
             on: "bottom",
             },
-            buttons: [
-            {
-                text: "Next",
-                action: tour.next,
-            },
-            ],
+            buttons: [{text: "Next", action: tour.next,},],
+            classes: "box-pos-2"
         });
         tour.addStep({
             id: "search-step",
-            arrow: false,
             text: "Click the search button once all fields are selected!",
             attachTo: {
             element: "#search_button",
             on: "bottom",
             },
-            buttons: [
-            {
-                text: "Finish",
-                action: tour.complete,
-            },
-            ],
+            buttons: [{text: "Next", action: tour.next,},],
+            classes: "box-pos-2"
         });
         tour.start();
         },
@@ -544,6 +548,7 @@ export default {
             // Other Instance variables
             filterClauses: [], 
             visibleLocations: [],
+            displaySimilarType: "",
             snapshotStore: [], // Simple cache
             currentSnapshot: 0, // for use with snapshotStore
             firstVisible: null, // for pagination
@@ -551,7 +556,11 @@ export default {
             markers: [], 
             mapView: null,
             currentLayer: null, 
-                
+            currentSelectedLocation: null,
+            noDataFound: false,
+            noDataMsg: "",
+            prevBtnDisabled: false,
+            nextBtnDisabled: false
         }
     },
     created() {
@@ -559,7 +568,6 @@ export default {
     mounted() {
         this.setupLeafletMap();
         this.initPage();
-        
         //this.populateMap();
     },
 
@@ -575,6 +583,13 @@ export default {
     margin-bottom: 0.3rem;
 }
 
+.select {
+    cursor: pointer;
+}
+
+select.select option:hover {
+    cursor: pointer;
+}
 
 .select-placeholder {
     color: var(--bs-gray) !important;
@@ -610,14 +625,13 @@ select:focus {
     scrollbar-gutter: stable;
 
     /* Relative Positioning */
-    top: 0;
+    top: 0.5rem;
     bottom: 0.5rem;
     left: 0;
     right: 0;
 
     /* Scrollbar Styling */
     scrollbar-width: thin; /* --firefox only */
-
 }
 
 /* Scrollbar Styling - Chrome*/
@@ -633,13 +647,43 @@ select:focus {
   border: transparent;
 }
 
+#locationPageNav li {
+    border-bottom: none !important;
+}
+
+#locationPageNav li:hover {
+    background-color: white;
+    border-bottom: none;
+}
+
 /* Shepherd CSS */
 #tutorialButton {
   position: absolute;
-  top: 10%;
-  right: 2%;
+  top: 1rem;
+  right: 1rem;
   padding: 1%;
   z-index: 1500;
   border-radius: 16px;
+}
+
+.box-pos {
+    inset: 2rem auto auto 0px !important;
+}
+
+.box-pos-2 {
+    margin-top: 2rem !important;
+}
+
+</style>
+
+<style>
+.shepherd-arrow {
+    top: -4px !important;
+}
+
+.shepherd-arrow::before {
+    content: "" !important;
+    transform: rotate(45deg) !important;
+    background: #ffc107 !important;
 }
 </style>
