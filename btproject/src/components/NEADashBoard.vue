@@ -212,6 +212,20 @@ export default {
         await updateDoc(tenderRef, {
           status: "rejected",
         });
+
+        const hawkerRef = doc(db, "HawkerMetadata", a[0].data().name)
+        const hawker = await getDoc(hawkerRef)
+        let availableSlots = hawker.data().availableNrStalls
+        if (availableSlots == 0) {
+          await updateDoc(hawkerRef, {
+            availableNrStalls: 1,
+            availableStallsBool: true,
+          });
+        } else {
+          await updateDoc(hawkerRef, {
+            availableNrStalls: availableSlots + 1,
+          });          
+        }
       }
     },
 
@@ -224,6 +238,17 @@ export default {
         const tenderRef = doc(db, "TenderInfo", a[0].id);
         await updateDoc(tenderRef, {
           status: "accepted",
+        });
+        const hawkerRef = doc(db, "HawkerMetadata", a[0].data().name)
+        const hawker = await getDoc(hawkerRef)
+        let foodItem = a[0].data().foodItem
+        let foodItemNr = hawker.data().typeOfFoodStallsNr[foodItem]
+        let newTotalNrStalls = hawker.data().totalNrStalls + 1
+        let editUserField = "typeOfFoodStallsNr." + foodItem
+        await updateDoc(hawkerRef, {
+          [editUserField]: foodItemNr + 1,
+          totalNrStalls: newTotalNrStalls
+
         });
       }
     },
