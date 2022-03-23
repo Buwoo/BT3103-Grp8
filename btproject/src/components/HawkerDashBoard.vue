@@ -178,7 +178,7 @@
 import firebaseApp from "../firebase.js";
 import firebase from "@/uifire.js";
 import { getFirestore } from "firebase/firestore";
-import { collection, query, where, getDocs, deleteDoc, doc, getDoc, addDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, deleteDoc, doc, getDoc, addDoc, Timestamp } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import router from "../router/index.js";
 
@@ -206,7 +206,7 @@ export default {
     },
 
     checkStatus: function (a) {
-      return a.data().status.trim() == "Unsubmitted".trim();
+      return a.data().status.trim() == "unsubmitted".trim();
     },
 
     editForm: function (tenderId) {
@@ -218,8 +218,8 @@ export default {
     },
     createForm: async function () {
       const docRef = await addDoc(collection(db, "TenderInfo"), {
-        address: "",
-        date: "",
+        name: "",
+        date: Timestamp.fromDate(new Date()),
         foodItem: "",
         openingHours: {
           end: "",

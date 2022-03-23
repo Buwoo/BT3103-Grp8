@@ -102,7 +102,8 @@ export default {
         return [];
       }
       return this.hawkers.filter((hawker) => {
-        return Object.values(hawker).some((word) => String(word).toLowerCase().includes(query));
+        console.log(Object.values(hawker))
+        return Object.values(hawker).some((word) => String(word).toLowerCase().includes(query)) && Object.values(hawker)[1] != this.hawkerCentre;
       });
     },
     filteredFood() {
@@ -249,11 +250,11 @@ export default {
           document.getElementById("error").innerHTML = "Invalid Hawker Centre";
           document.getElementById("hawkerInput").style.borderColor = "red";
           alert("Invalid Hawker Centre");
-        } else if (String(parseInt(this.c)) != this.c || this.c.length != 4) {
+        } else if (!/^\d+$/.test(this.c) || this.c.length != 4) {
           document.getElementById("openInput").style.borderColor = "red";
           document.getElementById("error").innerHTML = "Invalid Opening Time";
           alert("Error: Invalid Opening Time");
-        } else if (String(parseInt(this.d)) != this.d || this.d.length != 4) {
+        } else if (!/^\d+$/.test(this.d) || this.d.length != 4) {
           document.getElementById("closeInput").style.borderColor = "red";
           document.getElementById("error").innerHTML = "Invalid Closing Hours";
           alert("Error: Invalid Closing Time");
@@ -267,6 +268,7 @@ export default {
             alert("Error: Invalid Opening Hours");
           } else if (hawkerOpen > parseInt(this.c) || hawkerClose < parseInt(this.d)) {
             alert("Error: Invalid Opening Hours");
+            document.getElementById("error").innerHTML = "Invalid Opening Hours"
             if (hawkerOpen > parseInt(this.c)) {
               document.getElementById("openInput").style.borderColor = "red";
             }
@@ -283,7 +285,7 @@ export default {
             if (confirm(text) == true) {
               document.getElementById("error").innerHTML = "";
               await setDoc(doc(db, "TenderInfo", this.tenderID), {
-                address: this.hawkerCentre,
+                name: this.hawkerCentre,
                 date: new Date(),
                 foodItem: this.b,
                 openingHours: {
@@ -294,10 +296,16 @@ export default {
                 userID: this.nric.slice(5),
               });
               let updateSlots = docRef.data().availableNrStalls - 1;
-              console.log(updateSlots);
-              await updateDoc(doc(db, "HawkerMetadata", this.hawkerCentre), {
-                availableNrStalls: updateSlots,
-              });
+              if (updateSlots <= 0) {
+                await updateDoc(doc(db, "HawkerMetadata", this.hawkerCentre), {
+                  availableNrStalls: updateSlots,
+                  availableStallsBool: false
+                });
+              } else {
+                await updateDoc(doc(db, "HawkerMetadata", this.hawkerCentre), {
+                  availableNrStalls: updateSlots,
+                })
+              }
 
               router.push({ name: "HawkerDashBoard" });
             }
@@ -308,12 +316,10 @@ export default {
 
     selectHawker(hawker) {
       this.hawkerCentre = hawker.NAME;
-      document.getElementById("selectHawkerDropdown").style.display = "none";
     },
 
     selectFood(food) {
       this.b = food.NAME;
-      document.getElementById("selectFoodDropdown").style.display = "none";
     },
   },
 
@@ -332,7 +338,7 @@ export default {
                 name: "HawkerDashBoard",
               });
             } else {
-              this.hawkerCentre = profile.address;
+              this.hawkerCentre = profile.name;
               this.b = profile.foodItem;
               this.c = profile.openingHours.start;
               this.d = profile.openingHours.end;
