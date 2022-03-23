@@ -23,7 +23,7 @@
       <label>Food Item</label>
       <div id="foodOptions">
         <ul>
-          <div id="selectFoodDropdown" style="background-color: white">
+          <div id="selectFoodDropdown">
             <span role="button">
               <li @click="selectFood(food)" v-for="(food, index) in filteredFood" :key="`food-${index}`">
                 {{ food.NAME }}
