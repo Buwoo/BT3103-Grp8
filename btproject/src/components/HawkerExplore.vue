@@ -110,7 +110,7 @@
                         <HawkerLocationCard v-for="x in visibleLocations" :key="x.name" v-bind="x" 
                             :foodType="displaySimilarType" 
                             :ref="'location_card_' + x.id"
-                            @click="listOnCardClick(x.latitude, x.longtitude, x.id)"></HawkerLocationCard>
+                            @click="listOnCardClick(x.latitude, x.longtitude, x.id)" role = "button"></HawkerLocationCard>
                     </div>
                     <div id="noDataList" class="h-100 w-100" v-show="noDataFound"> 
                         <p class ="h-100 d-flex align-items-center justify-content-center"> {{noDataMsg}} </p>
