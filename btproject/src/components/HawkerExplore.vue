@@ -121,12 +121,12 @@
                 <!-- Page Navigation --> 
                 <ul id= "locationPageNav" class="pagination justify-content-center">
                     <li class="page-item me-2" :class="prevBtnDisabled ? 'disabled' : '' ">
-                        <p class="page-link mb-0" aria-label="Previous" @click="prevPage">
+                        <p class="page-link mb-0" aria-label="Previous" @click="prevPage" role="button">
                             &laquo;  Prev
                         </p>
                     </li>
                     <li class="page-item" :class="nextBtnDisabled ? 'disabled' : '' ">
-                        <p class="page-link mb-0" aria-label="Next" @click="nextPage">
+                        <p class="page-link mb-0" aria-label="Next" @click="nextPage" role="button">
                             Next  &raquo;
                         </p>
                     </li>   
@@ -214,11 +214,14 @@ export default {
         setupLeafletMap: function () {
             // The first parameter are the coordinates of the center of the map
             // The second parameter is the zoom level
-            const mapDiv = L.map("mapContainer").setView([1.3521, 103.8198], 11);
+            // We also define some bounds to limit movement of map
+            let bounds = L.latLngBounds([1.220446, 103.599534], [1.485294, 104.013203]);
+            const mapDiv = L.map("mapContainer").setView([1.3521, 103.8198], 11).setMaxBounds(bounds);
             // Config Tile layer
             L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
             }).addTo(mapDiv);
+
             // to instance
             this.mapView = mapDiv;
         }, 
