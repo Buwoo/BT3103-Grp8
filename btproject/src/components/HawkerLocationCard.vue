@@ -1,6 +1,6 @@
 <template>
 
-<div class="row g-0 bg-white py-3 border-bottom border-2">
+<div class="row g-0 py-3 border-bottom border-2">
     <!-- Image -->
     <div class = "col-md-4 bg-secondary">
         <!-- Image here -->
@@ -12,9 +12,9 @@
             <h5 id="location_card_name" class="text-dark"> {{name}} </h5>
             <p id="location_card_region">Region: {{region}}</p>
             <p id="location_card_address"> Address: {{address}}</p>
-            <p id="location_card_hours"> Operating Hours: {{openingHrs}}</p>
+            <p id="location_card_hours"> Operating Hours: {{operatingHours}}</p>
             <p id="location_card_rental"> Monthly Rental: ${{avgMthlyCost}}</p>
-            <p id="location_card_price"> Price Range: ${{avgFoodPrice-2}} - ${{avgFoodPrice+2}}</p>
+            <p id="location_card_price"> Average Price: ${{avgFoodPrice}}</p>
             <p id="location_card_avail"> Available Stalls: {{availableNrStalls}}</p>
             <p id="location_card_same"> Stores Sellling Food Items: {{foodType == "" || foodType == "*" ? "-" : typeOfFoodStallsNr[foodType]}}</p>
         </div>
@@ -49,6 +49,12 @@ export default {
             imageurl: null,
             similarStalls: 0
         } 
+    },
+    computed: {
+        operatingHours() {
+        let x = this.openingHrs.split("-");
+        return x[0] + " - " + x[1];
+        }
     }
 
 }
@@ -81,6 +87,10 @@ img {
     height: 100%;
     object-fit: cover;
     object-position: 15% 100%;
+}
+
+.bg-select-light {
+    background-color: #ADD8E6;
 }
 
 </style>
