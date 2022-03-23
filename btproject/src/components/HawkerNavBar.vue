@@ -15,25 +15,25 @@
           <ul class="navbar-nav">
             <li class="nav-item dropdown">
               <button
-                @click="remindSaveProfile()"
                 class="btn btn-primary"
                 href="#"
                 id="navbarDarkDropdownMenuLink"
                 type="button"
                 data-bs-toggle="dropdown"
+                @click="remindSaveProfile()"
               >
                 <i class="bi bi-person-circle" style="color: #fff"></i>
               </button>
-              <ul class="dropdown-menu dropdown-menu-end">
+              <ul id="profileDropdown" class="dropdown-menu dropdown-menu-end">
                 <li>
-                  <a class="dropdown-item" href="/hawker/profile">
+                  <a :class="this.profileClass" href="/hawker/profile">
                     <i class="bi bi-person-fill"></i>
                     Profile
                   </a>
                 </li>
                 <li>
                   <span role="button">
-                    <a class="dropdown-item" @click="signOutFunction">
+                    <a :class="this.profileClass" @click="signOutFunction">
                       <i class="bi bi-power"></i>
                       Logout
                     </a>
@@ -50,7 +50,7 @@
     <nav id="sidebar" v-bind:class="toggle ? 'hide' : 'show'">
       <ul class="list-unstyled components">
         <li>
-          <a href="/hawker/dashboard/hawkerDashBoard">
+          <a href="/hawker/dashboard">
             <i class="bi bi-file-earmark-text-fill"></i>
             Dashboard
           </a>
@@ -64,11 +64,7 @@
       </ul>
     </nav>
 
-    <div
-      class="overlay"
-      v-bind:class="toggle ? '' : 'active'"
-      @click="toggle = !toggle"
-    ></div>
+    <div class="overlay" v-bind:class="toggle ? '' : 'active'" @click="toggle = !toggle"></div>
   </div>
 </template>
 
@@ -82,6 +78,7 @@ export default {
     return {
       toggle: true,
       checker: "TenderFormView",
+      profileClass: "dropdown-item",
     };
   },
   props: {
@@ -98,24 +95,19 @@ export default {
         });
     },
     remindSave() {
-      if (
-        this.$store.getters.getFormStatus ||
-        this.$route.name != this.checker
-      ) {
+      if (this.$store.getters.getFormStatus || this.$route.name != this.checker) {
         this.toggle = !this.toggle;
       } else {
         alert("Please save your Tender Application");
       }
     },
     remindSaveProfile() {
-      if (
-        this.$store.getters.getFormStatus ||
-        this.$route.name != this.checker
-      ) {
-        document.getElementById("navbarDarkDropdownMenuLink").href = "#";
+      if (this.$store.getters.getFormStatus || this.$route.name != this.checker) {
+        this.profileClass = "dropdown-item";
       } else {
-        document.getElementById("navbarDarkDropdownMenuLink").href = "";
         alert("Please save your Tender Application");
+        // this.profileClass = "dropdown-item disabled";
+        document.getElementById("profileDropdown").style.display = "none";
       }
     },
   },

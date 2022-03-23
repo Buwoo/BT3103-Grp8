@@ -1,59 +1,67 @@
 <template>
-  <div v-if="user">
-    <NEANavBar />
-    <h3>This is the NEA Dashboard</h3>
-    <h2>Your username is {{ user.email.split("@")[0] }}</h2>
-    <h3>
-      CPP Description: Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-      Enim et autem optio. Fugit architecto quis magnam dicta nobis libero
-      nesciunt rerum minus! Veritatis dolorum vero maiores aliquid. Sint,
-      delectus consequatur.
-    </h3>
-    <div v-if="neaagent">I am NEA Agent</div>
-  </div>
+	<NEANavBar :name="name"/>
+	<NEADashBoard />
 </template>
 
 <script>
-import firebase from "@/uifire.js";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import router from "../router/index.js";
-import NEANavBar from "@/components/NEANavBar.vue";
+	import NEADashBoard from "@/components/NEADashBoard.vue";
+	import NEANavBar from "@/components/NEANavBar.vue";
+	import firebaseApp from "../firebase.js";
+	import { getFirestore, getDoc, doc } from "firebase/firestore";
+	import { getAuth, onAuthStateChanged } from "firebase/auth";
+	import firebase from "@/uifire.js";
+	import router from "../router/index.js";
 
-export default {
-  name: "NEADashboardView",
-  data() {
-    return {
-      user: false,
-      neaagent: false,
-    };
+	const db = getFirestore(firebaseApp);
+
+	export default {
+		name: "NEADashBoardView",
+
+		components: {
+			NEANavBar,
+			NEADashBoard,
+		},
+
+		methods: {
+    fetchData(ic) {
+      let response = getDoc(doc(db, "Authentication", ic));
+      response
+        .then((rsp) => {
+          let profile = rsp.data();
+          this.name = profile.fullName;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
 
-  components: {
-    NEANavBar,
-  },
-
-  mounted() {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        //Testing here to check custom claims
-        firebase
-          .auth()
-          .currentUser.getIdTokenResult()
-          .then((tokenResult) => {
-            console.log(tokenResult.claims);
-            if (tokenResult.claims.NEAAgent) {
-              this.neaagent = true;
-            } else {
-              //To build an error 404 page
-              router.push("/404");
-            }
-          });
+    mounted() {
+        const auth = getAuth();
+        onAuthStateChanged(auth, (user) => {
+        if (user) {
+            firebase
+                .auth()
+                .currentUser.getIdTokenResult()
+                .then((tokenResult) => {
+                    console.log(tokenResult.claims);
+                    if (!tokenResult.claims.NEAAgent) {
+                    router.push("/404");
+                }
+            });
         this.user = user;
+        console.log(this.user);
+        this.ic = this.user.email.slice(0, 4).toUpperCase();
+        console.log(this.ic);
+        this.fetchData(this.ic);
       }
     });
   },
-};
-</script>
 
-<style></style>
+  data() {
+    return {
+      name: this.name,
+    };
+  },
+	};
+</script>

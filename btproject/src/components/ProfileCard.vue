@@ -2,12 +2,8 @@
   <div class="card">
     <div class="card-body">
       <div class="row g-0">
-        <div class=" col-xs-6 col-md-2 justify-content-center">
-          <img
-            :src="imageurl"
-            class="img-fluid rounded-start"
-            alt="profile picture"
-          />
+        <div class="col-xs-6 col-md-2 justify-content-center">
+          <img :src="imageurl" class="img-fluid rounded-start" alt="profile picture" />
         </div>
 
         <div class="box col-xs-6 col-md-10 justify-content-start">
@@ -59,7 +55,7 @@ export default {
 
   methods: {
     solveImage() {
-      return require(`@/assets/${this.ic}.jpg`);
+      return require(`@/assets/User_Photos/${this.ic}.jpg`);
     },
     solveAddressDisplay() {
       return this.address != undefined;
@@ -74,9 +70,13 @@ export default {
 </script>
 
 <style scoped>
-p,
 h3 {
   font-family: "Roboto", sans-serif;
+}
+
+p {
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
 }
 
 .card {
@@ -84,6 +84,7 @@ h3 {
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4);
   margin: 40px;
   margin-top: 10px;
+  max-width: 100%;
 }
 
 .container {

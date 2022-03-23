@@ -5,8 +5,8 @@
             <!-- Region Selector -->
             <div class="col-md"> 
                 <label for="search_select_region" class="select-label">Region</label>
-                <select id="search_select_region" name="RegionSelect" v-model.lazy="selectRegion" class="select"
-                    :class="[selectRegion=='' ? 'select-placeholder' : '','form-select']" >
+                <select id="search_select_region" name="RegionSelect" v-model.lazy="selectRegion"
+                    :class="[selectRegion=='' ? 'select-placeholder' : '','form-select']" role= "button">
                     <option value="" class="option-placeholder" disabled></option>
                     <option value="*">Any</option>
                     <option value="North">North</option>
@@ -20,8 +20,9 @@
             <!-- Price Point Selector -->
             <div class="col-md">
                 <label for="search_select_region" class="select-label">Price</label>
-                <select id="search_select_price" name="PriceSelect" v-model.lazy="selectPrice" class="select"
-                    :class="[selectPrice=='' ? 'select-placeholder' : '','form-select']" >
+
+                <select id="search_select_price" name="PriceSelect" v-model.lazy="selectPrice"
+                    :class="[selectPrice=='' ? 'select-placeholder' : '','form-select']" role= "button">
                     <option value="" class="option-placeholder" disabled></option>
                     <option value="*">Any</option>
                     <option value="0-2">Under 2$</option>
@@ -37,8 +38,9 @@
             <!-- Budget Selector -->
             <div class="col-md">
                 <label for="search_select_region" class="select-label">Budget</label>
-                <select id="search_select_budget" name="BudgetSelect" class="select"
-                    :class="[selectBudget=='' ? 'select-placeholder' : '','form-select']" v-model.lazy="selectBudget">
+                <select id="search_select_budget" name="BudgetSelect" 
+                    :class="[selectBudget=='' ? 'select-placeholder' : '','form-select']" v-model.lazy="selectBudget" role= "button">
+
                     <option value="" class="option-placeholder" disabled></option>
                     <option value="*">Any</option>
                     <option value="1k_less">Under $1000</option>
@@ -52,8 +54,9 @@
             <!-- Opening Hours Selector -->
             <div class="col-md">
                 <label for="search_select_region" class="select-label">Opening Hours</label>
-                <select id="search_select_hours" name="HoursSelect" class="select"
-                    :class="[selectOpeningHours=='' ? 'select-placeholder' : '','form-select']" v-model.lazy="selectOpeningHours">
+
+                <select id="search_select_hours" name="HoursSelect" 
+                    :class="[selectOpeningHours=='' ? 'select-placeholder' : '','form-select']" v-model.lazy="selectOpeningHours" role= "button">  
                     <option value="" class="option-placeholder" disabled></option>
                     <option value="*">Any</option>
                     <option value="Day">Day</option>
@@ -64,8 +67,8 @@
             <!-- Food Type Selector -->
             <div class="col-md">
                 <label for="search_select_region" class="select-label">Food Type</label>
-                <select id="search_select_food" name="FoodSelect" class="select"
-                    :class="[selectFoodType=='' ? 'select-placeholder' : '','form-select']" v-model.lazy="selectFoodType">
+                <select id="search_select_food" name="FoodSelect" 
+                    :class="[selectFoodType=='' ? 'select-placeholder' : '','form-select']" v-model.lazy="selectFoodType" role= "button">
                     <option value="" class="option-placeholder" disabled></option>
                     <option value="*">Any</option>
                     <option value="Snacks and Pastries">Snacks and Pastries</option>
@@ -81,7 +84,7 @@
             <div class="col-md">
                 <div class="form-check form-switch" id="search_availstall">
                     <span class="d-table-cell align-middle">
-                        <input class="form-check-input" type="checkbox" id="search_select_availstall" v-model.lazy="selectAvailStall">
+                        <input class="form-check-input" type="checkbox" id="search_select_availstall" v-model.lazy="selectAvailStall" role= "button">
                     </span>
                     <label class="form-check-label d-table-cell" for="flexSwitchCheckDefault">Only display available stores</label>
 
@@ -111,6 +114,7 @@
                     </div>
                     <div id="noDataList" class="h-100 w-100" v-show="noDataFound"> 
                         <p class ="h-100 d-flex align-items-center justify-content-center"> {{noDataMsg}} </p>
+
                     </div>
                 </div>
 
