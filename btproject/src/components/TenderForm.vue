@@ -1,11 +1,23 @@
 <template>
-  <h1>Application for Tenancy of Hawker Stall</h1>
+  <div class="webpage">
+    <div class="container-fluid">
+      <div class="row mx-auto" id="headings">
+        <div class="d-flex">
+          <div class="col-md-9">
+            <h3 class="mt-4" id="dashboardHeading"><b> Application for Tenancy of Hawker Stall </b></h3>
+          </div>
+        </div>
+      </div>
+
+
+
+
   <div>
     <div class="Tender_Details"></div>
-    <h2 id="tender_header">Tender Details</h2>
+    <h3 class="mt-4" id="tender_header">Tender Details</h3>
     <form id="HawkerAddr">
       <input id="hawkerInput" v-model="hawkerCentre" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
-      <label>Hawker Centre</label>
+      <label><strong>Hawker Centre</strong></label>
       <div id="options">
         <ul>
           <div id="selectHawkerDropdown">
@@ -20,7 +32,7 @@
     </form>
     <form id="Food">
       <input id="foodInput" v-model="b" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
-      <label>Food Item</label>
+      <label><strong>Food Item</strong></label>
       <div id="foodOptions">
         <ul>
           <div id="selectFoodDropdown">
@@ -35,28 +47,31 @@
     </form>
     <form id="Open">
       <input id="openInput" v-model="c" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
-      <label>Opening Time</label>
+      <label><strong>Opening Time</strong></label>
     </form>
     <form id="Close">
       <input id="closeInput" v-model="d" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
-      <label>Closing Time</label>
+      <label><strong>Closing Time</strong></label>
     </form>
     <div id="error"></div>
   </div>
   <div>
     <div class="Personal_Details"></div>
-    <h2 id="personal_header">Personal Details</h2>
+    <h3 id="personal_header">Personal Details</h3>
     <div id="name" v-text="userName"></div>
     <div id="nric" v-text="nric"></div>
     <div id="contact" v-text="contactNum"></div>
     <div id="email" v-text="email"></div>
     <div id="persAddress" v-text="address"></div>
-    <div id="nameLabel">Name</div>
-    <div id="nricLabel">NRIC</div>
-    <div id="contactLabel">Contact Number</div>
-    <div id="emailLabel">Email</div>
-    <div id="persAddressLabel">Address</div>
+    <div id="nameLabel"><strong>Name</strong></div>
+    <div id="nricLabel"><strong>NRIC</strong></div>
+    <div id="contactLabel"><strong>Contact Number</strong></div>
+    <div id="emailLabel"><strong>Email</strong></div>
+    <div id="persAddressLabel"><strong>Address</strong></div>
   </div>
+
+</div>
+</div>
 
   <button id="save" class="btn btn-primary" v-on:click="saveTender()" :disabled="disableSave > 0">Save</button>
   <button id="submit" class="btn btn-success" v-on:click="submitTender()">Submit</button>
@@ -102,7 +117,6 @@ export default {
         return [];
       }
       return this.hawkers.filter((hawker) => {
-        console.log(Object.values(hawker))
         return Object.values(hawker).some((word) => String(word).toLowerCase().includes(query)) && Object.values(hawker)[1] != this.hawkerCentre;
       });
     },
@@ -112,7 +126,7 @@ export default {
         return [];
       }
       return this.foodGrp.filter((food) => {
-        return Object.values(food).some((word) => String(word).toLowerCase().includes(query));
+        return Object.values(food).some((word) => String(word).toLowerCase().includes(query)) && Object.values(food)[1] != this.b;
       });
     },
   },
@@ -246,10 +260,16 @@ export default {
         }
       } else {
         let docRef = await getDoc(doc(db, "HawkerMetadata", this.hawkerCentre));
+        let foodItem = []
+        this.foodGrp.forEach((element) => foodItem.push(Object.values(element)[1]))
         if (!docRef.exists()) {
           document.getElementById("error").innerHTML = "Invalid Hawker Centre";
           document.getElementById("hawkerInput").style.borderColor = "red";
           alert("Invalid Hawker Centre");
+        } else if (!foodItem.includes(this.b)) {
+          document.getElementById("foodInput").style.borderColor = "red";
+          document.getElementById("error").innerHTML = "Invalid Food Item";
+          alert("Error: Invalid Food Item");
         } else if (!/^\d+$/.test(this.c) || this.c.length != 4) {
           document.getElementById("openInput").style.borderColor = "red";
           document.getElementById("error").innerHTML = "Invalid Opening Time";
@@ -286,7 +306,7 @@ export default {
               document.getElementById("error").innerHTML = "";
               await setDoc(doc(db, "TenderInfo", this.tenderID), {
                 name: this.hawkerCentre,
-                date: new Date(),
+                date: Timestamp.fromDate(new Date()),
                 foodItem: this.b,
                 openingHours: {
                   end: this.d,
@@ -381,19 +401,18 @@ export default {
 };
 </script>
 <style scoped>
-h1 {
+h3 {
   position: absolute;
   text-align: left;
-  left: 3.5vw;
-  top: 10vh;
-  font-size: 5vh;
+  left: 10vw;
+  top: 7.5vh;
 }
 .Tender_Details {
   position: absolute;
-  width: 90vw;
+  width: 78vw;
   height: 24vh;
   top: 19vh;
-  left: 5vw;
+  left: 12vw;
   border: 1px solid black;
 }
 
@@ -403,15 +422,14 @@ h1 {
   padding-top: 2vh;
   padding-left: 2vw;
   height: 7vh;
-  width: 89.9vw;
-  font-size: 4vh;
+  width: 77.9vw;
 }
 
 #tender_header {
   position: absolute;
   background-color: #1976d2;
-  top: 19.2vh;
-  left: 5.05vw;
+  top: 16.5vh;
+  left: 12.05vw;
   color: white;
 }
 
@@ -423,19 +441,20 @@ h1 {
   display: inline-block;
   top: 30vh;
   height: 7vh;
-  font-size: 3vh;
+  font-size: 2.5vh;
+  padding-left: 1vw;
 }
 
 #HawkerAddr > input {
-  left: 7vw;
-  width: 25vw;
+  left: 14vw;
+  width: 27vw;
 }
 
 #options {
   position: absolute;
   text-align: left;
   top: 38vh;
-  left: 5.5vw;
+  left: 12.5vw;
   /* background-color: white; */
   z-index: 300;
 }
@@ -446,9 +465,9 @@ li:hover {
 }
 
 #options > ul {
-  width: 26.5vw;
+  width: 28.5vw;
   list-style: none;
-  max-height: 100px;
+  max-height: 5vw;
   overflow: scroll;
   overflow-x: hidden;
 }
@@ -458,35 +477,35 @@ li {
 }
 
 #Food > input {
-  left: 34vw;
-  width: 25vw;
+  left: 43vw;
+  width: 17vw;
 }
 
 #foodOptions {
   position: absolute;
   text-align: left;
   top: 38vh;
-  left: 32.5vw;
+  left: 41.5vw;
   /* background-color: white; */
   z-index: 300;
 }
 
 #foodOptions > ul {
-  width: 26.5vw;
+  width: 18.5vw;
   list-style: none;
-  max-height: 100px;
+  max-height: 5vw;
   overflow: scroll;
   overflow-x: hidden;
 }
 
 #Open > input {
-  left: 61vw;
-  width: 15vw;
+  left: 62vw;
+  width: 12vw;
 }
 
 #Close > input {
-  left: 78vw;
-  width: 15vw;
+  left: 76vw;
+  width: 12vw;
 }
 
 #HawkerAddr > label,
@@ -494,21 +513,20 @@ li {
 #Open > label,
 #Close > label {
   position: absolute;
-  top: 27.8vh;
-  background-color: white;
-  font-size: 1.5vw;
+  top: 27.6vh;
+
 }
 #HawkerAddr > label {
-  left: 8vw;
+  left: 15vw;
 }
 #Food > label {
-  left: 35vw;
+  left: 44vw;
 }
 #Open > label {
-  left: 62vw;
+  left: 63vw;
 }
 #Close > label {
-  left: 79vw;
+  left: 77vw;
 }
 
 #error {
@@ -523,18 +541,18 @@ li {
 
 .Personal_Details {
   position: absolute;
-  width: 90vw;
+  width: 78vw;
   height: 33vh;
   top: 48vh;
-  left: 5vw;
+  left: 12vw;
   border: 1px solid black;
 }
 
 #personal_header {
   position: absolute;
   background-color: #1976d2;
-  top: 48.2vh;
-  left: 5.05vw;
+  top: 48vh;
+  left: 12.05vw;
   color: white;
 }
 #name,
@@ -543,44 +561,43 @@ li {
   position: absolute;
   top: 60vh;
   height: 7vh;
-  font-size: 3vh;
+  font-size: 2.5vh;
   text-align: left;
   border: 1px solid black;
-  padding-top: 1vw;
+  padding-top: 1.5vh;
+  padding-left: 1vw;
 }
 #name {
-  left: 7vw;
-  width: 44vw;
+  left: 14vw;
+  width: 34vw;
 }
 
 #nric {
-  left: 53vw;
-  width: 20vw;
+  left: 50vw;
+  width: 19vw;
 }
 #contact {
-  left: 75vw;
-  width: 18.5vw;
+  left: 71vw;
+  width: 17vw;
 }
 
 #nameLabel,
 #nricLabel,
 #contactLabel {
   position: absolute;
-  top: 57.9vh;
-  background-color: white;
-  font-size: 1.5vw;
+  top: 57.7vh;
 }
 
 #nameLabel {
-  left: 8vw;
+  left: 15vw;
 }
 
 #nricLabel {
-  left: 54vw;
+  left: 51vw;
 }
 
 #contactLabel {
-  left: 76vw;
+  left: 72vw;
 }
 
 #email,
@@ -588,33 +605,34 @@ li {
   position: absolute;
   top: 71vh;
   height: 7vh;
-  font-size: 3vh;
+  font-size: 2.5vh;
   text-align: left;
   border: 1px solid black;
   padding-top: 1.5vh;
+  padding-left: 1vw;
 }
 
 #email {
-  left: 7vw;
-  width: 42vw;
+  left: 14vw;
+  width: 30vw;
 }
 #persAddress {
-  left: 51vw;
-  width: 42.5vw;
+  left: 46vw;
+  width: 42vw;
 }
 
 #emailLabel,
 #persAddressLabel {
   position: absolute;
-  top: 68.8vh;
-  background-color: white;
-  font-size: 1.5vw;
+  top: 68.6vh;
+
+
 }
 #emailLabel {
-  left: 8vw;
+  left: 15vw;
 }
 #persAddressLabel {
-  left: 52vw;
+  left: 47vw;
 }
 
 #save,
@@ -627,15 +645,15 @@ li {
 }
 
 #delete {
-  left: 73vw;
+  left: 68vw;
 }
 
 #save {
-  left: 81vw;
+  left: 76vw;
 }
 
 #submit {
-  left: 89vw;
+  left: 84vw;
 }
 
 #selectHawkerDropdown,
