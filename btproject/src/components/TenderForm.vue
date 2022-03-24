@@ -8,72 +8,70 @@
           </div>
         </div>
       </div>
-
-
-
-
-  <div>
-    <div class="Tender_Details"></div>
-    <h3 class="mt-4" id="tender_header">Tender Details</h3>
-    <form id="HawkerAddr">
-      <input id="hawkerInput" v-model="hawkerCentre" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
-      <label><strong>Hawker Centre</strong></label>
-      <div id="options">
-        <ul>
-          <div id="selectHawkerDropdown">
-            <span role="button">
-              <li @click="selectHawker(hawker)" v-for="(hawker, index) in filteredUser" :key="`hawker-${index}`">
-                {{ hawker.NAME }}
-              </li>
-            </span>
+      <div>
+        <!-- Tender Details Section -->
+        <div class="Tender_Details"></div>
+        <h3 class="mt-4" id="tender_header">Tender Details</h3>
+        <form id="HawkerAddr">
+          <input id="hawkerInput" v-model="hawkerCentre" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
+          <label><strong>Hawker Centre</strong></label>
+          <div id="options">
+            <ul>
+              <div id="selectHawkerDropdown">
+                <span role="button">
+                  <li @click="selectHawker(hawker)" v-for="(hawker, index) in filteredUser" :key="`hawker-${index}`">
+                    {{ hawker.NAME }}
+                  </li>
+                </span>
+              </div>
+            </ul>
           </div>
-        </ul>
-      </div>
-    </form>
-    <form id="Food">
-      <input id="foodInput" v-model="b" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
-      <label><strong>Food Item</strong></label>
-      <div id="foodOptions">
-        <ul>
-          <div id="selectFoodDropdown">
-            <span role="button">
-              <li @click="selectFood(food)" v-for="(food, index) in filteredFood" :key="`food-${index}`">
-                {{ food.NAME }}
-              </li>
-            </span>
+        </form>
+        <form id="Food">
+          <input id="foodInput" v-model="b" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
+          <label><strong>Food Item</strong></label>
+          <div id="foodOptions">
+            <ul>
+              <div id="selectFoodDropdown">
+                <span role="button">
+                  <li @click="selectFood(food)" v-for="(food, index) in filteredFood" :key="`food-${index}`">
+                    {{ food.NAME }}
+                  </li>
+                </span>
+              </div>
+            </ul>
           </div>
-        </ul>
+        </form>
+        <form id="Open">
+          <input id="openInput" v-model="c" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
+          <label><strong>Opening Time</strong></label>
+        </form>
+        <form id="Close">
+          <input id="closeInput" v-model="d" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
+          <label><strong>Closing Time</strong></label>
+        </form>
+        <div id="error"></div>
       </div>
-    </form>
-    <form id="Open">
-      <input id="openInput" v-model="c" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
-      <label><strong>Opening Time</strong></label>
-    </form>
-    <form id="Close">
-      <input id="closeInput" v-model="d" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
-      <label><strong>Closing Time</strong></label>
-    </form>
-    <div id="error"></div>
-  </div>
-  <div>
-    <div class="Personal_Details"></div>
-    <h3 id="personal_header">Personal Details</h3>
-    <div id="name" v-text="userName"></div>
-    <div id="nric" v-text="nric"></div>
-    <div id="contact" v-text="contactNum"></div>
-    <div id="email" v-text="email"></div>
-    <div id="persAddress" v-text="address"></div>
-    <div id="nameLabel"><strong>Name</strong></div>
-    <div id="nricLabel"><strong>NRIC</strong></div>
-    <div id="contactLabel"><strong>Contact Number</strong></div>
-    <div id="emailLabel"><strong>Email</strong></div>
-    <div id="persAddressLabel"><strong>Address</strong></div>
+
+      <!-- Personal Details Section -->
+      <div>
+        <div class="Personal_Details"></div>
+        <h3 id="personal_header">Personal Details</h3>
+        <div id="name" v-text="userName"></div>
+        <div id="nric" v-text="nric"></div>
+        <div id="contact" v-text="contactNum"></div>
+        <div id="email" v-text="email"></div>
+        <div id="persAddress" v-text="address"></div>
+        <div id="nameLabel"><strong>Name</strong></div>
+        <div id="nricLabel"><strong>NRIC</strong></div>
+        <div id="contactLabel"><strong>Contact Number</strong></div>
+        <div id="emailLabel"><strong>Email</strong></div>
+        <div id="persAddressLabel"><strong>Address</strong></div>
+      </div>
+    </div>
   </div>
 
-</div>
-</div>
-
-  <button id="save" class="btn btn-primary" v-on:click="saveTender()" :disabled="disableSave > 0">Save</button>
+  <button id="save" class="btn btn-primary" v-on:click="saveTender()">Save</button>
   <button id="submit" class="btn btn-success" v-on:click="submitTender()">Submit</button>
   <button id="delete" class="btn btn-danger" v-on:click="deleteTender()">Delete</button>
 </template>
@@ -106,7 +104,6 @@ export default {
       address: "",
       hawkers: json,
       foodGrp: foodJson,
-      disableSave: 0,
     };
   },
 
@@ -143,7 +140,6 @@ export default {
       this.returnNormalBorder();
       await setDoc(doc(db, "TenderInfo", this.tenderID), {
         name: this.hawkerCentre,
-        // date: new Date(),
         date: Timestamp.fromDate(new Date()),
         foodItem: this.b,
         openingHours: {
@@ -155,85 +151,6 @@ export default {
       });
 
       this.$store.commit("setFormSaved");
-      this.disableSave += 1;
-      // if (
-      //   this.hawkerCentre == "" ||
-      //   this.b == "" ||
-      //   this.c == "" ||
-      //   this.d == ""
-      // ) {
-      //   document.getElementById("error").innerHTML = "Fill up all fields";
-      //   alert("Error: Fill up all fields");
-      //   if (this.hawkerCentre == "") {
-      //     document.getElementById("hawkerInput").style.borderColor = "red";
-      //   }
-      //   if (this.b == "") {
-      //     document.getElementById("foodInput").style.borderColor = "red";
-      //   }
-      //   if (this.c == "") {
-      //     document.getElementById("openInput").style.borderColor = "red";
-      //   }
-      //   if (this.d == "") {
-      //     document.getElementById("closeInput").style.borderColor = "red";
-      //   }
-      // } else {
-      //   let docRef = await getDoc(doc(db, "HawkerMetadata", this.hawkerCentre));
-      //   if (!docRef.exists()) {
-      //     document.getElementById("error").innerHTML = "Invalid Hawker Centre";
-      //     document.getElementById("hawkerInput").style.borderColor = "red";
-      //     alert("Invalid Hawker Centre");
-      //   } else if (String(parseInt(this.c)) != this.c || this.c.length != 4) {
-      //     document.getElementById("openInput").style.borderColor = "red";
-      //     document.getElementById("error").innerHTML = "Invalid Opening Time";
-      //     alert("Error: Invalid Opening Time");
-      //   } else if (String(parseInt(this.d)) != this.d || this.d.length != 4) {
-      //     document.getElementById("closeInput").style.borderColor = "red";
-      //     document.getElementById("error").innerHTML = "Invalid Closing Hours";
-      //     alert("Error: Invalid Closing Time");
-      //   } else {
-      //     let hawkerOpen = parseInt(docRef.data().openingHrs.slice(0, 4));
-      //     let hawkerClose = parseInt(docRef.data().openingHrs.slice(5));
-      //     if (parseInt(this.c) >= parseInt(this.d)) {
-      //       document.getElementById("error").innerHTML =
-      //         "Invalid Opening Hours";
-      //       document.getElementById("openInput").style.borderColor = "red";
-      //       document.getElementById("closeInput").style.borderColor = "red";
-      //       alert("Error: Invalid Opening Hours");
-      //     } else if (
-      //       hawkerOpen > parseInt(this.c) ||
-      //       hawkerClose < parseInt(this.d)
-      //     ) {
-      //       alert("Error: Invalid Opening Hours");
-      //       if (hawkerOpen > parseInt(this.c)) {
-      //         document.getElementById("openInput").style.borderColor = "red";
-      //       }
-
-      //       if (hawkerClose < parseInt(this.d)) {
-      //         document.getElementById("closeInput").style.borderColor = "red";
-      //       }
-      //     } else if (docRef.data().availableNrStalls <= 0) {
-      //       document.getElementById("error").innerHTML =
-      //         "No Available Stalls for Tender";
-      //       document.getElementById("hawkerInput").style.borderColor = "red";
-      //       alert("Error: No Available Stalls for Tender");
-      //     } else {
-      //       document.getElementById("error").innerHTML = "";
-      //       await setDoc(doc(db, "TenderInfo", this.tenderID), {
-      //         address: this.hawkerCentre,
-      //         date: new Date(),
-      //         foodItem: this.b,
-      //         openingHours: {
-      //           end: this.d,
-      //           start: this.c,
-      //         },
-      //         status: "unsubmitted",
-      //         userID: this.nric.slice(5),
-      //       });
-
-      //       this.$store.commit("setFormSaved");
-      //     }
-      //   }
-      // }
     },
     returnNormalBorder() {
       document.getElementById("hawkerInput").style.borderColor = "black";
@@ -260,8 +177,8 @@ export default {
         }
       } else {
         let docRef = await getDoc(doc(db, "HawkerMetadata", this.hawkerCentre));
-        let foodItem = []
-        this.foodGrp.forEach((element) => foodItem.push(Object.values(element)[1]))
+        let foodItem = [];
+        this.foodGrp.forEach((element) => foodItem.push(Object.values(element)[1]));
         if (!docRef.exists()) {
           document.getElementById("error").innerHTML = "Invalid Hawker Centre";
           document.getElementById("hawkerInput").style.borderColor = "red";
@@ -285,10 +202,10 @@ export default {
             document.getElementById("error").innerHTML = "Invalid Opening Hours";
             document.getElementById("openInput").style.borderColor = "red";
             document.getElementById("closeInput").style.borderColor = "red";
-            alert("Error: Invalid Opening Hours");
+            alert("Error: Invalid Opening Hours \nOpening Time has to be before closing time");
           } else if (hawkerOpen > parseInt(this.c) || hawkerClose < parseInt(this.d)) {
-            alert("Error: Invalid Opening Hours");
-            document.getElementById("error").innerHTML = "Invalid Opening Hours"
+            alert("Error: Invalid Opening Hours \nOpening Hours: " + hawkerOpen + "-" + hawkerClose);
+            document.getElementById("error").innerHTML = "Invalid Opening Hours";
             if (hawkerOpen > parseInt(this.c)) {
               document.getElementById("openInput").style.borderColor = "red";
             }
@@ -319,12 +236,12 @@ export default {
               if (updateSlots <= 0) {
                 await updateDoc(doc(db, "HawkerMetadata", this.hawkerCentre), {
                   availableNrStalls: updateSlots,
-                  availableStallsBool: false
+                  availableStallsBool: false,
                 });
               } else {
                 await updateDoc(doc(db, "HawkerMetadata", this.hawkerCentre), {
                   availableNrStalls: updateSlots,
-                })
+                });
               }
 
               router.push({ name: "HawkerDashBoard" });
@@ -514,7 +431,6 @@ li {
 #Close > label {
   position: absolute;
   top: 27.6vh;
-
 }
 #HawkerAddr > label {
   left: 15vw;
@@ -625,8 +541,6 @@ li {
 #persAddressLabel {
   position: absolute;
   top: 68.6vh;
-
-
 }
 #emailLabel {
   left: 15vw;
