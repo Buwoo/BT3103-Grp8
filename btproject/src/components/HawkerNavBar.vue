@@ -104,10 +104,11 @@ export default {
     remindSaveProfile() {
       if (this.$store.getters.getFormStatus || this.$route.name != this.checker) {
         this.profileClass = "dropdown-item";
+        document.getElementById("profileDropdown").style.visibility = "visible";
       } else {
         alert("Please save your Tender Application");
         // this.profileClass = "dropdown-item disabled";
-        document.getElementById("profileDropdown").style.display = "none";
+        document.getElementById("profileDropdown").style.visibility = "hidden";
       }
     },
   },
