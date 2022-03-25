@@ -3,9 +3,7 @@
     <!-- Top NavBar/Banner -->
     <nav class="navbar fixed-top shadow-lg" style="background-color: #ffd54f">
       <div class="container-fluid">
-        <a class="navbar-brand" style="color: black" href="#"
-          >Hawker Tender Portal</a
-        >
+        <h3>Hawker Tender Portal</h3>
       </div>
     </nav>
     <!-- Login Form Section -->
@@ -14,34 +12,14 @@
       <br />
       <form @submit.prevent="login" @click.prevent>
         <div class="form-floating mb-3">
-          <input
-            v-model="singpassId"
-            type="text"
-            class="form-control"
-            id="floatingSingpassId"
-            placeholder="Singpass ID"
-            required
-          />
-          <label for="floatingSingpassId"
-            ><i class="bi bi-person-circle"></i> Singpass ID</label
-          >
+          <input v-model="singpassId" type="text" class="form-control" id="floatingSingpassId" placeholder="Singpass ID" required />
+          <label for="floatingSingpassId"><i class="bi bi-person-circle"></i> Singpass ID</label>
         </div>
         <div class="form-floating mb-3">
-          <input
-            v-model="password"
-            type="password"
-            class="form-control"
-            id="floatingPassword"
-            placeholder="Password"
-            required
-          />
-          <label for="floatingPassword"
-            ><i class="bi bi-lock-fill"></i> Password</label
-          >
+          <input v-model="password" type="password" class="form-control" id="floatingPassword" placeholder="Password" required />
+          <label for="floatingPassword"><i class="bi bi-lock-fill"></i> Password</label>
         </div>
-        <button v-on:click="login()" class="btn btn-warning w-100">
-          Submit
-        </button>
+        <button v-on:click="login()" class="btn btn-warning w-100">Submit</button>
       </form>
     </div>
   </div>
@@ -81,10 +59,7 @@ export default {
       //Help the user login
       firebase
         .auth()
-        .signInWithEmailAndPassword(
-          this.singpassId + "@fakemail.com",
-          this.password
-        )
+        .signInWithEmailAndPassword(this.singpassId + "@fakemail.com", this.password)
         .then(() => {
           firebase
             .auth()

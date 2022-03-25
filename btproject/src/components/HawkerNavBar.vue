@@ -108,7 +108,7 @@ export default {
     remindSaveProfile() {
       if (this.$store.getters.getFormStatus || this.$route.name != this.checker) {
         document.getElementById("profileDropdown").style.visibility = "visible";
-        this.profileClass = "dropdown-item";       
+        this.profileClass = "dropdown-item";     
       } else {
         let text = "Leave changes unsaved?";
         if (confirm(text) == true) {
@@ -118,7 +118,6 @@ export default {
         } else {
         // this.profileClass = "dropdown-item disabled";
           document.getElementById("profileDropdown").style.visibility = "hidden";
-        }
       }
     },
   },
