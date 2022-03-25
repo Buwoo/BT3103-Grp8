@@ -21,6 +21,7 @@
                 type="button"
                 data-bs-toggle="dropdown"
                 @click="remindSaveProfile()"
+                :disabled="!toggle"
               >
                 <i class="bi bi-person-circle" style="color: #fff"></i>
               </button>
@@ -98,10 +99,10 @@ export default {
       if (this.$store.getters.getFormStatus || this.$route.name != this.checker) {
         this.toggle = !this.toggle;
       } else {
-        let text = "Do you want to discard changes"
+        let text = "Changes may be lost if you leave this page.\nProceed?";
         if (confirm(text)) {
           this.toggle = !this.toggle;
-          this.$store.commit("setFormSaved")
+          this.$store.commit("setFormSaved");
         }
       }
     },
@@ -110,9 +111,9 @@ export default {
         this.profileClass = "dropdown-item";
         document.getElementById("profileDropdown").style.visibility = "visible";
       } else {
-        let text = "Do you want to discard changes"
+        let text = "Changes may be lost if you leave this page.\nProceed?";
         if (confirm(text)) {
-          this.$store.commit("setFormSaved")
+          this.$store.commit("setFormSaved");
           this.profileClass = "dropdown-item";
           document.getElementById("profileDropdown").style.visibility = "visible";
         } else {
