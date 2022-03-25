@@ -1,7 +1,10 @@
 <template>
-<HawkerNavBar :name="name"/>
-<TenderForm
-:tenderID = "tenderID"/>
+  <div id="appContainer" class="vh-100 d-flex flex-column">
+    <div id="navBarWrapper">
+      <HawkerNavBar :name="name" />
+    </div>
+    <TenderForm :tenderID = "tenderID"/>
+  </div>
 </template>
 
 <script>
@@ -85,4 +88,14 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+#navBarWrapper {
+  z-index: 2000;
+}
+
+html{
+  overflow:hidden
+}
+
+
 </style>
