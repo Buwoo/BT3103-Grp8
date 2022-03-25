@@ -4,11 +4,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-success">
       <div class="container-fluid" style="padding: 0px">
         <div class="subcontainer justify-content-start">
-          <button
-            type="button"
-            class="btn btn-success"
-            @click="toggle = !toggle"
-          >
+          <button type="button" class="btn btn-success" @click="toggle = !toggle">
             <i class="bi bi-list"></i>
           </button>
 
@@ -18,13 +14,7 @@
         <div class="justify-content-end">
           <ul class="navbar-nav">
             <li class="nav-item dropdown">
-              <button
-                class="btn btn-success"
-                href="#"
-                id="navbarDarkDropdownMenuLink"
-                type="button"
-                data-bs-toggle="dropdown"
-              >
+              <button class="btn btn-success" href="#" id="navbarDarkDropdownMenuLink" type="button" data-bs-toggle="dropdown" :disabled="!toggle">
                 <i class="bi bi-person-circle" style="color: #fff"></i>
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
@@ -61,11 +51,7 @@
       </ul>
     </nav>
 
-    <div
-      class="overlay"
-      v-bind:class="toggle ? '' : 'active'"
-      @click="toggle = !toggle"
-    ></div>
+    <div class="overlay" v-bind:class="toggle ? '' : 'active'" @click="toggle = !toggle"></div>
   </div>
 </template>
 
