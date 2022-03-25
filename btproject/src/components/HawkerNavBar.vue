@@ -98,26 +98,17 @@ export default {
       if (this.$store.getters.getFormStatus || this.$route.name != this.checker) {
         this.toggle = !this.toggle;
       } else {
-        let text = "Leave changes unsaved?";
-        if (confirm(text) == true) {
-          this.$store.commit("setFormSaved")
-          this.toggle = !this.toggle;
-        }
+        alert("Please save your Tender Application");
       }
     },
     remindSaveProfile() {
       if (this.$store.getters.getFormStatus || this.$route.name != this.checker) {
+        this.profileClass = "dropdown-item";
         document.getElementById("profileDropdown").style.visibility = "visible";
-        this.profileClass = "dropdown-item";     
       } else {
-        let text = "Leave changes unsaved?";
-        if (confirm(text) == true) {
-          this.$store.commit("setFormSaved")
-          document.getElementById("profileDropdown").style.visibility = "visible";
-          this.profileClass = "dropdown-item";        
-        } else {
+        alert("Please save your Tender Application");
         // this.profileClass = "dropdown-item disabled";
-          document.getElementById("profileDropdown").style.visibility = "hidden";
+        document.getElementById("profileDropdown").style.visibility = "hidden";
       }
     },
   },
