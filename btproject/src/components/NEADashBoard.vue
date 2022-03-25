@@ -23,14 +23,14 @@
             <!--rmb to put id -->
 
             <tbody>
-              <tr v-for="(a, index) in applications" :key="a[0].id">
+              <tr v-for="(a, index) in applications" :key="a.id">
                 <td id="tenderID">
-                  <button type="button" class="btn btn-link" data-bs-toggle="modal" :data-bs-target="'#modal_' + a[0].id">
-                    {{ a[0].id }}
+                  <button type="button" class="btn btn-link" data-bs-toggle="modal" :data-bs-target="'#modal_' + a.id">
+                    {{ a.id }}
                   </button>
 
                   <div class="modal-lg" modal-xl id="tenderIdModal">
-                    <div class="modal fade" :id="'modal_' + a[0].id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" :id="'modal_' + a.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                       <div class="modal-dialog">
                         <div class="modal-content">
                           <!-- Modal headers-->
@@ -41,7 +41,7 @@
                               </div>
                               <div class="row">
                                 <div class="d-flex justify-content-start">
-                                  <h5 class="modal-title fs-3 fw-bold" id="exampleModalLabel">Tender {{ a[0].id }}</h5>
+                                  <h5 class="modal-title fs-3 fw-bold" id="exampleModalLabel">Tender {{ a.id }}</h5>
                                 </div>
                               </div>
                             </div>
@@ -58,12 +58,12 @@
                                   <div class="row">
                                     <div class="details col-xs-6 col-md-6">
                                       <p class="card-text"><small class="text-muted">Hawker Centre Name</small></p>
-                                      <p class="card-text">{{ a[0].data().name }}</p>
+                                      <p class="card-text">{{ a.data().name }}</p>
                                     </div>
                                     <div class="details col-xs-6 col-md">
                                       <p class="card-text"><small class="text-muted">Food Item</small></p>
                                       <p class="card-text">
-                                        {{ a[0].data().foodItem }}
+                                        {{ a.data().foodItem }}
                                       </p>
                                     </div>
                                     <div class="details col-xs-6 col-md">
@@ -71,7 +71,7 @@
                                         <small class="text-muted">Date</small>
                                       </p>
                                       <p class="card-text">
-                                        {{ a[0].data().date.toDate().toDateString() }}
+                                        {{ a.data().date.toDate().toDateString() }}
                                       </p>
                                     </div>
                                   </div>
@@ -81,13 +81,13 @@
                                         <small class="text-muted">Opening Time</small>
                                       </p>
                                       <p class="card-text">
-                                        {{ a[0].data().openingHours.start }}
+                                        {{ a.data().openingHours.start }}
                                       </p>
                                     </div>
                                     <div class="details col-xs-6 col-md">
                                       <p class="card-text"><small class="text-muted">Closing Time</small></p>
                                       <p class="card-text">
-                                        {{ a[0].data().openingHours.end }}
+                                        {{ a.data().openingHours.end }}
                                       </p>
                                     </div>
                                   </div>
@@ -105,25 +105,25 @@
                                   <div class="row">
                                     <div class="details col-md-4">
                                       <p class="card-text"><small class="text-muted">Name</small></p>
-                                      <p class="card-text">{{ a[1].data().fullName }}</p>
+                                      <p class="card-text">{{ this.applicants[a.data().userID].data().fullName }}</p>
                                     </div>
                                     <div class="details col-md-4">
                                       <p class="card-text"><small class="text-muted">NRIC</small></p>
-                                      <p class="card-text">XXXXX{{ a[0].data().userID }}</p>
+                                      <p class="card-text">XXXXX{{ a.data().userID}}</p>
                                     </div>
                                     <div class="details col-md-4">
                                       <p class="card-text"><small class="text-muted">Email</small></p>
-                                      <p class="card-text">{{ a[1].data().email }}</p>
+                                      <p class="card-text">{{ this.applicants[a.data().userID].data().email }}</p>
                                     </div>
                                   </div>
                                   <div class="row">
                                     <div class="details col-md-4">
                                       <p class="card-text"><small class="text-muted">Home Address</small></p>
-                                      <p class="card-text">{{ a[1].data().address }}</p>
+                                      <p class="card-text">{{ this.applicants[a.data().userID].data().address }}</p>
                                     </div>
                                     <div class="details col-xs-4 col-md-6">
                                       <p class="card-text"><small class="text-muted">Contact Number</small></p>
-                                      <p class="card-text">{{ a[1].data().mobileNr }}</p>
+                                      <p class="card-text">{{ this.applicants[a.data().userID].data().mobileNr }}</p>
                                     </div>
                                   </div>
                                 </div>
@@ -136,14 +136,14 @@
                   </div>
                 </td>
 
-                <td id="date">{{ a[0].data().date.toDate().toDateString() }}</td>
+                <td id="date">{{ a.data().date.toDate().toDateString() }}</td>
 
                 <td id="hawkerCentreName">
-                  {{ a[0].data().name }}
+                  {{ a.data().name }}
                 </td>
 
                 <td id="name">
-                  {{ a[1].data().fullName }}
+                  {{ this.applicants[a.data().userID].data().fullName }}
                 </td>
 
                 <td id="actions">
@@ -171,7 +171,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import router from "../router/index.js";
 import firebaseApp from "../firebase.js";
 import { getFirestore } from "firebase/firestore";
-import { collection, getDocs, getDoc, doc, updateDoc } from "firebase/firestore";
+import { collection, getDocs, getDoc, doc, updateDoc, query, orderBy, where} from "firebase/firestore";
 const db = getFirestore(firebaseApp);
 
 export default {
@@ -181,27 +181,35 @@ export default {
       user: false,
       neaagent: false,
       applications: [],
+      applicants: {},
     };
   },
 
   methods: {
     loadTenderApplications: async function () {
-      const q = collection(db, "TenderInfo");
+      const ref = collection(db, "TenderInfo");
+      const q = query(ref, where("status", "==", "pending"), orderBy("date"), ); //query first page
       const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((tenderSnapshot) => {
-        if (tenderSnapshot.data().status == "pending") {
-          let id = tenderSnapshot.data().userID; //Get userId
-          // Query Database for User Info
-          const userDocRef = doc(db, "Authentication", id);
-          const userDocSnap = getDoc(userDocRef);
-          userDocSnap.then((rsp) => {
-            // Store both tender snapshot and user detail snapshot
-            this.applications.push([tenderSnapshot, rsp]);
-          });
-        }
-      });
-    },
 
+      console.log("time to order!!!!!!!!!!!!!!!!!!!");
+
+      for (let i = 0; i < querySnapshot.docs.length; i++) {
+        let tenderSnapshot = querySnapshot.docs[i];
+        let id = tenderSnapshot.data().userID; //Get userId
+        if (!(id in this.applicants)) {
+          await this.getApplicantDetails(id);
+        } 
+        // Push snapshot to applications
+        this.applications.push(tenderSnapshot);
+      }
+    },
+    getApplicantDetails: async function(userId) {
+      // Query Database for User Info
+      const userDocRef = doc(db, "Authentication", userId);
+      const userDocSnap = await getDoc(userDocRef);
+      // Store applicant details in snapshot
+      this.applicants[userId] = userDocSnap;
+    },
     rejectForm: async function (index, a) {
       var c = confirm("Do you want to reject this Tender Form?");
       if (c == true) {
