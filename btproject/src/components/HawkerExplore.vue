@@ -218,7 +218,7 @@ export default {
             let bounds = L.latLngBounds([1.220446, 103.599534], [1.485294, 104.013203]);
             const mapDiv = L.map("mapContainer").setView([1.3521, 103.8198], 11).setMaxBounds(bounds);
             // Config Tile layer
-            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
             }).addTo(mapDiv);
 
@@ -532,7 +532,7 @@ export default {
             element: "#search_button",
             on: "bottom",
             },
-            buttons: [{text: "Next", action: tour.next,},],
+            buttons: [{text: "Finish", action: tour.next,},],
             classes: "box-pos-2"
         });
         tour.start();
@@ -638,13 +638,13 @@ select:focus {
 }
 
 /* Scrollbar Styling - Chrome*/
-#locationList ::-webkit-scrollbar {
+#locationList::-webkit-scrollbar {
   width: 9px;
 }
-#locationList ::-webkit-scrollbar-track {
+#locationList::-webkit-scrollbar-track {
   background: transparent;
 }
-#locationList  ::-webkit-scrollbar-thumb {
+#locationList::-webkit-scrollbar-thumb {
   background-color: rgba(155, 155, 155, 0.5);
   border-radius: 20px;
   border: transparent;

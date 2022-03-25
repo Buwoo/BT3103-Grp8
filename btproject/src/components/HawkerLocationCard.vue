@@ -52,8 +52,12 @@ export default {
     },
     computed: {
         operatingHours() {
-        let x = this.openingHrs.split("-");
-        return x[0] + " - " + x[1];
+            let x = this.openingHrs.split("-");
+            if (this.openingHrs == "24HR") {
+                return "24HR"
+            } else {
+                return x[0] + " - " + x[1];
+            }
         }
     }
 
