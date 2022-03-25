@@ -8,6 +8,7 @@
           </div>
         </div>
       </div>
+<<<<<<< Updated upstream
 
 
 
@@ -26,6 +27,40 @@
                 {{ hawker.NAME }}
               </li>
             </span>
+=======
+      <div>
+        <!-- Tender Details Section -->
+        <div class="Tender_Details"></div>
+        <h3 id="tender_header">Tender Details</h3>
+        <form id="HawkerAddr">
+          <input id="hawkerInput" v-model="hawkerCentre" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
+          <label><strong>Hawker Centre</strong></label>
+          <div id="options">
+            <ul>
+              <div id="selectHawkerDropdown">
+                <span role="button">
+                  <li @click="selectHawker(hawker)" v-for="(hawker, index) in filteredUser" :key="`hawker-${index}`">
+                    {{ hawker.NAME }}
+                  </li>
+                </span>
+              </div>
+            </ul>
+          </div>
+        </form>
+        <form id="Food">
+          <input id="foodInput" v-model="b" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
+          <label><strong>Food Item</strong></label>
+          <div id="foodOptions">
+            <ul>
+              <div id="selectFoodDropdown">
+                <span role="button">
+                  <li @click="selectFood(food)" v-for="(food, index) in filteredFood" :key="`food-${index}`">
+                    {{ food.NAME }}
+                  </li>
+                </span>
+              </div>
+            </ul>
+>>>>>>> Stashed changes
           </div>
         </ul>
       </div>
@@ -398,13 +433,20 @@ export default {
       }
     });
   },
+/*
+  mounted() {
+    window.onpopstate = function () {
+      window
+    };
+  }
+*/
 };
 </script>
 <style scoped>
 h3 {
   position: absolute;
   text-align: left;
-  left: 10vw;
+  left: 9vw;
   top: 7.5vh;
 }
 .Tender_Details {
@@ -412,7 +454,7 @@ h3 {
   width: 78vw;
   height: 24vh;
   top: 19vh;
-  left: 12vw;
+  left: 11vw;
   border: 1px solid black;
 }
 
@@ -428,8 +470,8 @@ h3 {
 #tender_header {
   position: absolute;
   background-color: #1976d2;
-  top: 16.5vh;
-  left: 12.05vw;
+  top: 19vh;
+  left: 11.05vw;
   color: white;
 }
 
@@ -446,7 +488,7 @@ h3 {
 }
 
 #HawkerAddr > input {
-  left: 14vw;
+  left: 13vw;
   width: 27vw;
 }
 
@@ -454,7 +496,7 @@ h3 {
   position: absolute;
   text-align: left;
   top: 38vh;
-  left: 12.5vw;
+  left: 11.5vw;
   /* background-color: white; */
   z-index: 300;
 }
@@ -477,7 +519,7 @@ li {
 }
 
 #Food > input {
-  left: 43vw;
+  left: 42vw;
   width: 17vw;
 }
 
@@ -485,7 +527,7 @@ li {
   position: absolute;
   text-align: left;
   top: 38vh;
-  left: 41.5vw;
+  left: 40.5vw;
   /* background-color: white; */
   z-index: 300;
 }
@@ -499,12 +541,12 @@ li {
 }
 
 #Open > input {
-  left: 62vw;
+  left: 61vw;
   width: 12vw;
 }
 
 #Close > input {
-  left: 76vw;
+  left: 75vw;
   width: 12vw;
 }
 
@@ -517,16 +559,16 @@ li {
 
 }
 #HawkerAddr > label {
-  left: 15vw;
+  left: 14vw;
 }
 #Food > label {
-  left: 44vw;
+  left: 43vw;
 }
 #Open > label {
-  left: 63vw;
+  left: 62vw;
 }
 #Close > label {
-  left: 77vw;
+  left: 76vw;
 }
 
 #error {
@@ -535,7 +577,7 @@ li {
   font-size: 4vh;
   color: red;
   text-align: center;
-  left: 34vw;
+  left: 33vw;
   width: 36vw;
 }
 
@@ -544,7 +586,7 @@ li {
   width: 78vw;
   height: 33vh;
   top: 48vh;
-  left: 12vw;
+  left: 11vw;
   border: 1px solid black;
 }
 
@@ -552,7 +594,7 @@ li {
   position: absolute;
   background-color: #1976d2;
   top: 48vh;
-  left: 12.05vw;
+  left: 11.05vw;
   color: white;
 }
 #name,
@@ -566,18 +608,19 @@ li {
   border: 1px solid black;
   padding-top: 1.5vh;
   padding-left: 1vw;
+  color: #6C757D
 }
 #name {
-  left: 14vw;
+  left: 13vw;
   width: 34vw;
 }
 
 #nric {
-  left: 50vw;
+  left: 49vw;
   width: 19vw;
 }
 #contact {
-  left: 71vw;
+  left: 70vw;
   width: 17vw;
 }
 
@@ -589,15 +632,15 @@ li {
 }
 
 #nameLabel {
-  left: 15vw;
+  left: 14vw;
 }
 
 #nricLabel {
-  left: 51vw;
+  left: 50vw;
 }
 
 #contactLabel {
-  left: 72vw;
+  left: 71vw;
 }
 
 #email,
@@ -610,14 +653,15 @@ li {
   border: 1px solid black;
   padding-top: 1.5vh;
   padding-left: 1vw;
+  color: #6C757D
 }
 
 #email {
-  left: 14vw;
+  left: 13vw;
   width: 30vw;
 }
 #persAddress {
-  left: 46vw;
+  left: 45vw;
   width: 42vw;
 }
 
@@ -629,10 +673,10 @@ li {
 
 }
 #emailLabel {
-  left: 15vw;
+  left: 14vw;
 }
 #persAddressLabel {
-  left: 47vw;
+  left: 46vw;
 }
 
 #save,
@@ -645,15 +689,15 @@ li {
 }
 
 #delete {
-  left: 68vw;
+  left: 67vw;
 }
 
 #save {
-  left: 76vw;
+  left: 75vw;
 }
 
 #submit {
-  left: 84vw;
+  left: 83vw;
 }
 
 #selectHawkerDropdown,

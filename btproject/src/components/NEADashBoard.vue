@@ -237,7 +237,7 @@ export default {
         //updating the status
         const tenderRef = doc(db, "TenderInfo", a[0].id);
         await updateDoc(tenderRef, {
-          status: "accepted",
+          status: "approved",
         });
         const hawkerRef = doc(db, "HawkerMetadata", a[0].data().name)
         const hawker = await getDoc(hawkerRef)
