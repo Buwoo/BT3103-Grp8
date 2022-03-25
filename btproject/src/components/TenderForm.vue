@@ -8,31 +8,10 @@
           </div>
         </div>
       </div>
-
-
-
-
-
-  <div>
-    <div class="Tender_Details"></div>
-    <h3 class="mt-4" id="tender_header">Tender Details</h3>
-    <form id="HawkerAddr">
-      <input id="hawkerInput" v-model="hawkerCentre" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
-      <label><strong>Hawker Centre</strong></label>
-      <div id="options">
-        <ul>
-          <div id="selectHawkerDropdown">
-            <span role="button">
-              <li @click="selectHawker(hawker)" v-for="(hawker, index) in filteredUser" :key="`hawker-${index}`">
-                {{ hawker.NAME }}
-              </li>
-            </span>
-
       <div>
         <!-- Tender Details Section -->
         <div class="Tender_Details"></div>
         <h3 id="tender_header">Tender Details</h3>
-
         <form id="HawkerAddr">
           <input id="hawkerInput" v-model="hawkerCentre" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
           <label><strong>Hawker Centre</strong></label>
@@ -46,23 +25,6 @@
                 </span>
               </div>
             </ul>
-
-          </div>
-        </form>
-        <form id="Food">
-          <input id="foodInput" v-model="b" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
-          <label><strong>Food Item</strong></label>
-          <div id="foodOptions">
-            <ul>
-              <div id="selectFoodDropdown">
-                <span role="button">
-                  <li @click="selectFood(food)" v-for="(food, index) in filteredFood" :key="`food-${index}`">
-                    {{ food.NAME }}
-                  </li>
-                </span>
-              </div>
-            </ul>
-
           </div>
         </form>
         <form id="Food">
@@ -353,20 +315,13 @@ export default {
       }
     });
   },
-/*
-  mounted() {
-    window.onpopstate = function () {
-      window
-    };
-  }
-*/
 };
 </script>
 <style scoped>
 h3 {
   position: absolute;
   text-align: left;
-  left: 9vw;
+  left: 10vw;
   top: 7.5vh;
 }
 .Tender_Details {
@@ -374,7 +329,7 @@ h3 {
   width: 78vw;
   height: 24vh;
   top: 19vh;
-  left: 11vw;
+  left: 12vw;
   border: 1px solid black;
 }
 
@@ -391,7 +346,7 @@ h3 {
   position: absolute;
   background-color: #1976d2;
   top: 19vh;
-  left: 11.05vw;
+  left: 12.05vw;
   color: white;
 }
 
@@ -408,7 +363,7 @@ h3 {
 }
 
 #HawkerAddr > input {
-  left: 13vw;
+  left: 14vw;
   width: 27vw;
 }
 
@@ -416,7 +371,7 @@ h3 {
   position: absolute;
   text-align: left;
   top: 38vh;
-  left: 11.5vw;
+  left: 12.5vw;
   /* background-color: white; */
   z-index: 300;
 }
@@ -439,7 +394,7 @@ li {
 }
 
 #Food > input {
-  left: 42vw;
+  left: 43vw;
   width: 17vw;
 }
 
@@ -447,7 +402,7 @@ li {
   position: absolute;
   text-align: left;
   top: 38vh;
-  left: 40.5vw;
+  left: 41.5vw;
   /* background-color: white; */
   z-index: 300;
 }
@@ -461,12 +416,12 @@ li {
 }
 
 #Open > input {
-  left: 61vw;
+  left: 62vw;
   width: 12vw;
 }
 
 #Close > input {
-  left: 75vw;
+  left: 76vw;
   width: 12vw;
 }
 
@@ -478,16 +433,16 @@ li {
   top: 27.6vh;
 }
 #HawkerAddr > label {
-  left: 14vw;
+  left: 15vw;
 }
 #Food > label {
-  left: 43vw;
+  left: 44vw;
 }
 #Open > label {
-  left: 62vw;
+  left: 63vw;
 }
 #Close > label {
-  left: 76vw;
+  left: 77vw;
 }
 
 #error {
@@ -496,7 +451,7 @@ li {
   font-size: 4vh;
   color: red;
   text-align: center;
-  left: 33vw;
+  left: 34vw;
   width: 36vw;
 }
 
@@ -505,7 +460,7 @@ li {
   width: 78vw;
   height: 33vh;
   top: 48vh;
-  left: 11vw;
+  left: 12vw;
   border: 1px solid black;
 }
 
@@ -513,7 +468,7 @@ li {
   position: absolute;
   background-color: #1976d2;
   top: 48vh;
-  left: 11.05vw;
+  left: 12.05vw;
   color: white;
 }
 #name,
@@ -527,19 +482,18 @@ li {
   border: 1px solid black;
   padding-top: 1.5vh;
   padding-left: 1vw;
-  color: #6C757D
 }
 #name {
-  left: 13vw;
+  left: 14vw;
   width: 34vw;
 }
 
 #nric {
-  left: 49vw;
+  left: 50vw;
   width: 19vw;
 }
 #contact {
-  left: 70vw;
+  left: 71vw;
   width: 17vw;
 }
 
@@ -551,15 +505,15 @@ li {
 }
 
 #nameLabel {
-  left: 14vw;
+  left: 15vw;
 }
 
 #nricLabel {
-  left: 50vw;
+  left: 51vw;
 }
 
 #contactLabel {
-  left: 71vw;
+  left: 72vw;
 }
 
 #email,
@@ -572,15 +526,14 @@ li {
   border: 1px solid black;
   padding-top: 1.5vh;
   padding-left: 1vw;
-  color: #6C757D
 }
 
 #email {
-  left: 13vw;
+  left: 14vw;
   width: 30vw;
 }
 #persAddress {
-  left: 45vw;
+  left: 46vw;
   width: 42vw;
 }
 
@@ -590,10 +543,10 @@ li {
   top: 68.6vh;
 }
 #emailLabel {
-  left: 14vw;
+  left: 15vw;
 }
 #persAddressLabel {
-  left: 46vw;
+  left: 47vw;
 }
 
 #save,
@@ -606,15 +559,15 @@ li {
 }
 
 #delete {
-  left: 67vw;
+  left: 68vw;
 }
 
 #save {
-  left: 75vw;
+  left: 76vw;
 }
 
 #submit {
-  left: 83vw;
+  left: 84vw;
 }
 
 #selectHawkerDropdown,

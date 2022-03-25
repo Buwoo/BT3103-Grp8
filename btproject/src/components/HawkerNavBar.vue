@@ -98,26 +98,26 @@ export default {
       if (this.$store.getters.getFormStatus || this.$route.name != this.checker) {
         this.toggle = !this.toggle;
       } else {
-        let text = "Leave changes unsaved?";
-        if (confirm(text) == true) {
-          this.$store.commit("setFormSaved")
+        let text = "Do you want to discard changes"
+        if (confirm(text)) {
           this.toggle = !this.toggle;
+          this.$store.commit("setFormSaved")
         }
       }
     },
     remindSaveProfile() {
       if (this.$store.getters.getFormStatus || this.$route.name != this.checker) {
+        this.profileClass = "dropdown-item";
         document.getElementById("profileDropdown").style.visibility = "visible";
-        this.profileClass = "dropdown-item";     
       } else {
-        let text = "Leave changes unsaved?";
-        if (confirm(text) == true) {
+        let text = "Do you want to discard changes"
+        if (confirm(text)) {
           this.$store.commit("setFormSaved")
+          this.profileClass = "dropdown-item";
           document.getElementById("profileDropdown").style.visibility = "visible";
-          this.profileClass = "dropdown-item";        
         } else {
-        // this.profileClass = "dropdown-item disabled";
           document.getElementById("profileDropdown").style.visibility = "hidden";
+        }
       }
     },
   },
