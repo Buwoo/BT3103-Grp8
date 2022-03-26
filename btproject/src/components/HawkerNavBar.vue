@@ -4,7 +4,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-primary">
       <div class="container-fluid" style="padding: 0px">
         <div class="subcontainer justify-content-start">
-          <button type="button" class="btn btn-primary" @click="remindSave()">
+          <button type="button" class="btn btn-primary" @click="this.toggle = !this.toggle">
             <i class="bi bi-list"></i>
           </button>
 
@@ -20,13 +20,13 @@
                 id="navbarDarkDropdownMenuLink"
                 type="button"
                 data-bs-toggle="dropdown"
-                @click="remindSaveProfile()"
+                :disabled="!toggle"
               >
                 <i class="bi bi-person-circle" style="color: #fff"></i>
               </button>
               <ul id="profileDropdown" class="dropdown-menu dropdown-menu-end">
                 <li>
-                  <a :class="this.profileClass" href="/hawker/profile">
+                  <a id = "profileRoute" :class="this.profileClass" href="/hawker/profile" @click="remindSaveProfile()">
                     <i class="bi bi-person-fill"></i>
                     Profile
                   </a>
@@ -50,13 +50,13 @@
     <nav id="sidebar" v-bind:class="toggle ? 'hide' : 'show'">
       <ul class="list-unstyled components">
         <li>
-          <a href="/hawker/dashboard">
+          <a href="/hawker/dashboard" id = "dashboardRoute" @click = "remindSave()">
             <i class="bi bi-file-earmark-text-fill"></i>
             Dashboard
           </a>
         </li>
         <li>
-          <a href="/hawker/explore">
+          <a href="/hawker/explore" id = "exploreRoute" @click = "remindSaveExplore()">
             <i class="bi bi-globe"></i>
             Explore
           </a>
@@ -69,9 +69,14 @@
 </template>
 
 <script>
+import firebaseApp from "../firebase.js";
 import firebase from "@/uifire.js";
 import "firebase/auth";
 import router from "../router/index.js";
+import { getFirestore } from "firebase/firestore";
+import { doc, deleteDoc } from "firebase/firestore";
+
+const db = getFirestore(firebaseApp);
 
 export default {
   data() {
@@ -85,38 +90,75 @@ export default {
     name: String,
   },
   methods: {
-    signOutFunction() {
-      firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          router.push("/");
-          console.log("Logged out");
-        });
-    },
-    remindSave() {
+    async signOutFunction() {
       if (this.$store.getters.getFormStatus || this.$route.name != this.checker) {
-        this.toggle = !this.toggle;
+        if (this.$route.name == this.checker && this.$store.getters.getFilled == 0){
+          await deleteDoc(doc(db, "TenderInfo", this.$route.params.tenderID));
+        }
+        firebase
+          .auth()
+          .signOut()
+          .then(() => {
+            router.push("/");
+            console.log("Logged out");
+          });       
       } else {
-        let text = "Do you want to discard changes"
+        let text = "Changes may be lost if you leave this page.\nProceed?"
         if (confirm(text)) {
-          this.toggle = !this.toggle;
-          this.$store.commit("setFormSaved")
+          if (this.$route.name == this.checker && this.$store.getters.getFilled == 0){
+            await deleteDoc(doc(db, "TenderInfo", this.$route.params.tenderID));
+          }
+          firebase
+            .auth()
+            .signOut()
+            .then(() => {
+              router.push("/");
+              console.log("Logged out");
+            });
         }
       }
     },
-    remindSaveProfile() {
+    async remindSave() {
       if (this.$store.getters.getFormStatus || this.$route.name != this.checker) {
-        this.profileClass = "dropdown-item";
-        document.getElementById("profileDropdown").style.visibility = "visible";
+        if (this.$route.name == this.checker && this.$store.getters.getFilled == 0){
+          console.log("problem")
+          await deleteDoc(doc(db, "TenderInfo", this.$route.params.tenderID));
+        }
       } else {
-        let text = "Do you want to discard changes"
-        if (confirm(text)) {
-          this.$store.commit("setFormSaved")
-          this.profileClass = "dropdown-item";
-          document.getElementById("profileDropdown").style.visibility = "visible";
-        } else {
-          document.getElementById("profileDropdown").style.visibility = "hidden";
+        let text = "Changes may be lost if you leave this page.\nProceed?";
+        if (!confirm(text)) {
+          document.getElementById("dashboardRoute").href = "#";
+        } else if (this.$store.getters.getFilled == 0) {
+          await deleteDoc(doc(db, "TenderInfo", this.$route.params.tenderID));
+        }
+      }
+    },
+
+    async remindSaveExplore() {
+      if (this.$store.getters.getFormStatus || this.$route.name != this.checker) {
+        if (this.$route.name == this.checker && this.$store.getters.getFilled == 0){
+          await deleteDoc(doc(db, "TenderInfo", this.$route.params.tenderID));
+        }
+      } else {
+        let text = "Changes may be lost if you leave this page.\nProceed?";
+        if (!confirm(text)) {
+          document.getElementById("exploreRoute").href = "#";
+        } else if (this.$store.getters.getFilled == 0) {
+          await deleteDoc(doc(db, "TenderInfo", this.$route.params.tenderID));
+        }
+      }     
+    },
+    async remindSaveProfile() {
+      if (this.$store.getters.getFormStatus || this.$route.name != this.checker) {
+        if (this.$route.name == this.checker && this.$store.getters.getFilled == 0){
+          await deleteDoc(doc(db, "TenderInfo", this.$route.params.tenderID));
+        }
+      } else {
+        let text = "Changes may be lost if you leave this page.\nProceed?";
+        if (!confirm(text)) {
+          document.getElementById("profileRoute").href = "#";
+        } else if (this.$store.getters.getFilled == 0) {
+          await deleteDoc(doc(db, "TenderInfo", this.$route.params.tenderID));
         }
       }
     },

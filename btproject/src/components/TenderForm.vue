@@ -150,7 +150,11 @@ export default {
         userID: this.nric.slice(5),
       });
 
-      this.$store.commit("setFormSaved");
+      this.$store.commit('setFormSavedHawker', this.hawkerCentre);
+      this.$store.commit('setFormSavedFood', this.b);
+      this.$store.commit('setFormSavedOpen', this.c);
+      this.$store.commit('setFormSavedClose',this.d);
+
     },
     returnNormalBorder() {
       document.getElementById("hawkerInput").style.borderColor = "black";
@@ -261,6 +265,7 @@ export default {
   },
 
   created() {
+
     let response = getDoc(doc(db, "TenderInfo", this.tenderID));
     response
       .then((rsp) => {
@@ -279,6 +284,11 @@ export default {
               this.b = profile.foodItem;
               this.c = profile.openingHours.start;
               this.d = profile.openingHours.end;
+              this.$store.commit('initHawker',profile.name)
+              this.$store.commit('initFood',profile.foodItem)
+              this.$store.commit('initOpen',profile.openingHours.start)
+              this.$store.commit('initClose',profile.openingHours.end)
+
             }
           } else {
             alert("Invalid Tender ID");
@@ -292,6 +302,7 @@ export default {
       .catch((error) => {
         console.log(error);
       });
+    
 
     const auth = getAuth();
     // var ref = this;
@@ -315,6 +326,15 @@ export default {
       }
     });
   },
+
+  /*
+  mounted() {
+    window.onbeforeunload = function() {
+    return 'Dialog text here.';
+    };
+  }
+
+  */
 };
 </script>
 <style scoped>

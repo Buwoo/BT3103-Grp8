@@ -59,6 +59,7 @@ export default {
         this.fetchData(this.ic);
       }
     });
+
   },  
   data(){
     return {
