@@ -176,7 +176,7 @@
 	import firebaseApp from "../firebase.js";
 	import firebase from "@/uifire.js";
 	import { getFirestore } from "firebase/firestore";
-	import { collection, query, where, getDocs, deleteDoc, doc, getDoc, addDoc, Timestamp } from "firebase/firestore";
+	import { collection, query, where, getDocs, deleteDoc, doc, getDoc, addDoc, Timestamp, orderBy } from "firebase/firestore";
 	import { getAuth, onAuthStateChanged } from "firebase/auth";
 	import router from "../router/index.js";
 
@@ -263,7 +263,7 @@
 			},
 
 			loadDetails: async function (hawkerID) {
-				const q = query(collection(db, "TenderInfo"), where("userID", "==", hawkerID));
+				const q = query(collection(db, "TenderInfo"), where("userID", "==", hawkerID), orderBy("date"));
 				const querySnapshot = await getDocs(q);
 				querySnapshot.forEach((doc) => {
 					this.applications.push(doc);
