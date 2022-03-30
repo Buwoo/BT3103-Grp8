@@ -13,8 +13,10 @@
         <div class="Tender_Details"></div>
         <h3 id="tender_header">Tender Details</h3>
         <form id="HawkerAddr">
-          <input id="hawkerInput" v-model="hawkerCentre" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
-          <label><strong>Hawker Centre</strong></label>
+        <div class="form-floating mb-3" id="hawkerForm">
+          <input id="hawkerInput" class = "form-control" v-model="hawkerCentre" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
+          <label id="hawkerLabel" for="hawkerInput" ><strong>Hawker Centre</strong></label>
+          </div>
           <div id="options">
             <ul>
               <div id="selectHawkerDropdown">
@@ -28,8 +30,10 @@
           </div>
         </form>
         <form id="Food">
-          <input id="foodInput" v-model="b" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
-          <label><strong>Food Item</strong></label>
+        <div class="form-floating mb-3" id="foodForm">
+          <input id="foodInput" class = "form-control" v-model="b" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
+          <label id = "foodLabel" for="foodInput"><strong>Food Item</strong></label>
+          </div>
           <div id="foodOptions">
             <ul>
               <div id="selectFoodDropdown">
@@ -43,12 +47,16 @@
           </div>
         </form>
         <form id="Open">
-          <input id="openInput" v-model="c" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
-          <label><strong>Opening Time</strong></label>
+        <div class="form-floating mb-3" id="openForm">
+          <input id="openInput" class = "form-control" v-model="c" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
+          <label id="openLabel" for="openInput"><strong>Opening Time</strong></label>
+          </div>
         </form>
         <form id="Close">
-          <input id="closeInput" v-model="d" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
-          <label><strong>Closing Time</strong></label>
+        <div class="form-floating mb-3" id="closeForm">
+          <input id="closeInput" class = "form-control" v-model="d" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
+          <label id="closeLabel" for="closeInput"><strong>Closing Time</strong></label>
+        </div>
         </form>
         <div id="error"></div>
       </div>
@@ -57,16 +65,40 @@
       <div>
         <div class="Personal_Details"></div>
         <h3 id="personal_header">Personal Details</h3>
-        <div id="name" v-text="userName"></div>
-        <div id="nric" v-text="nric"></div>
-        <div id="contact" v-text="contactNum"></div>
-        <div id="email" v-text="email"></div>
-        <div id="persAddress" v-text="address"></div>
-        <div id="nameLabel"><strong>Name</strong></div>
-        <div id="nricLabel"><strong>NRIC</strong></div>
-        <div id="contactLabel"><strong>Contact Number</strong></div>
-        <div id="emailLabel"><strong>Email</strong></div>
-        <div id="persAddressLabel"><strong>Address</strong></div>
+        <form>
+        <div class="form-floating mb-3" id="nameForm">
+          <input class = "form-control" id="name" v-model="userName" disabled/>
+          <label for="name"><strong>Name</strong></label>
+        </div>
+        </form>
+
+        <form>
+        <div class="form-floating mb-3" id="nricForm">
+          <input class = "form-control" id="nric" v-model="nric" disabled/>
+          <label for="nric"><strong>NRIC</strong></label>
+        </div>
+        </form>
+
+        <form>
+        <div class="form-floating mb-3" id="contactForm">       
+          <input class="form-control" id="contact" v-model="contactNum" disabled/>
+          <label for="contact"><strong>Contact Number</strong></label>
+        </div>
+        </form>
+
+        <form>
+        <div class="form-floating mb-3" id="emailForm">    
+          <input class="form-control" id="email" v-model="email" disabled/>
+          <label for="email"><strong>Email</strong></label>
+        </div>
+        </form>
+
+        <form>
+        <div class="form-floating mb-3" id="addressForm"> 
+          <input class="form-control" id="persAddress" v-model="address" disabled/>
+          <label for="persAddress"><strong>Address</strong></label>
+        </div>
+        </form>
       </div>
     </div>
   </div>
@@ -157,10 +189,14 @@ export default {
 
     },
     returnNormalBorder() {
-      document.getElementById("hawkerInput").style.borderColor = "black";
-      document.getElementById("foodInput").style.borderColor = "black";
-      document.getElementById("openInput").style.borderColor = "black";
-      document.getElementById("closeInput").style.borderColor = "black";
+      document.getElementById("hawkerInput").style.borderColor = "#ced4da";
+      document.getElementById("foodInput").style.borderColor = "#ced4da";
+      document.getElementById("openInput").style.borderColor = "#ced4da";
+      document.getElementById("closeInput").style.borderColor = "#ced4da";
+      document.getElementById("hawkerLabel").style.color = "#2c3e50";
+      document.getElementById("foodLabel").style.color = "#2c3e50";
+      document.getElementById("openLabel").style.color = "#2c3e50";
+      document.getElementById("closeLabel").style.color = "#2c3e50";
     },
     async submitTender() {
       this.returnNormalBorder();
@@ -169,15 +205,19 @@ export default {
         alert("Error: Fill up all fields");
         if (this.hawkerCentre == "") {
           document.getElementById("hawkerInput").style.borderColor = "red";
+          document.getElementById("hawkerLabel").style.color = "red";
         }
         if (this.b == "") {
           document.getElementById("foodInput").style.borderColor = "red";
+          document.getElementById("foodLabel").style.color = "red";
         }
         if (this.c == "") {
           document.getElementById("openInput").style.borderColor = "red";
+          document.getElementById("openLabel").style.color = "red";
         }
         if (this.d == "") {
           document.getElementById("closeInput").style.borderColor = "red";
+          document.getElementById("closeLabel").style.color = "red";
         }
       } else {
         let docRef = await getDoc(doc(db, "HawkerMetadata", this.hawkerCentre));
@@ -186,17 +226,21 @@ export default {
         if (!docRef.exists()) {
           document.getElementById("error").innerHTML = "Invalid Hawker Centre";
           document.getElementById("hawkerInput").style.borderColor = "red";
+          document.getElementById("hawkerLabel").style.color = "red";
           alert("Invalid Hawker Centre");
         } else if (!foodItem.includes(this.b)) {
           document.getElementById("foodInput").style.borderColor = "red";
+          document.getElementById("foodLabel").style.color = "red";
           document.getElementById("error").innerHTML = "Invalid Food Item";
           alert("Error: Invalid Food Item");
         } else if (!/^\d+$/.test(this.c) || this.c.length != 4) {
           document.getElementById("openInput").style.borderColor = "red";
+          document.getElementById("openLabel").style.color = "red";
           document.getElementById("error").innerHTML = "Invalid Opening Time";
           alert("Error: Invalid Opening Time");
         } else if (!/^\d+$/.test(this.d) || this.d.length != 4) {
           document.getElementById("closeInput").style.borderColor = "red";
+          document.getElementById("closeLabel").style.color = "red";
           document.getElementById("error").innerHTML = "Invalid Closing Hours";
           alert("Error: Invalid Closing Time");
         } else {
@@ -204,6 +248,8 @@ export default {
           let hawkerClose = parseInt(docRef.data().openingHrs.slice(5));
           if (parseInt(this.c) >= parseInt(this.d)) {
             document.getElementById("error").innerHTML = "Invalid Opening Hours";
+            document.getElementById("openLabel").style.color = "red";
+            document.getElementById("closeLabel").style.color = "red";
             document.getElementById("openInput").style.borderColor = "red";
             document.getElementById("closeInput").style.borderColor = "red";
             alert("Error: Invalid Opening Hours \nOpening Time has to be before closing time");
@@ -212,14 +258,17 @@ export default {
             document.getElementById("error").innerHTML = "Invalid Opening Hours";
             if (hawkerOpen > parseInt(this.c)) {
               document.getElementById("openInput").style.borderColor = "red";
+              document.getElementById("openLabel").style.color = "red";
             }
 
             if (hawkerClose < parseInt(this.d)) {
               document.getElementById("closeInput").style.borderColor = "red";
+              document.getElementById("closeLabel").style.color = "red";
             }
           } else if (docRef.data().availableNrStalls <= 0) {
             document.getElementById("error").innerHTML = "No Available Stalls for Tender";
             document.getElementById("hawkerInput").style.borderColor = "red";
+            document.getElementById("hawkerLabel").style.color = "red";
             alert("Error: No Available Stalls for Tender");
           } else {
             let text = "Confirm Submission?";
@@ -342,15 +391,16 @@ h3 {
   position: absolute;
   text-align: left;
   left: 10vw;
-  top: 7.5vh;
+  top: 8vh;
 }
 .Tender_Details {
   position: absolute;
   width: 78vw;
   height: 24vh;
-  top: 19vh;
+  top: 20vh;
   left: 12vw;
-  border: 1px solid black;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4);
+  border: none;
 }
 
 #tender_header,
@@ -358,31 +408,37 @@ h3 {
   text-align: left;
   padding-top: 2vh;
   padding-left: 2vw;
-  height: 7vh;
-  width: 77.9vw;
+  height: 7.5vh;
+  width: 77.95vw;
 }
 
 #tender_header {
   position: absolute;
   background-color: #1976d2;
-  top: 19vh;
+  top: 20vh;
   left: 12.05vw;
   color: white;
 }
 
-#HawkerAddr > input,
-#Food > input,
-#Open > input,
-#Close > input {
+#hawkerForm ,
+#foodForm,
+#openForm,
+#closeForm {
   position: absolute;
   display: inline-block;
   top: 30vh;
-  height: 7vh;
-  font-size: 2.5vh;
-  padding-left: 1vw;
 }
 
-#HawkerAddr > input {
+
+#hawkerInput,
+#foodInput,
+#openInput,
+#closeInput {
+  height: 8vh;
+  font-size: 2.5vh;
+}
+
+#hawkerForm {
   left: 14vw;
   width: 27vw;
 }
@@ -390,7 +446,7 @@ h3 {
 #options {
   position: absolute;
   text-align: left;
-  top: 38vh;
+  top: 39vh;
   left: 12.5vw;
   /* background-color: white; */
   z-index: 300;
@@ -413,7 +469,8 @@ li {
   border-bottom: 1px solid lightgrey;
 }
 
-#Food > input {
+
+#foodForm {
   left: 43vw;
   width: 17vw;
 }
@@ -421,7 +478,7 @@ li {
 #foodOptions {
   position: absolute;
   text-align: left;
-  top: 38vh;
+  top: 39vh;
   left: 41.5vw;
   /* background-color: white; */
   z-index: 300;
@@ -435,39 +492,20 @@ li {
   overflow-x: hidden;
 }
 
-#Open > input {
+#openForm{
   left: 62vw;
   width: 12vw;
 }
 
-#Close > input {
+#closeForm {
   left: 76vw;
   width: 12vw;
 }
 
-#HawkerAddr > label,
-#Food > label,
-#Open > label,
-#Close > label {
-  position: absolute;
-  top: 27.6vh;
-}
-#HawkerAddr > label {
-  left: 15vw;
-}
-#Food > label {
-  left: 44vw;
-}
-#Open > label {
-  left: 63vw;
-}
-#Close > label {
-  left: 77vw;
-}
 
 #error {
   position: absolute;
-  top: 19.2vh;
+  top: 20.2vh;
   font-size: 4vh;
   color: red;
   text-align: center;
@@ -479,82 +517,73 @@ li {
   position: absolute;
   width: 78vw;
   height: 33vh;
-  top: 48vh;
+  top: 49vh;
   left: 12vw;
-  border: 1px solid black;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4);
+	border: none;
 }
 
 #personal_header {
   position: absolute;
   background-color: #1976d2;
-  top: 48vh;
+  top: 49vh;
   left: 12.05vw;
   color: white;
 }
-#name,
-#nric,
-#contact {
+
+#nameForm,
+#nricForm,
+#contactForm {
   position: absolute;
   top: 60vh;
-  height: 7vh;
-  font-size: 2.5vh;
   text-align: left;
-  border: 1px solid black;
-  padding-top: 1.5vh;
-  padding-left: 1vw;
   color: #6C757D;
 }
-#name {
+
+#nameForm {
   left: 14vw;
   width: 34vw;
 }
 
-#nric {
+#name,
+#nric,
+#contact {
+  height:8vh;
+  font-size: 2.5vh;
+}
+
+#nricForm {
   left: 50vw;
   width: 19vw;
 }
-#contact {
+
+#contactForm {
   left: 71vw;
   width: 17vw;
 }
 
-#nameLabel,
-#nricLabel,
-#contactLabel {
+
+
+#emailForm,
+#addressForm {
   position: absolute;
-  top: 57.7vh;
-}
-
-#nameLabel {
-  left: 15vw;
-}
-
-#nricLabel {
-  left: 51vw;
-}
-
-#contactLabel {
-  left: 72vw;
+  top: 71vh;
+  text-align: left;
+  color: #6C757D;
 }
 
 #email,
 #persAddress {
-  position: absolute;
-  top: 71vh;
-  height: 7vh;
-  font-size: 2.5vh;
-  text-align: left;
-  border: 1px solid black;
-  padding-top: 1.5vh;
-  padding-left: 1vw;
-  color: #6C757D;
+  height:8vh;
+  font-size: 2.5vh;  
 }
 
-#email {
+#emailForm {
   left: 14vw;
   width: 30vw;
 }
-#persAddress {
+
+#addressForm {
   left: 46vw;
   width: 42vw;
 }
@@ -562,7 +591,7 @@ li {
 #emailLabel,
 #persAddressLabel {
   position: absolute;
-  top: 68.6vh;
+  top: 69.6vh;
 }
 #emailLabel {
   left: 15vw;
@@ -575,7 +604,7 @@ li {
 #submit,
 #delete {
   position: absolute;
-  top: 84vh;
+  top: 85vh;
   /* height: 6vh; */
   width: 6vw;
 }
