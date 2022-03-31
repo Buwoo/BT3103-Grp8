@@ -11,7 +11,7 @@
       <div>
         <!-- Tender Details Section -->
         <div class="Tender_Details"></div>
-        <h3 id="tender_header">Tender Details</h3>
+        <h3 id="tender_header" class="bg-primary">Tender Details</h3>
         <form id="HawkerAddr">
         <div class="form-floating mb-3" id="hawkerForm">
           <input id="hawkerInput" class = "form-control" v-model="hawkerCentre" type="text" @change="this.$store.commit('setFormUnsaved')" autocomplete="off" />
@@ -64,7 +64,7 @@
       <!-- Personal Details Section -->
       <div>
         <div class="Personal_Details"></div>
-        <h3 id="personal_header">Personal Details</h3>
+        <h3 id="personal_header" class="bg-primary">Personal Details</h3>
         <form>
         <div class="form-floating mb-3" id="nameForm">
           <input class = "form-control" id="name" v-model="userName" disabled/>
@@ -401,6 +401,7 @@ h3 {
   left: 12vw;
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4);
   border: none;
+  border-radius: 4px;
 }
 
 #tender_header,
@@ -410,11 +411,12 @@ h3 {
   padding-left: 2vw;
   height: 7.5vh;
   width: 77.95vw;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
 }
 
 #tender_header {
   position: absolute;
-  background-color: #1976d2;
   top: 20vh;
   left: 12.05vw;
   color: white;
@@ -521,6 +523,7 @@ li {
   left: 12vw;
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4);
 	border: none;
+  border-radius: 4px;
 }
 
 #personal_header {
