@@ -102,44 +102,39 @@ npm run lint
 
 ### Hawker Users 👨‍🍳
 
-##### Login Page
+#### Login Page
 
-<img src="btproject/src/assets/App_SS/login_page.png">
-<br/>
-<br/>
-
-##### Hawker Explore Page
-
-<img src="btproject/src/assets/App_SS/hawker_explore.png">
-<img src="btproject/src/assets/App_SS/hawker_explore_filters.png">
-<img src="btproject/src/assets/App_SS/hawker_explore_walkthrough.png">
-<br/>
+<img src="btproject/src/assets/App_SS/login_page.PNG">
 <br/>
 
-##### Hawker Dashboard Page
+#### Hawker Explore Page
 
-<img src="btproject/src/assets/App_SS/hawker_explore.png">
-<br/>
-<br/>
-
-##### Tender Application Page
-
-<img src="btproject/src/assets/App_SS/tender_form.png">
-<br/>
+<img src="btproject/src/assets/App_SS/hawker_explore.PNG">
+<img src="btproject/src/assets/App_SS/hawker_explore_filters.PNG">
+<img src="btproject/src/assets/App_SS/hawker_explore_walkthrough.PNG">
 <br/>
 
-##### Tender Application Page
+#### Hawker Dashboard Page
 
-<img src="btproject/src/assets/App_SS/tender_form.png">
+<img src="btproject/src/assets/App_SS/hawker_explore.PNG">
+<br/>
+
+#### Tender Application Page
+
+<img src="btproject/src/assets/App_SS/tender_form.PNG">
+<br/>
+
+#### Tender Application Page
+
+<img src="btproject/src/assets/App_SS/tender_form.PNG">
 <br/>
 <br/>
 
 ### NEA Agents 👨‍💼
 
-##### NEA Dashboard Page
+#### NEA Dashboard Page
 
-<img src="btproject/src/assets/App_SS/nea_dashboard.png">
-<br/>
+<img src="btproject/src/assets/App_SS/nea_dashboard.PNG">
 <br/>
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
