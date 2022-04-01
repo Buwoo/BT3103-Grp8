@@ -117,11 +117,13 @@ npm run lint
 #### Hawker Dashboard Page
 
 <img src="btproject/src/assets/App_SS/hawker_dashboard.PNG">
+<img src="btproject/src/assets/App_SS/hawker_dashboard_overlay.PNG">
 <br/>
 
 #### Tender Application Page
 
 <img src="btproject/src/assets/App_SS/tender_form.PNG">
+<img src="btproject/src/assets/App_SS/tender_form_dropdowns.PNG">
 <br/>
 <br/>
 
