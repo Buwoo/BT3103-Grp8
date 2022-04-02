@@ -1,6 +1,8 @@
 <template>
-	<NEANavBar :name="name"/>
-	<NEADashBoard />
+  <div id="appContainer" class="vh-100 d-flex flex-column position-relative">
+    <NEANavBar :name="name"/>
+    <NEADashBoard />
+  </div>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper position-relative">
     <!-- Nav Bar  -->
     <nav class="navbar navbar-expand-lg navbar-light bg-success">
       <div class="container-fluid" style="padding: 0px">
@@ -84,6 +84,10 @@ export default {
 </script>
 
 <style scoped>
+.wrapper {
+  z-index: 1000;
+}
+
 .navbar {
   position: sticky;
   width: 100%;

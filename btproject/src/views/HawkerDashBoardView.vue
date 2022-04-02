@@ -1,6 +1,8 @@
 <template>
-<HawkerNavBar :name="name"/>
-<HawkerDashBoard/>
+<div id="appContainer" class="vh-100 d-flex flex-column position-relative">
+  <HawkerNavBar :name="name"/>
+  <HawkerDashBoard/>
+</div>
 
 </template>
 

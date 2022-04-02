@@ -1,8 +1,6 @@
 <template>
   <div id="appContainer" class="vh-100 d-flex flex-column">
-    <div id="navBarWrapper">
-      <HawkerNavBar :name="name" />
-    </div>
+    <HawkerNavBar :name="name" />
     <HawkerExplore />
   </div>
 </template>
@@ -67,9 +65,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-#navBarWrapper {
-  z-index: 2000;
-}
-</style>

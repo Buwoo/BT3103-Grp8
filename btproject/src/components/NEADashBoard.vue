@@ -1,15 +1,15 @@
 <template>
-	<div v-if="user && neaagent">
-		<div class="NEApage">
-			<div class="container-fluid">
-				<div class="row mx-auto" id="headings">
-					<div class="d-flex justify-content-start">
-						<div class="col-md-8">
-							<h3 class="mt-4" id="dashboardHeading"><b> Tender Dashboard </b></h3>
-						</div>
-					</div>
+	<div class="container-fluid h-100 d-flex flex-column flex-grow-1" v-if="user && neaagent">
+		<div class="row" id="headings">
+			<div class="d-flex justify-content-start">
+				<div class="col-md-8">
+					<h3 class="mt-4" id="dashboardHeading"><b> Tender Dashboard </b></h3>
 				</div>
-				<div class="row mx-auto mt-3" id="wholeTable">
+			</div>
+		</div>
+		<div class="row mt-3 flex-grow-1 px-3 pb-3">
+			<div id="tablewrapper" class="h-100 position-relative resizeWidth">
+				<div id="wholeTable" class = "position-absolute">
 					<table class="table">
 						<thead>
 							<tr>
@@ -219,12 +219,12 @@
 					//deleting the row
 					this.applications.splice(index, 1);
 					//updating the status
-					const tenderRef = doc(db, "TenderInfo", a[0].id);
+					const tenderRef = doc(db, "TenderInfo", a.id);
 					await updateDoc(tenderRef, {
 						status: "rejected",
 					});
 
-					const hawkerRef = doc(db, "HawkerMetadata", a[0].data().name);
+					const hawkerRef = doc(db, "HawkerMetadata", a.data().name);
 					const hawker = await getDoc(hawkerRef);
 					let availableSlots = hawker.data().availableNrStalls;
 					if (availableSlots == 0) {
@@ -246,13 +246,13 @@
 					//deleting the row
 					this.applications.splice(index, 1);
 					//updating the status
-					const tenderRef = doc(db, "TenderInfo", a[0].id);
+					const tenderRef = doc(db, "TenderInfo", a.id);
 					await updateDoc(tenderRef, {
 						status: "approved",
 					});
-					const hawkerRef = doc(db, "HawkerMetadata", a[0].data().name);
+					const hawkerRef = doc(db, "HawkerMetadata", a.data().name);
 					const hawker = await getDoc(hawkerRef);
-					let foodItem = a[0].data().foodItem;
+					let foodItem = a.data().foodItem;
 					let foodItemNr = hawker.data().typeOfFoodStallsNr[foodItem];
 					let newTotalNrStalls = hawker.data().totalNrStalls + 1;
 					let editUserField = "typeOfFoodStallsNr." + foodItem;
@@ -287,7 +287,7 @@
 	};
 </script>
 
-<style>
+<style scoped>
 	#dashboardHeading {
 		padding-left: 40px;
 		padding-top: 10px;
@@ -297,10 +297,31 @@
 	}
 
 	#wholeTable {
-		margin-top: 20px;
-		margin-bottom: 50px;
-		padding-left: 40px;
-		padding-right: 40px;
+		overflow-y: auto;
+		scrollbar-gutter: stable;
+		z-index:0;
+
+		/* Relative Positioning */
+		top: 0rem;
+		bottom: 0rem;
+		left: 0;
+		right: 0;
+
+		/* Scrollbar Styling */
+		scrollbar-width: thin; /* --firefox only */
+	}
+
+	/* Scrollbar Styling - Chrome*/
+	#wholeTable::-webkit-scrollbar {
+		width: 9px;
+	}
+	#wholeTable::-webkit-scrollbar-track {
+		background: transparent;
+	}
+	#wholeTable::-webkit-scrollbar-thumb {
+		background-color: rgba(155, 155, 155, 0.5);
+		border-radius: 20px;
+		border: transparent;
 	}
 
 	table {
