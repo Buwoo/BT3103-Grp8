@@ -120,6 +120,7 @@ export default {
     },
     async remindSave() {
       if (this.$store.getters.getFormStatus || this.$route.name != this.checker) {
+        document.getElementById("dashboardRoute").href = "/hawker/dashboard"
         if (this.$route.name == this.checker && this.$store.getters.getFilled == 0){
           console.log("problem")
           await deleteDoc(doc(db, "TenderInfo", this.$route.params.tenderID));
@@ -128,14 +129,18 @@ export default {
         let text = "Changes may be lost if you leave this page.\nProceed?";
         if (!confirm(text)) {
           document.getElementById("dashboardRoute").href = "#";
-        } else if (this.$store.getters.getFilled == 0) {
-          await deleteDoc(doc(db, "TenderInfo", this.$route.params.tenderID));
+        } else {
+            document.getElementById("dashboardRoute").href = "/hawker/dashboard"
+            if (this.$store.getters.getFilled == 0) {
+              await deleteDoc(doc(db, "TenderInfo", this.$route.params.tenderID));
+            }
         }
       }
     },
 
     async remindSaveExplore() {
       if (this.$store.getters.getFormStatus || this.$route.name != this.checker) {
+        document.getElementById("exploreRoute").href = "/hawker/explore"
         if (this.$route.name == this.checker && this.$store.getters.getFilled == 0){
           await deleteDoc(doc(db, "TenderInfo", this.$route.params.tenderID));
         }
@@ -143,13 +148,17 @@ export default {
         let text = "Changes may be lost if you leave this page.\nProceed?";
         if (!confirm(text)) {
           document.getElementById("exploreRoute").href = "#";
-        } else if (this.$store.getters.getFilled == 0) {
-          await deleteDoc(doc(db, "TenderInfo", this.$route.params.tenderID));
+        } else {
+          document.getElementById("exploreRoute").href = "/hawker/explore"
+          if (this.$store.getters.getFilled == 0) {
+            await deleteDoc(doc(db, "TenderInfo", this.$route.params.tenderID));
+          }
         }
       }     
     },
     async remindSaveProfile() {
       if (this.$store.getters.getFormStatus || this.$route.name != this.checker) {
+        document.getElementById("profileRoute").href = "/hawker/profile"
         if (this.$route.name == this.checker && this.$store.getters.getFilled == 0){
           await deleteDoc(doc(db, "TenderInfo", this.$route.params.tenderID));
         }
@@ -157,8 +166,11 @@ export default {
         let text = "Changes may be lost if you leave this page.\nProceed?";
         if (!confirm(text)) {
           document.getElementById("profileRoute").href = "#";
-        } else if (this.$store.getters.getFilled == 0) {
-          await deleteDoc(doc(db, "TenderInfo", this.$route.params.tenderID));
+        } else {
+          document.getElementById("profileRoute").href = "/hawker/profile"
+          if (this.$store.getters.getFilled == 0) {
+            await deleteDoc(doc(db, "TenderInfo", this.$route.params.tenderID));
+          }
         }
       }
     },
