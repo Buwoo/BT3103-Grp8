@@ -85,7 +85,7 @@ export default {
 
 <style scoped>
 .wrapper {
-  z-index: 1000;
+  z-index: 1001;
 }
 
 .navbar {

@@ -667,6 +667,7 @@ select:focus {
   padding: 1%;
   z-index: 1500;
   border-radius: 16px;
+  z-index: 995;
 }
 
 .box-pos {

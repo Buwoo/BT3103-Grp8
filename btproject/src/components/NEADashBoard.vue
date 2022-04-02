@@ -299,7 +299,6 @@
 	#wholeTable {
 		overflow-y: auto;
 		scrollbar-gutter: stable;
-		z-index:0;
 
 		/* Relative Positioning */
 		top: 0rem;
