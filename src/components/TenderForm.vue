@@ -390,7 +390,7 @@ export default {
 h3 {
   position: absolute;
   text-align: left;
-  left: 10vw;
+  left: 12vw;
   top: 8vh;
 }
 .Tender_Details {
