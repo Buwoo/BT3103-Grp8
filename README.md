@@ -1,6 +1,6 @@
 <h1 align="center"> Hawker Portal 🍴</h1> <br>
 <p align="center">
-  <img src="btproject/src/assets/loginbackground.jpg">
+  <img src="src/assets/loginbackground.jpg">
 </p>
 <p align="center">
 
@@ -104,26 +104,26 @@ npm run lint
 
 #### Login Page
 
-<img src="btproject/src/assets/App_SS/login_page.PNG">
+<img src="src/assets/App_SS/login_page.PNG">
 <br/>
 
 #### Hawker Explore Page
 
-<img src="btproject/src/assets/App_SS/hawker_explore.PNG">
-<img src="btproject/src/assets/App_SS/hawker_explore_filters.PNG">
-<img src="btproject/src/assets/App_SS/hawker_explore_walkthrough.PNG">
+<img src="src/assets/App_SS/hawker_explore.PNG">
+<img src="src/assets/App_SS/hawker_explore_filters.PNG">
+<img src="src/assets/App_SS/hawker_explore_walkthrough.PNG">
 <br/>
 
 #### Hawker Dashboard Page
 
-<img src="btproject/src/assets/App_SS/hawker_dashboard.PNG">
-<img src="btproject/src/assets/App_SS/hawker_dashboard_overlay.PNG">
+<img src="src/assets/App_SS/hawker_dashboard.PNG">
+<img src="src/assets/App_SS/hawker_dashboard_overlay.PNG">
 <br/>
 
 #### Tender Application Page
 
-<img src="btproject/src/assets/App_SS/tender_form.PNG">
-<img src="btproject/src/assets/App_SS/tender_form_dropdowns.PNG">
+<img src="src/assets/App_SS/tender_form.PNG">
+<img src="src/assets/App_SS/tender_form_dropdowns.PNG">
 <br/>
 <br/>
 
@@ -131,7 +131,7 @@ npm run lint
 
 #### NEA Dashboard Page
 
-<img src="btproject/src/assets/App_SS/nea_dashboard.PNG">
+<img src="src/assets/App_SS/nea_dashboard.PNG">
 <br/>
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
