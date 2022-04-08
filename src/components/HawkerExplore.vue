@@ -45,8 +45,8 @@
                     <option value="*">Any</option>
                     <option value="1k_less">Under $1000</option>
                     <option value="1k-2k">1000-2000$</option>
-                    <option value="2k_3k">2000-3000$</option>
-                    <option value="3k_4k">3000-4000$</option>
+                    <option value="2k-3k">2000-3000$</option>
+                    <option value="3k-4k">3000-4000$</option>
                     <option value="4k_above">$4000 and above</option>
                 </select>
             </div>
@@ -299,6 +299,7 @@ export default {
             if(this.currentLayer != null) {
                 this.mapView.removeLayer(this.currentLayer); // Clear current layer from map
             }
+            this.mapView.setView([1.3521, 103.8198], 11);
 
             // Reset scroll to top
             document.getElementById("locationList").scrollTop = 0; //NOTE: may break as it uses actual DOM
@@ -354,6 +355,7 @@ export default {
             console.log(componentRef);
             if (componentRef) {
                 componentRef.$el.classList.add('bg-select-light');
+                componentRef.$el.scrollIntoView({behavior: 'smooth', block: 'center', inline: 'nearest'});
                 this.currentSelectedLocation = componentRef;
                 console.log(this.currentSelectedLocation);
             }
@@ -426,31 +428,7 @@ export default {
 
             this.displaySimilarType = this.selectFoodType;
 
-
             this.initPage();
-
-
-            /*  HawkerMetadata collection
-                address "2, Adam Road, Singapore 289876"
-                availableNrStalls 10
-                avgFoodPrice 5
-                avgMthlyCost 2412
-                latitude 1.3241342225
-                longtitude 103.8141650104
-                name "Adam Road Food Centre"
-                openingHrs "0600-1800"
-                postalCode "289876"
-                region "Central"
-                streetName "Adam Road"
-                totalNrStalls 241
-                typeOfFoodStallsNr
-                Chinese Cooked Food 167
-                Drinks and Desserts 5
-                Indian Cooked Food 17
-                Malay Cooked Food 8
-                Others 34
-                Snacks and Pastries 10 
-            */
         },
 
         // Shepherd Section Walkthrough
