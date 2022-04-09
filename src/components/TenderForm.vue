@@ -186,8 +186,6 @@ export default {
       this.$store.commit('setFormSavedFood', this.b);
       this.$store.commit('setFormSavedOpen', this.c);
       this.$store.commit('setFormSavedClose',this.d);
-      alert("Your application has been saved")
-
     },
     returnNormalBorder() {
       document.getElementById("hawkerInput").style.borderColor = "#ced4da";
